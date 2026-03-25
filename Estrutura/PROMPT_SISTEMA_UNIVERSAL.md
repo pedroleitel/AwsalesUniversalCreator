@@ -65,21 +65,26 @@ Sempre que uma nova demanda chegar, siga RIGOROSAMENTE as FASES ABAIXO:
 
 ## FASE 3: OTIMIZAÇÃO DE CAMPANHA EXISTENTE
 
-Quando o usuário enviar um pedido de otimização (feedback do cliente, screenshots com comentários, PDF de revisão, etc.), siga este fluxo:
+Quando o usuário enviar um pedido de otimização (feedback do cliente, screenshots com comentários, PDF de revisão, etc.), siga este fluxo RIGOROSAMENTE:
 
-1. **Ler o feedback do cliente:**
-   - Leia o documento/imagens de otimização enviados.
+1. **Ler TUDO antes de mexer em qualquer coisa:**
+   - Leia o feedback/documento/imagens de otimização enviados.
+   - Leia o Checkpoint atual da campanha.
+   - Leia as FAQs atuais da campanha. Se estiverem em PDF, use OBRIGATORIAMENTE o script `pdf-to-txt.py` para extrair o texto antes de analisar. NUNCA pule esta etapa.
    - Mapeie cada ponto do feedback ao artefato que ele afeta: Checkpoint, FAQs (Produto e/ou Playbook), ou ambos.
 
 2. **Aplicar as mudanças diretamente nos arquivos:**
    - **Checkpoint:** Edite o arquivo `.md` do Checkpoint na pasta da campanha, aplicando todas as correções de uma vez. Não explique o que vai fazer — faça.
-   - **FAQs:** Crie um arquivo `.md` na pasta de FAQs da campanha (ex: `Otimização FAQs - Produto.md`, `Otimização FAQs - Playbook.md`) com a pergunta exata e a resposta otimizada completa de cada FAQ que precisa ser editada. No final, liste as FAQs que devem ser ativadas sem alteração.
+   - **IMPORTANTE — VALIDAÇÃO OBRIGATÓRIA:** Ao editar o Checkpoint, SEMPRE releia as regras de formatação em `Estrutura/ESTRUTURAS_E_EXEMPLOS.md` e valide o documento final contra elas ANTES de entregar. Isso inclui: zero asteriscos (`**` ou `*`), zero emojis, Markdown limpo (`#`, `##`, `- [ ]`), acentuação pt-br correta, variáveis listadas no rodapé. Entregar um checkpoint que viola as regras de formatação é inadmissível.
+   - **FAQs — VERIFICAÇÃO OBRIGATÓRIA:** Mesmo que o feedback do cliente mencione apenas o Checkpoint, você DEVE verificar se as FAQs (Produto e Playbook) possuem conteúdo que conflite com as correções aplicadas. Se conflitarem, crie o arquivo de otimização de FAQs. Se NÃO conflitarem, registre que foram verificadas e estão OK (não precisa criar arquivo).
+   - **FAQs — Formato de entrega:** Crie um arquivo `.md` na pasta de FAQs da campanha (ex: `Otimização FAQs - Produto.md`, `Otimização FAQs - Playbook.md`) com a pergunta exata e a resposta otimizada completa de cada FAQ que precisa ser editada. No final, liste as FAQs que devem ser ativadas sem alteração.
 
 3. **Regras da otimização:**
    - Aplique SOMENTE o que o cliente pediu. Não invente melhorias extras.
    - Se o feedback do cliente trouxer dados novos (links, preços, bônus), atualize tanto o Checkpoint quanto as FAQs afetadas.
    - Use sempre acentuação pt-br correta em todos os arquivos.
    - Se o insumo de otimização estiver em PDF, use o script `pdf-to-txt.py` para extrair o texto antes de analisar.
+   - A entrega de uma otimização SEMPRE inclui: (1) Checkpoint corrigido e validado contra as regras de formatação, e (2) verificação das FAQs com arquivo de otimização se necessário.
 
 ---
 
@@ -157,6 +162,9 @@ Esta seção acumula erros reais identificados durante a criação/otimização 
 - **Checkpoint escrito sem acentuação pt-br** → Sempre escrever com acentos corretos (é, ã, ç, á, ú, õ). *(Contexto: O exemplo na estrutura estava sem acentos e o agente seguiu o exemplo.)*
 - **FAQs entregues como texto no chat em vez de arquivo .md** → Sempre salvar a avaliação/otimização de FAQs em arquivos `.md` na pasta de FAQs da campanha. *(Contexto: O agente despejou a avaliação das FAQs como texto no chat, forçando o CS a copiar manualmente.)*
 - **Otimização com over-explanation antes de agir** → Quando receber feedback de otimização do cliente, aplicar as mudanças direto nos arquivos. Não ficar explicando o que vai fazer — fazer. *(Contexto: O agente fez um resumo enorme das 8 otimizações e pediu confirmação antes de editar, perdendo tempo.)*
+- **Checkpoint entregue com asteriscos e emojis (violação de formatação)** → SEMPRE validar o checkpoint final contra as regras de formatação ANTES de entregar. Zero `**`, zero `*`, zero emojis. Usar apenas `#`, `##`, `###`, `- [ ]`. Se o checkpoint original já estava fora do padrão, corrija na mesma entrega. *(Contexto: O agente aplicou correções no checkpoint mas manteve os `**` e emojis do documento original, entregando um arquivo que viola as regras da plataforma.)*
+- **Otimização feita apenas no Checkpoint sem verificar FAQs** → Toda otimização DEVE incluir leitura e verificação das FAQs (Produto e Playbook) para checar conflitos com as correções aplicadas. Mesmo que o cliente só mencione o checkpoint no feedback, as FAQs podem ter conteúdo contraditório. *(Contexto: O agente corrigiu o checkpoint mas não verificou se alguma FAQ conflitava com as novas regras, precisando ser corrigido pelo CS.)*
+- **FAQs em PDF lidas sem usar pdf-to-txt.py** → SEMPRE usar o script `pdf-to-txt.py` para extrair texto de PDFs antes de analisar. Não confiar apenas na leitura visual do PDF. *(Contexto: O agente tentou ler os PDFs das FAQs diretamente sem extrair o texto, pulando uma etapa obrigatória do fluxo.)*
 
 ---
 
