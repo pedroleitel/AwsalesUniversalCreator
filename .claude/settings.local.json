@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(python pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 1/FAQs\" --overwrite)",
+      "Bash(ls:*)",
+      "Bash(python pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 2/FAQs\" --overwrite)",
+      "Bash(python pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 2/Otimização - Cliente\" --overwrite)"
+    ]
+  }
+}
