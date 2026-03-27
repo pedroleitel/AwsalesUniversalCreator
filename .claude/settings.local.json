@@ -8,7 +8,13 @@
       "Bash(python pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 2/Otimização - Cliente\" --overwrite)",
       "Bash(python pdf-to-txt.py \"AprendaVFX/SDR/FAQs\" --overwrite)",
       "Bash(python3 pdf-to-txt.py \"AprendaVFX/SDR/FAQs\" --overwrite)",
-      "Bash(pip3 install:*)"
+      "Bash(pip3 install:*)",
+      "Bash(mkdir -p \"/Users/ricardoariza/Criador de campanhas/AwsalesUniversalCreator/Jv Academy/Recuperação de vendas/Ação 3 e 4/Ação 3/FAQs\")",
+      "Bash(mkdir -p \"/Users/ricardoariza/Criador de campanhas/AwsalesUniversalCreator/Jv Academy/Recuperação de vendas/Ação 3 e 4/Ação 4/FAQs\")",
+      "Bash(python3 pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 3 e 4/Ação 3/FAQs/JV ACADEMY - Ação 3 - Produto.pdf\")",
+      "Bash(python3 pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 3 e 4/Ação 3/FAQs/JV ACADEMY - Ação 3 - Playbook.pdf\")",
+      "Bash(python3 pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 3 e 4/Ação 4/FAQs/JV ACADEMY - Ação 4 - produto.pdf\")",
+      "Bash(python3 pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 3 e 4/Ação 4/FAQs/JV ACADEMY - Ação 4- playbook.pdf\")"
     ]
   }
 }
