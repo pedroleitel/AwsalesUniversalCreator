@@ -153,3 +153,37 @@ Se tiver qualquer instabilidade travando sua matricula, me avisa!"
 Vou deixar o atalho aqui caso voce ja tenha se decidido:
 👉 [URL completa sem variavel ou {{link_vendas}} se o disparo for interno]
 Estou no suporte ate o fechamento caso precise."
+
+---
+
+## 4. Uso de Imagens e Provas Sociais nas FAQs
+
+Quando a campanha possuir imagens de prova social (antes/depois, resultados de clientes, fotos de produto, etc.), essas imagens podem ser enviadas automaticamente durante a conversa através de FAQs com variáveis de arquivo.
+
+### Como Funciona na Plataforma
+
+Na plataforma AWSales, ao criar uma FAQ, é possível anexar um arquivo (imagem) e atribuir um nome de variável a ele (ex: `imagem1`). Na resposta da FAQ, basta referenciar `{{imagem1}}` para que o bot envie a imagem junto com o texto.
+
+### Como Criar FAQs com Imagens
+
+1. A Pergunta da FAQ deve refletir a intenção real do lead na linguagem coloquial dele (ex: "Tem como ver um antes e depois?", "O resultado fica natural?", "Tem foto de como fica?").
+2. A Resposta deve contextualizar a imagem antes de referenciá-la — nunca mandar a foto solta. Explique brevemente o que o lead está vendo e conecte ao benefício do produto/serviço.
+3. No final da resposta, inclua a variável `{{nomeVariavel}}` para disparar o envio da imagem.
+4. Não use todas as imagens disponíveis em uma única FAQ. Distribua entre FAQs com intenções diferentes para maximizar os gatilhos de busca semântica.
+
+### Exemplo Prático (Clínica Odontológica — Lentes de Porcelana)
+
+**FAQ 1:**
+- Pergunta: "Tem como ver um antes e depois de lentes de porcelana?"
+- Resposta: "Olha só esse resultado de um paciente da clínica. Essa transformação foi feita com lentes de porcelana em apenas 3 consultas, preservando o dente natural. Cada caso é personalizado na cor e formato. Na avaliação gratuita o profissional mostra como ficaria no seu caso. {{imagem1}}"
+
+**FAQ 2:**
+- Pergunta: "O resultado das lentes fica natural ou parece artificial?"
+- Resposta: "Fica completamente natural. A cor e o formato são personalizados pra cada paciente, justamente pra combinar com o rosto e a pele. Olha esse exemplo de um caso real. {{imagem2}}"
+
+### Regras Importantes
+
+- As imagens são exclusivas das FAQs. NÃO vão no checkpoint nem no texto complementar.
+- Links de imagens (Drive, URLs) NÃO devem ir no insumo limpo — a FAQ não acessa links externos, apenas arquivos anexados diretamente na plataforma.
+- Limite de 1 imagem por FAQ para não sobrecarregar a mensagem.
+- A variável da imagem só funciona se o arquivo foi anexado e nomeado corretamente na plataforma.
