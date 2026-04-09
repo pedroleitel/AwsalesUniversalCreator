@@ -1,40 +1,92 @@
-# Otimização FAQs - Produto (SDR - D'Leon)
+# Otimização FAQs - Produto (SDR - Lucas Firmino)
 
-## FAQs para REMOVER
-
-### 1. "Quais perguntas sutis posso usar para validar a dor e o resultado esperado?"
-Motivo: FAQ de abordagem estratégica, não factual. Duplica a Playbook "Quais perguntas usar para validar a dor real sem soar inquisitivo?" que cobre a mesma intenção de forma mais completa. Manter nas duas bases desperdiça slot de busca semântica.
-
-### 2. "Como verifico urgência e timing sem pressionar o lead?"
-Motivo: FAQ comportamental/estratégica, pertence ao Playbook. Duplica a Playbook "Como identificar se vale agendar agora?" que cobre timing e urgência de forma mais rica. Mesma intenção, slot desperdiçado.
-
-### 3. "O que responder às objeções mais comuns sobre ir à clínica?"
-Motivo: FAQ de contorno de objeções é Playbook puro. O Playbook já cobre cada objeção individualmente com FAQs dedicadas ("é caro", "medo de dor", "vou pensar", "mora longe"), que são muito mais assertivas na busca semântica. Esta FAQ genérica compete com todas elas sem agregar.
+Data: 08/04/2026
+Motivo: Feedback do cliente - 7 pontos de otimização
 
 ---
 
-## FAQs para EDITAR
+## FAQs a EDITAR
 
-### 1. "Quais benefícios imediatos o lead ganha só por participar agora?"
+### 1. "Como abordar preços e parcelamento quando o lead pergunta por valores?"
 
-Resposta revisada:
-Ele ganha uma avaliação gratuita com valor de mercado entre R$ 250 e R$ 300, feita por profissionais especializados da D'Leon. Sai de lá com um plano personalizado: quantas lentes precisa, como ficaria o resultado e o investimento exato para o caso dele. Tudo sem compromisso de contratação. É o primeiro passo para sair da dúvida e entender se lentes de porcelana são a solução certa.
+Motivo da edição: Atualizar formato de valores como condição de campanha (ponto 4) e incluir valor de referência do pacote cheio (R$ 15.000).
 
-Motivo da edição: A resposta original menciona "campanha 2026 — Ano da Sua Transformação" como benefício (o lead não se importa com o nome da campanha) e "comodidade de estacionamento" como benefício imediato (irrelevante como ganho de participar). Foco redirecionado para o que o lead realmente ganha.
+Resposta otimizada:
+Apresento como condição especial de campanha. Explico que na campanha 2026 O Ano da Transformação, 10 Lentes de Porcelana que saem de R$ 15.000 estão por apenas R$ 6.750 à vista, ou parcelado: R$ 1.790 + 12x de R$ 497 no cartão, cheque ou boleto. Cada lente individual custa R$ 1.500. Se precisar de mais parcelas ou outra entrada, digo que isso é visto na clínica após a avaliação.
 
 ---
 
-## Ativar as demais
+### 2. "Como checo capacidade de ação e investimento sem negociar preço?"
 
-Ativar sem alteração:
-- Qual o objetivo principal da avaliação presencial que devo explicar ao lead?
-- O que exatamente será apresentado na avaliação para o lead?
-- Quem devo convidar para a avaliação gratuita?
-- Como checo capacidade de ação e investimento sem negociar preço?
-- Quais são os critérios que qualificam ou desqualificam para a avaliação?
-- Como apresentar o produto de forma clara em poucas frases?
-- Como abordar preços e parcelamento quando o lead pergunta por valores?
-- Como é o processo de agendamento e o que acontece após confirmar?
-- Que preparo devo pedir ao lead antes da avaliação?
+Motivo da edição: Atualizar formato de valores como condição de campanha (ponto 4).
+
+Resposta otimizada:
+Depois de entender a dor, informo como condição de campanha: na campanha 2026 O Ano da Transformação, 10 Lentes de Porcelana que saem de R$ 15.000 estão por R$ 6.750 à vista, ou parcelado em R$ 1.790 + 12x de R$ 497 no cartão, cheque ou boleto. Pergunto se faz sentido para ele e se prefere ver um plano exato na avaliação. Deixo claro que negociações diferentes são tratadas diretamente na clínica.
+
+---
+
+### 3. "Que preparo devo pedir ao lead antes da avaliação?"
+
+Motivo da edição: Remover menção proativa aos nomes dos avaliadores (ponto 5). Nomes só devem ser informados se o lead perguntar.
+
+Resposta otimizada:
+Peço que traga um documento de identificação, passo o endereço Rua André Cavalcanti, 53 - Gutierrez, BH, e aviso do estacionamento na Rua Herculano de Freitas, 58. Não há preparo clínico; gestantes/lactantes só precisam de liberação médica se avançarem para o procedimento.
+
+---
+
+### 4. "O que exatamente será apresentado na avaliação para o lead?"
+
+Motivo da edição: Remover menção proativa aos nomes dos avaliadores (ponto 5).
+
+Resposta otimizada:
+O profissional analisa a arcada, explica o que as lentes corrigem no caso dele, mostra o PMI (Protocolo Minimamente Invasivo) que preserva o dente e apresenta um plano personalizado com quantidade estimada de lentes e condições padrão de investimento.
+
+---
+
+### 5. "Qual o objetivo principal da avaliação presencial que devo explicar ao lead?"
+
+Motivo da edição: Remover "sem compromisso" (ponto 7).
+
+Resposta otimizada:
+Dar clareza total sobre como as Lentes de Porcelana podem transformar o sorriso dele, se é indicado para o caso e qual seria o plano de tratamento. A avaliação é gratuita (valor de mercado R$ 250-300) e acontece na Clínica D'Leon em BH. Ele sai entendendo as etapas do tratamento em 3 consultas e uma estimativa de investimento. Meu papel é qualificar e agendar o melhor horário.
+
+---
+
+### 6. "O resultado das lentes fica natural ou parece artificial?"
+
+Motivo da edição: Padronizar envio de antes/depois com a pergunta "O que você achou do resultado?" (ponto 2).
+
+Resposta otimizada:
+Fica completamente natural. A cor e o formato são personalizados pra cada paciente, justamente pra combinar com o rosto e a pele. Olha esse exemplo de um caso real da D'Leon. O que você achou do resultado? {{imagem1}}
+
+---
+
+### 7. "Tem como ver um antes e depois de lentes de porcelana?"
+
+Motivo da edição: Padronizar envio de antes/depois com a pergunta "O que você achou do resultado?" (ponto 2).
+
+Resposta otimizada:
+Olha só esse resultado de um paciente da D'Leon. Essa transformação foi feita com lentes de porcelana em apenas 3 consultas, preservando o dente natural com o protocolo minimamente invasivo. Cada caso é personalizado na cor e formato. Na avaliação gratuita o profissional mostra como ficaria no seu caso. O que você achou do resultado? {{imagem2}}
+
+---
+
+### 8. "Para onde direciono casos qualificados e o que registrar no handoff?"
+
+Motivo da edição: Remover menção proativa aos nomes dos avaliadores (ponto 5).
+
+Resposta otimizada:
+Direciono para a avaliação presencial gratuita na Clínica D'Leon. Registro no agendamento o principal incômodo, objetivo estético, disponibilidade de datas, reação aos valores, preferência pela presença do Dr. Lucas e qualquer observação relevante para um acolhimento mais assertivo.
+
+---
+
+## FAQs a ATIVAR sem alteração
+
+- A lente precisa de manutenção depois? E se quebrar com o tempo?
+- Precisa usar aparelho ortodôntico antes de colocar lente?
+- Lente de porcelana é a mesma coisa que resina ou faceta?
+- Quais benefícios imediatos o lead ganha só por participar agora?
 - Se o lead pedir para ser atendido pelo Dr. Lucas, como devo orientar?
-- Para onde direciono casos qualificados e o que registrar no handoff?
+- Quem devo convidar para a avaliação gratuita?
+- Quais são os critérios que qualificam ou desqualificam para a avaliação?
+- Como é o processo de agendamento e o que acontece após confirmar?
+- Como apresentar o produto de forma clara em poucas frases?
