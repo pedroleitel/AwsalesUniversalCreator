@@ -187,3 +187,36 @@ Na plataforma AWSales, ao criar uma FAQ, é possível anexar um arquivo (imagem)
 - Links de imagens (Drive, URLs) NÃO devem ir no insumo limpo — a FAQ não acessa links externos, apenas arquivos anexados diretamente na plataforma.
 - Limite de 1 imagem por FAQ para não sobrecarregar a mensagem.
 - A variável da imagem só funciona se o arquivo foi anexado e nomeado corretamente na plataforma.
+
+---
+
+## 5. Follow-Up Inteligente (Configuração na Plataforma)
+
+A plataforma AWSales possui um sistema de Follow-Up Inteligente que substitui os FUPs manuais/estáticos. Ele analisa automaticamente conversas onde o lead parou de responder e decide se, quando e como enviar um follow-up personalizado.
+
+### Quando Usar
+
+Use Follow-Up Inteligente em vez de mensagens estáticas de FUP quando a campanha exigir personalização no retorno (o sistema lê o contexto da conversa e gera uma mensagem sob medida). Isso é especialmente útil em campanhas SDR e de Venda Direta onde cada lead para em um ponto diferente do funil.
+
+### Como Funciona
+
+O sistema roda 3 prompts em sequência:
+1. Análise de Necessidade (SEND ou SKIP) — Decide se faz sentido enviar.
+2. Agendamento (Timing) — Decide o momento ideal para enviar.
+3. Mensagem Personalizada — Gera a mensagem com base no ponto exato onde a conversa parou.
+
+### O Que o CS Preenche
+
+Na configuração da campanha, existem 3 campos de orientação que são concatenados ao final de cada prompt base. O CS preenche com regras específicas da campanha:
+
+1. Orientações para mensagens personalizadas: Tom de voz, ganchos da campanha, CTA padrão, o que pode/não pode dizer.
+2. Orientações sobre a necessidade de follow-ups: Cenários para ENVIAR vs NÃO ENVIAR, sinais de desqualificação.
+3. Orientações sobre o agendamento de follow-ups: Timing por etapa do funil, horários prioritários, regras de urgência.
+
+### Onde Encontrar os Prompts Base
+
+Os prompts base completos (não editáveis na plataforma) estão documentados em `Estrutura/FOLLOWUP_INTELIGENTE.md` para referência.
+
+### Entrega na Campanha
+
+Ao criar ou otimizar uma campanha que use Follow-Up Inteligente, entregue as orientações dos 3 campos no arquivo `MENSAGENS_FOLLOWUP.md` da pasta da campanha, prontas para o CS copiar e colar na plataforma.
