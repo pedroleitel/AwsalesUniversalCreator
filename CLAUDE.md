@@ -32,11 +32,11 @@ Nunca atribuir nome pessoal ao bot de IA em checkpoints ou mensagens. Manter ide
 
 ## FAQs sem variáveis ou links
 
-FAQs na plataforma AWSales nunca devem conter variáveis (`{{link_vendas}}`, `{{link_reagendamento}}`, etc.) ou links. Variáveis e links vão exclusivamente no Checkpoint. FAQs são conteúdo puro para busca semântica.
+FAQs na plataforma AWSales nunca devem conter links externos nem variáveis de navegação (`{{link_vendas}}`, `{{link_reagendamento}}`, etc.). Essas variáveis vão exclusivamente no Checkpoint. FAQs são conteúdo puro para busca semântica, com exceção de variáveis de arquivo/mídia usadas para disparar prova social.
 
 **Why:** Links/integrações são tratados no nível do checkpoint/plataforma, não na base de conhecimento.
 
-**How to apply:** Ao escrever Texto Complementar para geração de FAQs, focar só em conteúdo (o que são as coisas, como funcionam, objeções, tom). Nunca incluir variáveis ou URLs em textos complementares voltados para extração de FAQ.
+**How to apply:** Ao escrever Texto Complementar para geração de FAQs, focar só em conteúdo (o que são as coisas, como funcionam, objeções, tom). Nunca incluir variáveis de navegação ou URLs em textos complementares voltados para extração de FAQ. Se a intenção for disparar imagem de prova social, seguir a exceção documentada na seção abaixo.
 
 ## Follow-Up Inteligente
 
@@ -64,3 +64,11 @@ Entregáveis vivos (editar conforme cliente responder):
 - `CR Treinamentos/Suporte/FAQs/Otimização FAQs - Playbook.md`
 
 Variáveis atuais: `link_suporte`, `link_area_de_membros`, `link_do_grupo`, `link_pagamento_alt`, `link_consultor_completo`, `link_consultor_21`, `link_reembolso_7d`, `link_reembolso_21d`, `link_matricula`, `link_ascensao_grupo`, `link_ascensao_youtube`, `lead_email`.
+
+## Imagens de prova social via FAQ
+
+Quando a campanha tiver imagens de prova social (antes/depois, resultados de clientes, prints, etc.), criar FAQs específicas para capturar intenções como "quero ver resultado", "tem foto?" ou "o resultado fica natural?" e disparar a mídia no momento certo da conversa.
+
+**Why:** As FAQs funcionam por busca semântica. Se não existir uma pergunta/resposta que cubra a intenção do lead, a imagem cadastrada na plataforma nunca será enviada, mesmo que o arquivo já esteja disponível.
+
+**How to apply:** Criar 1-2 FAQs de Produto na linguagem do lead, contextualizar a imagem antes de referenciá-la, usar a variável de arquivo no final da resposta (ex: `{{imagem1}}`) e distribuir as imagens entre intenções diferentes. As imagens ficam nas FAQs, não no checkpoint nem no texto complementar, e os links brutos dos arquivos não devem entrar no insumo limpo.
