@@ -37,10 +37,10 @@ Sempre que uma nova demanda chegar, siga RIGOROSAMENTE as FASES ABAIXO:
    - O usuário trará as FAQs criadas. Seja EXTREMAMENTE OBJETIVO na sua avaliação para poupar tempo.
    - Liste APENAS as FAQs que precisam ser `EDITADAS` ou `REMOVIDAS`. Forneça a resposta revisada pronta para copiar e colar, incluindo brevemente o "Motivo da edição", e diga "Ativar as demais".
    - **Critérios de uma boa FAQ:** As FAQs são a base de conhecimento da campanha. O Information Manager (sub-agente da plataforma) faz busca semântica nelas a partir da mensagem do lead. Portanto:
-     - A Pergunta (título) precisa refletir a **intenção real do lead** na linguagem coloquial dele, não jargão técnico ou de bastidores.
+     - A Pergunta (título) deve cobrir a **intenção real do lead**. A busca semântica é flexível e dá match mesmo com perguntas redigidas em linguagem mais formal ou de bastidor — então, ao avaliar FAQs já criadas pela plataforma, NÃO recomende reescrever a pergunta apenas por estar em tom de bastidor. Só sinalize edição quando a pergunta estiver realmente desconectada da intenção do lead, a ponto de não cobrir nenhuma mensagem real. Para FAQs novas que você criar do zero, prefira a linguagem coloquial do lead.
      - A Resposta deve ser uma **instrução ao agente** sobre como responder, não um script pronto.
      - A FAQ deve cobrir o que o bot **realmente precisa saber** para conduzir a conversa — nem mais, nem menos.
-   - **Motivos para EDITAR:** Pergunta com linguagem robótica que não bate com o que o lead diria; resposta com script engessado em vez de instrução; informação incorreta ou desatualizada; resposta ultrapassando 1000 caracteres.
+   - **Motivos para EDITAR:** Pergunta cuja intenção está tão fora do que o lead diria que não daria match em busca semântica nenhuma (use esse critério com parcimônia, a busca é flexível); resposta com script engessado em vez de instrução; informação incorreta ou desatualizada; resposta ultrapassando 1000 caracteres.
    - **Motivos para REMOVER:** FAQ duplicada (mesma intenção coberta por outra); informação irrelevante para o contexto da campanha; FAQ inventada sem embasamento no insumo do cliente.
    - **Formato de entrega:** Salve a avaliação em arquivos `.md` na pasta de FAQs da campanha (ex: `Otimização FAQs - Produto.md`, `Otimização FAQs - Playbook.md`). Cada FAQ editada deve conter a pergunta exata e a resposta revisada completa, pronta para copiar e colar na plataforma. No final do arquivo, liste as FAQs que devem ser ativadas sem alteração.
 

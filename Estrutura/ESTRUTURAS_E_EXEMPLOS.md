@@ -8,7 +8,7 @@ Uma campanha na plataforma Awsales é, em essência, a junção de duas peças p
 1. **O Checkpoint:** É o "cérebro" das etapas do bot (funil). Ele diz para onde a conversa deve ir, o que focar no momento e quais são os passos lógicos.
 2. **A Base de Conhecimento (FAQs Produto + Playbook):** São as informações passivas da plataforma.
    - **MUITO IMPORTANTE:** As FAQs funcionam via **Busca Semântica (RAG)**. Quando o lead (cliente) envia uma mensagem no WhatsApp, a IA compara o contexto da mensagem com o banco de FAQs buscando as 5 mais relevantes.
-   - Portanto, ao avaliar ou escrever uma FAQ, **a Pergunta (Título da FAQ) precisa ter a intenção exata da linguagem coloquial de um lead**, e não perguntas robóticas ou de bastidores. Exemplo: "O que ganho comprando isso?" será acionado se o lead disser "qual a vantagem?", "tem algum bônus?", etc. Sempre avalie FAQs sob a ótica da intenção do lead.
+   - A busca semântica é flexível e dá match mesmo quando a Pergunta (Título da FAQ) está redigida em linguagem mais formal ou de bastidor, desde que a intenção esteja contemplada. Portanto, ao **avaliar uma FAQ existente**, só recomende reescrever a pergunta quando ela estiver realmente desconectada da intenção do lead, a ponto de não conseguir cobrir nenhuma mensagem real. Ao **criar uma FAQ nova**, prefira escrever a Pergunta na linguagem coloquial do lead (ex: "O que ganho comprando isso?" será acionado se o lead disser "qual a vantagem?", "tem algum bônus?", etc.). Sempre avalie FAQs sob a ótica da intenção do lead, mas sem ser excessivamente rigoroso com o formato da pergunta.
 
 ### Como as FAQs São Criadas na Plataforma
 

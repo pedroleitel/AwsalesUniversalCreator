@@ -1,22 +1,34 @@
-﻿# OTIMIZAÇÃO FAQs - PLAYBOOK
+# Otimização FAQs - Playbook (SDR Lucas Firmino)
 
-## EDITAR
+## FAQ NOVA — adicionar à base
 
-Pergunta: E se o lead disser que mora longe ou não pode ir a BH?
-Motivo da edição: A campanha passou a priorizar avaliação somente dentro da janela dos próximos 7 dias.
-Resposta: Se o lead não tem previsão real de vir a BH dentro dos próximos 7 dias, ele não é qualificado para avançar no agendamento agora. Agradeça o interesse, explique que as avaliações são presenciais na Rua André Cavalcanti, 53, em Gutierrez, e oriente que ele pode retomar quando estiver mais próximo dessa janela. Evite empurrar data distante.
+### Pergunta
 
-Pergunta: Como identificar se vale agendar agora?
-Motivo da edição: O critério operacional agora exige disponibilidade dentro dos próximos 7 dias.
-Resposta: Agende quando houver insatisfação real com o sorriso, desejo estético explícito, possibilidade de vir presencialmente à clínica em BH dentro dos próximos 7 dias e nenhuma rejeição total ao investimento após ouvir a faixa de valores. Se esses sinais aparecerem, ofereça imediatamente duas opções de data dentro dessa janela para manter a inércia a favor do compromisso.
+Tem como vocês me atenderem só por mensagem, sem precisar ir até a clínica?
 
-Pergunta: Como lidar com o famoso “vou pensar” sem perder o lead?
-Motivo da edição: A CTA precisa reforçar a nova janela obrigatória de 7 dias.
-Resposta: Não pressione, mas também não aceite passivamente. Pergunte o que está gerando a dúvida: se é o procedimento, o valor ou o momento. Acolha o receio, tire as dúvidas pontuais e mostre que a avaliação é gratuita e existe justamente para ele entender melhor antes de qualquer decisão. Use uma escolha simples para facilitar a ação: prefere ver disponibilidade ainda dentro dos próximos 7 dias? Se ainda assim quiser tempo, encerre com gentileza e programe follow-ups leves em 24h, 48h e 72h, sempre convidando sem insistir.
+### Resposta
 
-## REMOVER
+Reforce que cada caso é único e só com análise presencial o profissional consegue montar o plano certo: quantidade exata de lentes, cor, formato e o investimento real para o caso. A avaliação é gratuita justamente para o lead sair com clareza total e sem compromisso. Acolha o motivo da resistência (tempo, agenda, insegurança) sem desqualificar e mostre que uma única ida resolve dúvidas que ele carrega há meses. Lembre do estacionamento a 2 minutos a pé para reduzir a fricção. Convide para escolher um horário de manhã ou de tarde, sem pressionar. Não ofereça atendimento por texto, vídeo ou virtual como alternativa, mesmo que insista.
 
-Pergunta: Como manter o interesse até a avaliação quando a data está distante?
-Motivo da remoção: A campanha passa a não trabalhar mais com agendamento fora da janela dos próximos 7 dias, então essa FAQ ficou desalinhada com o checkpoint.
+### Motivo da inclusão
 
-## Ativar as demais sem alteração
+Cobre uma objeção comum (lead que pode ir a BH mas prefere resolver tudo por mensagem) que hoje não tem FAQ dedicada. Diferente de "mora longe ou não pode ir a BH" (desqualificação por impossibilidade), aqui o lead É qualificado e precisa ser conduzido para a presencial. Sem essa FAQ, o Information Manager retorna vazio e o Copywriter improvisa, podendo enviar o lead para o suporte humano por engano.
+
+---
+
+## FAQs existentes — manter ativas sem alteração
+
+Todas as 12 FAQs atuais do Playbook seguem ativas e coerentes com o novo checkpoint enxuto:
+
+- O que fazer quando dizem que é caro ou não têm dinheiro?
+- Como identificar se vale agendar agora?
+- Como usar urgência e escassez sem parecer pressão?
+- Como abordar preço sem espantar e ainda qualificar?
+- Como criar desejo pela avaliação sem entregar tudo?
+- Como proceder com menores de 18 anos ou gestantes/lactantes?
+- Como responder ao medo de dor ou de desgaste do dente?
+- Quais perguntas usar para validar a dor real sem soar inquisitivo?
+- Como preparar o lead e reduzir faltas após agendar?
+- E se o lead disser que mora longe ou não pode ir a BH?
+- Como qualificar sem parecer entrevista?
+- Como lidar com o famoso "vou pensar" sem perder o lead?

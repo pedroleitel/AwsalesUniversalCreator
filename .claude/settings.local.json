@@ -14,7 +14,12 @@
       "Bash(python3 pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 3 e 4/Ação 3/FAQs/JV ACADEMY - Ação 3 - Produto.pdf\")",
       "Bash(python3 pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 3 e 4/Ação 3/FAQs/JV ACADEMY - Ação 3 - Playbook.pdf\")",
       "Bash(python3 pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 3 e 4/Ação 4/FAQs/JV ACADEMY - Ação 4 - produto.pdf\")",
-      "Bash(python3 pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 3 e 4/Ação 4/FAQs/JV ACADEMY - Ação 4- playbook.pdf\")"
+      "Bash(python3 pdf-to-txt.py \"Jv Academy/Recuperação de vendas/Ação 3 e 4/Ação 4/FAQs/JV ACADEMY - Ação 4- playbook.pdf\")",
+      "Bash(cp C:/Users/Pedro/.claude/image-cache/430264cf-3521-453f-9224-565c084f007d/8.png C:/Users/Pedro/Desktop/AwsalesUniversalCreator/Estrutura/imagens/intervencao_humana_csat/01_intervencao_humana_visao_geral.png)",
+      "Bash(cp C:/Users/Pedro/.claude/image-cache/430264cf-3521-453f-9224-565c084f007d/9.png C:/Users/Pedro/Desktop/AwsalesUniversalCreator/Estrutura/imagens/intervencao_humana_csat/02_transferencia_manual.png)",
+      "Bash(cp C:/Users/Pedro/.claude/image-cache/430264cf-3521-453f-9224-565c084f007d/10.png C:/Users/Pedro/Desktop/AwsalesUniversalCreator/Estrutura/imagens/intervencao_humana_csat/03_transferencia_automatica.png)",
+      "Bash(cp C:/Users/Pedro/.claude/image-cache/430264cf-3521-453f-9224-565c084f007d/11.png C:/Users/Pedro/Desktop/AwsalesUniversalCreator/Estrutura/imagens/intervencao_humana_csat/04_inatividade_lead.png)",
+      "Bash(cp C:/Users/Pedro/.claude/image-cache/430264cf-3521-453f-9224-565c084f007d/12.png C:/Users/Pedro/Desktop/AwsalesUniversalCreator/Estrutura/imagens/intervencao_humana_csat/05_timers_atendimento.png)"
     ]
   }
 }
