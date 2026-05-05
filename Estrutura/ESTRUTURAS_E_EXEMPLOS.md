@@ -26,6 +26,25 @@ Existem **5 tipos de campanha**, cada um com prompts de extração específicos:
 - **Customer Success** — foco em onboarding, suporte e retenção pós-venda
 - **SDR** — foco em qualificação de leads e agendamento de calls de vendas
 
+### Subtipo Operacional: Campanha Show Up Burra
+
+A campanha Show Up Burra é um subtipo enxuto de Lançamento/Show Up usado quando o objetivo não é vender, qualificar ou aprofundar objeções, mas apenas levar o lead para a transmissão ao vivo com o menor custo possível.
+
+Use quando:
+- O lead já está inscrito ou já demonstrou intenção de participar.
+- A campanha precisa ser muito barata e objetiva.
+- A principal ação esperada é clicar no link da live.
+- Dúvidas fora do básico devem ser enviadas para o suporte humano/operacional.
+
+Regras principais:
+- Checkpoint curto, direto e sem funil consultivo.
+- Não usar SPIN, aniquilação de objeções, venda ativa ou exploração de dor.
+- Não tentar responder dúvidas profundas sobre método, produto, espiritualidade, pagamento ou suporte técnico. Responder brevemente, encaminhar para suporte e voltar a mandar o lead para a live.
+- Nunca dizer que o suporte é IA. Usar termos como "suporte", "equipe" ou "time de suporte".
+- Links ficam no checkpoint como variáveis, especialmente `{{link_live}}` e `{{link_suporte}}`.
+- FAQs podem ser poucas: 3 de Produto e 2 a 3 de Playbook normalmente bastam.
+- Mensagens de disparo devem ter tom de utilidade: "a transmissão já começou", "o acesso oficial está disponível", "entre pelo link abaixo". Evitar hype, perguntas longas, curiosidade excessiva e follow-up inteligente quando a prioridade for custo.
+
 ### O Papel do Texto Complementar na Geração de FAQs
 
 O Texto Complementar (Produto + Playbook) tem **dupla função**:

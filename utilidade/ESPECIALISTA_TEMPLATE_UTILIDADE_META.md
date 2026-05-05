@@ -80,6 +80,58 @@ Evite este desenho:
 - `hoje voce vai descobrir`
 - qualquer texto que soe como copy de conversao, e nao como notificacao operacional
 
+## Aprendizado de Campo - Show Up A Ruptura 04/05/2026
+
+Caso real: templates de show up para a Noite 1 da imersao A Ruptura. Varias versoes conservadoras demais ou mal enquadradas falharam como Marketing; as versoes aprovadas como Utilidade tinham um padrao mais simples, factual e parecido com aviso de servico.
+
+Padroes que passaram bem:
+
+- Comecar com `Ola,` ou `Ola {{lead_name}}, informamos que...`
+- Ancorar explicitamente a inscricao previa: `para o qual voce esta inscrito`, `no qual voce esta inscrito`, `porque se cadastrou para participar`
+- Usar framing de status: `foi iniciada`, `esta em andamento`, `comeca em 10 minutos`, `ja esta disponivel para consulta`
+- Usar o nome do evento com destaque simples: `*_A Ruptura_*`
+- Usar linguagem de acesso operacional: `Selecione uma das opcoes abaixo para acessar`, `Voce pode acessar o ambiente atraves do botao abaixo`, `Acesse a sala pelo botao abaixo`
+- Botao direto: `Acessar aula 1`, `Acessar Sala`, `ENTRAR NA SALA`
+- PS explicando o motivo do recebimento e a opcao de bloqueio: `_PS.: voce esta recebendo esta mensagem porque se cadastrou para participar... Caso queira interromper as comunicacoes, toque em Bloquear mensagens_`
+
+Estruturas aprovadas como referencia:
+
+```text
+Ola,
+
+Informamos que a transmissao do evento *_A Ruptura_*, para o qual voce esta inscrito, foi iniciada.
+
+Selecione uma das opcoes abaixo para acessar:
+```
+
+```text
+Ola {{lead_name}}, informamos que a sala para a sessao com Paulo iniciara em 10 minutos. Conforme programado, o topico abordado sera o primeiro modulo da serie sobre sistemas culturais e de crencas.
+
+Voce pode acessar o ambiente atraves do link abaixo:
+```
+
+```text
+Lembrete: O evento *_A RUPTURA_*, no qual voce esta inscrito, comeca em 10 minutos.
+
+Acesse a sala pelo botao abaixo:
+```
+
+Licao pratica:
+
+- O Meta parece aceitar melhor show up quando a mensagem parece um status/acesso de uma inscricao, nao uma copy de aula.
+- Nao e necessario explicar muito o conteudo da aula. Se mencionar topico, manter como `Conforme programado, o topico abordado sera...`
+- `Ola,` sem nome passou. `{{lead_name}}` tambem passou, mas nao e obrigatorio.
+- Link no corpo passou em alguns casos junto com botao, mas o caminho mais limpo continua sendo botao de URL. Se usar link no corpo, manter como acesso operacional, nao como CTA persuasivo.
+- Imperativos curtos podem passar quando o restante do texto esta bem ancorado na inscricao, mas a recomendacao segura e preferir `acesse`, `selecione` ou `voce pode acessar` em vez de `entra agora`.
+
+Evitar especialmente em show up de evento:
+
+- Culpar o lead: `voce perdeu o inicio`, `voce esta atrasado`
+- Urgencia persuasiva: `corre`, `ainda da tempo`, `nao vai se repetir`, `pegar o que falta`
+- Hype visual: emojis, caixa alta agressiva, multiplas exclamacoes
+- Framing de promessa: `romper`, `transformar`, `descobrir`, `mudanca de vida`
+- Explicacao longa do conteudo quando o objetivo e apenas acesso
+
 ## Contexto de Negocio
 
 O usuario trabalha em um contexto em que a classificacao correta do template impacta custo, entrega e viabilidade operacional. Templates de Marketing trazem mais friccao operacional e limites adicionais por usuario, entao a classificacao correta importa muito.

@@ -56,7 +56,13 @@ Campanha "CR Treinamentos | Suporte | Os Exercícios Quânticos de Jesus Cristo"
 
 Estado (última atualização 2026-04-17): checkpoint reescrito, FAQs Produto e Playbook otimizadas em documentos de referência (não aplicados na plataforma ainda). 12 blocos de dúvidas enviados ao cliente em PDF — aguardando respostas para fechar gaps restantes.
 
-**How to apply:** Se o usuário mencionar "EQJC", "Suporte Paulo Aguiar", "fechar gaps do relatório" ou similar, ler `CR Treinamentos/Suporte/CONTEXTO_E_PROXIMOS_PASSOS.md` primeiro — contém o handoff completo.
+Refactor da tool de deep link (2026-05-04): tools antigas `@buscar_membro_por_email` + `@gerar_deep_link_curseduca` (conexão Curseduca CR Treinamentos) substituídas por 1 tool única `@gerar_deep_link_de_acesso` (conexão "CR Treinamentos - Deep Link n8n", sem auth) apontando para webhook n8n `https://n8n-dev.awsales.io/webhook/cr-deep-link`. O n8n centraliza buscar membro + gerar deep link e SEMPRE retorna 200 OK com `{ ok, deeplink, mensagem }` — "Member not found" da Curseduca vira `ok:false` em vez de erro HTTP, matando o gatilho de handoff por falha técnica de tool. Checkpoint Seção 7 reestruturada em 7 níveis: Nível 1 tenta com `{{lead_email}}`, Nível 2 pede confirmação ao aluno se ok=false, Nível 3 manda buscar email na confirmação Hotmart antes de escalar (Seção 10 item 13 atualizado para refletir essa hierarquia).
+
+**Why:** Tool antiga propagava 404 da API Curseduca como erro técnico, disparando handoff via gatilho de Transferência Automática 2.0 quando lead tentava logar com email diferente do cadastrado. O novo fluxo nunca expõe erro HTTP ao bot — só JSON com flag `ok` para o Checkpoint Manager tratar como caminho conversacional normal.
+
+**How to apply:** Docs completos em `CR Treinamentos/Suporte/Tool Deep Link n8n - Configuração.md` (config da tool na AWSales) e `CR Treinamentos/Suporte/Fluxo n8n - cr-deep-link.md` (config do n8n nó a nó). Tools antigas não foram desativadas fisicamente — basta o checkpoint não as referenciar para que o Checkpoint Manager nunca as invoque. Pendente: aplicar checkpoint atualizado na plataforma AWSales (até 2026-05-04 ainda só estava no `.md` local) e monitorar 1-2 dias os atendimentos que cairem em "email não encontrado" para validar Níveis 2 e 3 em produção.
+
+**How to apply:** Se o usuário mencionar "EQJC", "Suporte Paulo Aguiar", "otimizar suporte" ou similar, ler `CR Treinamentos/Suporte/MEMÓRIA - Suporte EQJC.md` primeiro — é o estado vivo da campanha (otimizações aplicadas, próximo passo, entregáveis). Para contexto de gap-closing com o cliente, complementar com `CR Treinamentos/Suporte/CONTEXTO_E_PROXIMOS_PASSOS.md`.
 
 Entregáveis vivos (editar conforme cliente responder):
 - `CR Treinamentos/Suporte/Checkpoint/checkpoint.md`
