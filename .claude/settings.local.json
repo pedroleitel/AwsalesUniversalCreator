@@ -19,7 +19,25 @@
       "Bash(cp C:/Users/Pedro/.claude/image-cache/430264cf-3521-453f-9224-565c084f007d/9.png C:/Users/Pedro/Desktop/AwsalesUniversalCreator/Estrutura/imagens/intervencao_humana_csat/02_transferencia_manual.png)",
       "Bash(cp C:/Users/Pedro/.claude/image-cache/430264cf-3521-453f-9224-565c084f007d/10.png C:/Users/Pedro/Desktop/AwsalesUniversalCreator/Estrutura/imagens/intervencao_humana_csat/03_transferencia_automatica.png)",
       "Bash(cp C:/Users/Pedro/.claude/image-cache/430264cf-3521-453f-9224-565c084f007d/11.png C:/Users/Pedro/Desktop/AwsalesUniversalCreator/Estrutura/imagens/intervencao_humana_csat/04_inatividade_lead.png)",
-      "Bash(cp C:/Users/Pedro/.claude/image-cache/430264cf-3521-453f-9224-565c084f007d/12.png C:/Users/Pedro/Desktop/AwsalesUniversalCreator/Estrutura/imagens/intervencao_humana_csat/05_timers_atendimento.png)"
+      "Bash(cp C:/Users/Pedro/.claude/image-cache/430264cf-3521-453f-9224-565c084f007d/12.png C:/Users/Pedro/Desktop/AwsalesUniversalCreator/Estrutura/imagens/intervencao_humana_csat/05_timers_atendimento.png)",
+      "Bash(python pdf-to-txt.py \"CR Treinamentos/Campanha de vendas do FDS/FAQs compartilhadas/Campanha de vendas - Fundamentos da Sintonização - CR Treinamentos - Produto.pdf\")",
+      "Bash(python pdf-to-txt.py \"CR Treinamentos/Campanha de vendas do FDS/FAQs compartilhadas/Campanha de vendas - Fundamentos da Sintonização - CR Treinamentos - Playbook.pdf\" \"CR Treinamentos/Área de membros e entrada de grupos - FDS/FAQs/Cr Treinamentos - Suporte - FDS - Playbook.pdf\")",
+      "Bash(python pdf-to-txt.py \"CR Treinamentos/Campanha de vendas do FDS/FAQs compartilhadas/Campanha de vendas - Fundamentos da Sintonização - CR Treinamentos - Playbook.pdf\")",
+      "Bash(python pdf-to-txt.py \"CR Treinamentos/Área de membros e entrada de grupos - FDS/FAQs/Cr Treinamentos - Suporte - FDS - Playbook.pdf\")",
+      "Bash(python -c ' *)",
+      "Bash(python pdf-to-txt.py \"Falcão das milhas/Falcão das Milhas - Recuperação de Vendas \\(Buscador Automático\\) 297/FAQs/Falcão das Milhas - Recuperação de Vendas \\(Buscador Automático\\) - Produto.pdf\")",
+      "Bash(python pdf-to-txt.py \"Falcão das milhas/Falcão das Milhas - Recuperação de Vendas \\(Buscador Automático\\) 297/FAQs/Falcão das Milhas - Recuperação de Vendas \\(Buscador Automático\\) - Playbook.pdf\" \"Falcão das milhas/Falcão das Milhas - Upsell \\(Balcão de Milhas\\) 497/FAQs/Falcão das Milhas - Upsell \\(Balcão de Milhas\\) - Produto.pdf\" \"Falcão das milhas/Falcão das Milhas - Upsell \\(Balcão de Milhas\\) 497/FAQs/Falcão das Milhas - Upsell \\(Balcão de Milhas\\) - Playbook.pdf\")",
+      "Bash(python pdf-to-txt.py \"Falcão das milhas/Falcão das Milhas - Recuperação de Vendas \\(Buscador Automático\\) 297/FAQs/Falcão das Milhas - Recuperação de Vendas \\(Buscador Automático\\) - Playbook.pdf\")",
+      "Bash(python pdf-to-txt.py \"Falcão das milhas/Falcão das Milhas - Upsell \\(Balcão de Milhas\\) 497/FAQs/Falcão das Milhas - Upsell \\(Balcão de Milhas\\) - Produto.pdf\")",
+      "Bash(python pdf-to-txt.py \"Falcão das milhas/Falcão das Milhas - Upsell \\(Balcão de Milhas\\) 497/FAQs/Falcão das Milhas - Upsell \\(Balcão de Milhas\\) - Playbook.pdf\")",
+      "Bash(python -c \"import weasyprint; print\\('weasyprint ok'\\)\")",
+      "Bash(python -c \"import markdown; print\\('markdown ok'\\)\")",
+      "Bash(npm list *)",
+      "Bash(pip list *)",
+      "Bash(python gerar_relatorio.py)",
+      "Bash(python -c \"from pypdf import PdfReader; r = PdfReader\\(r'Relatório de Performance - Suporte Falcão das Milhas - 11-05.pdf'\\); print\\(f'pages: {len\\(r.pages\\)}'\\); print\\('---PAGE 1---'\\); print\\(r.pages[0].extract_text\\(\\)\\)\")",
+      "Bash(git fetch *)",
+      "Bash(git ls-tree *)"
     ]
   }
 }

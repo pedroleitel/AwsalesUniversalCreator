@@ -1,0 +1,264 @@
+--- PAGINA 1 ---
+ 
+RELATÓRIO  DE  PERFORMANCE Agente  de  Atendimento  IA  —  Campanha  de  Suporte  ao  Cliente CR  Treinamentos   ·   Os  Exercícios  Quânticos  de  Jesus  Cristo  —  Protocolo  de  21  Dias 
+ 
+149 conversas  analisadas 
+4.176 mensagens  totais 
+4.76  /  5 CSAT  médio  (29  resp.) 
+2  dias período  coberto  (06–07/abr) 
+ 
+Objetivo  deste  relatório Apresentar  os  resultados  e  aprendizados  do  período  inicial  de  operação  do  agente  de  Suporte  ao  Cliente  (v2)  da  campanha  CR  Treinamentos,  com  visão  consolidada  de  performance,  qualidade  de  atendimento,  erros  identificados  e  oportunidades  de  evolução  para  a  próxima  fase.  
+  
+1.  Qualidade  do  Atendimento  A  análise  das  4.176  mensagens  da  IA  revelou  um  padrão  de  atendimento  de  alta  qualidade  percebida  —  evidenciado  pelo  CSAT  de  4,76/5,0  —  com  tom  
+empático
+ 
+e
+ 
+boa
+ 
+capacidade
+ 
+técnica
+ 
+de
+ 
+resolução.
+ 
+Os
+ 
+indicadores
+ 
+abaixo
+ 
+detalham
+ 
+a
+ 
+performance
+ 
+do
+ 
+período.
+ 
+1.1   Visão  Geral  de  Performance   Indicador Resultado Observação 
+Total  de  conversas  analisadas  149  
+Período:  06–07/04/2026  (2  dias  de  operação)  
+Mensagens  totais  trocadas  4.176  2.262  da  IA   │   1.914  dos  leads  
+
+--- PAGINA 2 ---
+Indicador Resultado Observação CSAT  —  Nota  média  de  satisfação  
+4,76  /  5,0 
+29  respostas  coletadas:  25×nota  5,  3×nota  4,  1×nota  1  
+CSAT  —  Problema  resolvido  (resolved=yes)  
+28/29  (96,6%) Alta  taxa  de  resolução  percebida  pelo  lead  
+Conversas  com  sinal  positivo  de  resolução  
+117  (78,5%)  
+Lead  confirmou  acesso,  agradeceu  ou  sinalizou  solução  
+Conversas  com  escalada  ao  suporte  humano  
+89  (59,7%)  
+Bloqueios  persistentes,  cancelamentos  e  problemas  técnicos  
+Validação  do  sentimento  na  1ª  resposta  da  IA  
+85/149  (57,0%) 
+43%  das  primeiras  respostas  sem  validação  emocional  (exigida  pelo  prompt)  
+IA  perguntou  se  dúvida  foi  resolvida  antes  de  encerrar  
+38/149  (25,5%) 
+Regra  obrigatória  do  prompt  cumprida  em  apenas  1/4  das  conversas  
+ 
+1.2   Principais  Motivos  de  Contato  Diferente  da  campanha  de  Onboarding,  a  v2  concentrou  mais  dúvidas  de  conteúdo  (exercícios,  grupo,  formulário)  do  que  bloqueios  técnicos  de  acesso  —  
+reflexo
+ 
+de
+ 
+alunos
+ 
+já
+ 
+com
+ 
+login
+ 
+ativo
+ 
+buscando
+ 
+orientação
+ 
+de
+ 
+uso.
+ 
+Motivo  de  Contato 
+Participação 
+Resolução  /  Observação 
+Dúvida  sobre  exercícios  /  primeiros  passos  /  Dia  1  
+63,8%  
+IA  orienta  acesso  e  passos  gerais,  mas  não  descreve  o  exercício  em  si  (lacuna  de  conteúdo)  
+Acesso  ao  grupo  /  comunidade  WhatsApp  
+32,9%  
+IA  orienta  parcialmente;  base  não  tem  link/instrução  completa  do  grupo  
+Formulário  de  Matrícula  (onde  fica,  como  acessar)  
+28,9%  Orientação  correta  na  maioria  dos  casos  
+Erro  de  acesso  /  login  /  senha  26,8%  
+Alta  resolução:  reset  de  senha,  aba  anônima,  cache  —  bem  orientados  
+Dúvida  sobre  pagamento  (Pix,  cartão,  erro)  
+24,8%  
+Orientação  correta;  redirecionamento  ao  suporte  quando  necessário  
+
+--- PAGINA 3 ---
+Motivo  de  Contato 
+Participação 
+Resolução  /  Observação 
+Reembolso  /  cancelamento  22,1%  
+Em  25  conv.  a  IA  coletou  dados  além  do  permitido  pelo  playbook  
+Dúvida  sobre  eficácia  do  método  18,8%  
+Regra  crítica  de  convicção  cumprida  em  apenas  24,1%  dos  casos  
+Contrato  PDF  mencionado  no  vídeo  de  boas-vindas  
+16,1%  
+Em  1  conv.  IA  afirmou  'recebi  o  contrato  assinado'  (erro  factual)  
+Sessão  individual  /  Consultor  Quântico  
+5,4%  
+Redirecionamento  correto  ao  final  da  página  da  área  de  membros  
+Outros  (bônus,  jejum,  teologia,  off-topic)  
+~3–5%  
+Tratados  com  empatia;  alguns  casos  com  risco  de  desvio  temático  
+  
+2.  O  Que  o  Agente  Sabe  Responder  Bem  Com  base  nas  149  conversas  analisadas,  o  agente  demonstra  consistência  e  precisão  nos  tópicos  cobertos  pela  base  de  conhecimento  e  pelo  playbook:  
+Tópico Status Observação  /  O  que  melhorar Credenciais  de  acesso  (e-mail  +  senha  Protocolo21!)  
+✔  Coberto 
+Informação  correta  em  100%  dos  casos.  E-mail  individual  confirmado  com  precisão.  
+Reset  de  senha  /  'Esqueci  minha  senha'  
+✔  Coberto 
+Passo  a  passo  bem  executado;  taxa  de  resolução  alta  nesses  casos.  
+Aba  anônima  /  cache  /  outro  navegador  /  dispositivo  
+✔  Coberto 
+Recomendação  técnica  precisa  e  frequente  nos  bloqueios  de  acesso.  
+Primeiros  passos:  Formulário,  Dia  1,  Diário  do  Colapso  
+✔  Coberto 
+Orientação  clara  após  acesso  confirmado.  
+Cenário  'Matrículas  Bloqueadas'  /  visitante  não  logado  
+✔  Coberto 
+Instrução  de  login  pelo  ícone  superior  direito  —  correta  e  assertiva.  
+Canais  de  suporte  (WhatsApp  +  e-mail  +  horário)  
+✔  Coberto 
+Dados  corretos  citados  na  escalada.  Link  correto  (+55  66  9668-5192)  usado  pela  IA.  
+
+--- PAGINA 4 ---
+Tópico Status Observação  /  O  que  melhorar 
+Duração  do  acesso  (12  meses)  
+✔  Coberto 
+Mencionado  corretamente  quando  questionado.  
+Contrato  PDF:  finalidade  (compromisso  interno,  não  obrigatório)  
+✔  Coberto* 
+Explicado  corretamente  na  maioria  dos  casos.  *Exceção:  Conv.  08ccdf20  (erro  factual).  
+Tom  de  atendimento  (empatia,  acolhimento)  
+✔  Coberto 
+Alto  alinhamento  ao  perfil  de  suporte  empático.  CSAT  4,76  reflete  essa  qualidade.  
+Escalada  ao  suporte  humano  com  contexto  
+✔  Coberto 
+IA  orienta  o  lead  a  enviar  prints,  e-mail  e  horário  ao  escalar.  Boa  prática.  
+Atendimento  multilíngue  (PT-Portugal)  
+✔  Coberto 
+Conv.  03b9f02a:  IA  adaptou  tom  e  vocabulário  para  português  europeu  com  naturalidade.  
+Estrutura  dos  21  dias  e  fases  do  protocolo  
+✔  Coberto 
+Explicado  corretamente  quando  questionado.  
+  
+2.1   Erros  e  Comportamentos  Identificados  Os  itens  abaixo  representam  desvios  em  relação  às  instruções  do  checkpoint  ou  ao  playbook,  organizados  por  prioridade  de  correção:  
+Tipo  de  Erro Descrição Impacto 
+Conv.  de  Exemplo 
+CRÍTICO  —  Eficácia  do  método  tratada  sem  convicção 
+Em  22  de  29  conversas  onde  a  eficácia  foi  questionada  (75,9%),  a  IA  não  respondeu  com  a  convicção  plena  exigida  pela  regra  crítica  do  prompt.  Respostas  contendo  'depende',  'para  algumas  pessoas'  ou  sem  afirmação  direta  foram  identificadas.  
+Alta  —  Regra  crítica  do  checkpoint  violada  em  3/4  das  oportunidades 
+Padrão  em  múltiplas  conversas  
+CRÍTICO  —  Validação  de  sentimento  ausente  em  43%  das  aberturas 
+O  prompt  exige  validar  o  sentimento  do  cliente  ANTES  de  apresentar  a  solução.  Em  64  de  149  conversas  (43%),  a  primeira  resposta  da  IA  partiu  direto  para  a  solução  técnica,  sem  
+Média  —  Regra  obrigatória  não  cumprida  em  43%  dos  casos 
+07df67cb  |  092d2072  |  1c4f375d  e  outras  
+
+--- PAGINA 5 ---
+Tipo  de  Erro Descrição Impacto 
+Conv.  de  Exemplo acolhimento  emocional.  Exemplo:  Conv.  07df67cb  —  IA  partiu  para  instruções  de  senha  sem  validar  frustração.  
+ALTO  —  Reembolso:  IA  coletou  dados  além  do  permitido 
+Em  25  conversas  (16,8%),  ao  tratar  pedidos  de  cancelamento/reembolso,  a  IA  solicitou  'nome  completo,  e-mail  da  compra  e  print  do  erro'  para  processamento.  O  playbook  é  explícito:  NUNCA  processar  reembolso  —  apenas  redirecionar  ao  suporte  humano  citando  os  critérios  da  garantia.  
+Alta  —  Violação  de  regra  do  playbook;  falsa  expectativa  de  processo  pelo  chat 
+1ea84a10  |  2b423cc7  |  389956eb  e  outras  22  
+ALTO  —  Promessas  de  ação  interna  falsa 
+Em  3  conversas,  a  IA  prometeu  'escalar  internamente',  'acionar  nossa  equipe'  ou  'prioridade  total'  —  ações  que  não  pode  executar.  Conv.  2b423cc7:  'vou  acionar  internamente  nossa  equipe  de  atendimento  para  priorizar  o  seu  caso  agora  mesmo'.  
+Média  —  Cria  expectativa  falsa  de  ação  imediata  que  nunca  acontece 
+1ea84a10  |  2b423cc7  |  a6ecca5b  
+MÉDIO  —  Lacuna:  Conteúdo  do  exercício  do  Dia  1  não  explicado 
+Em  23  conversas,  leads  perguntaram  explicitamente  'que  exercício  é  esse?',  'como  faço  a  prática  guiada?'  ou  'o  que  é  os  15  minutos?'.  A  IA  respondeu  em  loop  ('siga  o  vídeo,  é  guiado'),  sem  conseguir  explicar  o  que  é  a  prática  de  fato.  Conv.  086c9590  é  o  caso  mais  crítico  —  15+  trocas  sem  resposta  de  conteúdo.  
+Alta  —  Leads  sem  entender  o  produto  ficam  frustrados  e  com  maior  risco  de  abandono 
+086c9590  |  múltiplas  conversas  
+  
+2.2   Lacunas  na  Base  de  Conhecimento  Tópicos  que  geraram  dúvidas  sem  resposta  precisa  na  base,  ou  que  requerem  correção  sistêmica  urgente:  
+
+--- PAGINA 6 ---
+Tópico Status O  que  adicionar  /  corrigir 
+Descrição  detalhada  dos  exercícios  (o  que  é  a  prática  guiada)  
+Lacuna 
+Criar  documento  descrevendo  o  exercício  do  Dia  1  e  de  cada  fase:  o  que  o  lead  faz,  duração,  postura,  técnica.  Isso  é  o  conteúdo  mais  buscado  pelos  alunos  e  a  maior  lacuna  da  base  atual.  
+Link  e  processo  de  acesso  ao  grupo  /  comunidade  WhatsApp  
+Lacuna 
+Adicionar:  como  o  grupo  é  liberado,  link  oficial,  passos  para  entrar.  Hoje  a  IA  orienta  de  forma  genérica  ('checar  WhatsApp')  sem  ter  o  caminho  completo.  
+Regra  explícita  anti-promessa  interna  no  prompt  
+Melhoria 
+Adicionar  ao  prompt:  NUNCA  afirmar  que  vai  'acionar  internamente',  'escalar  com  prioridade'  ou  'acompanhar  de  perto'.  Direcionar  sempre  e  unicamente  aos  canais  de  suporte  oficiais.  
+Protocolo  de  confirmação  de  resolução  (regra  obrigatória)  
+Melhoria 
+Reforçar  no  prompt  com  exemplo  concreto:  SEMPRE,  antes  de  encerrar,  perguntar  'Sua  dúvida  ficou  resolvida?'  ou  'Ficou  claro?  Posso  te  ajudar  em  mais  alguma  coisa?'.  Regra  hoje  cumprida  em  apenas  25,5%.  
+Exemplos  de  resposta  para  convicção  sobre  eficácia  
+Melhoria 
+Adicionar  na  base  frases-modelo  de  resposta  afirmativa  sobre  o  método.  A  regra  crítica  existe  mas  a  IA  não  tem  exemplos  de  como  aplicá-la,  resultando  em  respostas  neutras  em  75,9%  dos  casos.  
+Contrato  PDF:  o  que  é,  o  que  fazer  com  ele  
+Melhoria 
+Reforçar  no  prompt:  o  contrato  é  compromisso  pessoal  do  aluno.  A  IA  não  deve  pedir,  receber,  validar  ou  confirmar  o  contrato.  Apenas  explicar  sua  finalidade  simbólica.  
+Atendimento  a  relatos  de  natureza  espiritual  /  emocional  intensa  
+Lacuna 
+30,9%  das  conversas  tiveram  conteúdo  espiritual,  teológico  ou  emocional  fora  do  escopo  técnico.  Criar  diretriz:  acolher  com  empatia,  validar  e  direcionar  a  suporte  humano  se  o  relato  indicar  sofrimento  real.  Não  aprofundar  debates  teológicos.  
+  
+3.  Recomendações  para  Otimização  Ações  priorizadas  por  impacto  e  urgência  para  a  próxima  fase  de  operação:  
+
+--- PAGINA 7 ---
+Prioridade Recomendação Ação  Sugerida 
+🔴  CRÍTICA 
+Corrigir  número  de  WhatsApp  nas  mensagens  automáticas  
+Verificar  e  substituir  +55  31  95347-1577  por  +55  66  9668-5192  em  todas  as  templates  de  follow-up  da  campanha.  Essa  correção  deve  ser  feita  com  prioridade  máxima  —  22,1%  dos  leads  foram  encaminhados  para  canal  inativo.  
+🔴  CRÍTICA 
+Implementar  pergunta  de  confirmação  de  resolução  como  obrigatória  
+Revisar  o  prompt  para  incluir  instrução  explícita:  antes  de  qualquer  encerramento,  a  IA  DEVE  perguntar  se  a  dúvida  foi  resolvida.  Regra  hoje  cumprida  em  apenas  25,5%  das  conversas.  
+🔴  CRÍTICA 
+Reforçar  regra  de  convicção  sobre  eficácia  com  frases-modelo  
+Adicionar  à  base  de  conhecimento  exemplos  concretos  de  respostas  afirmativas  sobre  o  método..  
+🔴  CRÍTICA 
+Criar  documento  na  base  descrevendo  o  exercício  do  Dia  1  
+Documentar  o  que  é  a  prática  guiada:  técnica,  duração,  postura,  o  que  o  lead  faz  minuto  a  minuto.  É  o  conteúdo  mais  buscado  (63,8%  das  conversas)  e  o  maior  gap  atual  da  base.  
+🟠  ALTA 
+Corrigir  o  fluxo  de  reembolso:  apenas  redirecionar,  nunca  coletar  dados  
+O  playbook  já  instrui  isso,  mas  a  IA  o  desrespeita  em  25  conversas.  Adicionar  no  prompt:  ao  receber  pedido  de  reembolso,  APENAS  citar  critérios  da  garantia  de  21  dias  e  passar  os  canais  de  suporte.  Nunca  solicitar  nome  ou  print  para  'processar'.  
+🟠  ALTA 
+Reforçar  validação  emocional  como  primeiro  passo  obrigatório  
+Adicionar  ao  prompt  instrução  clara:  SEMPRE  que  o  lead  abrir  com  problema  ou  frustração,  a  primeira  resposta  deve  validar  o  sentimento  antes  de  qualquer  solução.  Hoje  ausente  em  43%  das  primeiras  respostas.  
+🟡  MÉDIA 
+Proibir  explicitamente  promessas  de  ação  interna  
+Adicionar  ao  prompt:  NUNCA  prometer  escalação  interna,  prioridade  ou  acompanhamento  pessoal.  Direcionar  ao  suporte  humano  com  os  dados  de  contato  e  orientar  sobre  prazo  de  resposta  (até  48h  úteis).  
+  
+
+--- PAGINA 8 ---
+4.  Observações  Adicionais  
+Observação Detalhe 
+CSAT  excepcional  
+4,76  de  5,0  com  29  respostas.  25  leads  deram  nota  máxima  (5).  Apenas  1  nota  1.  Isso  reflete  qualidade  de  atendimento  percebida  muito  alta  —  o  tom  empático  e  a  proatividade  da  IA  têm  impacto  positivo  real  na  experiência  do  cliente.  
+Volume  concentrado  em  2  dias  
+149  conversas  em  apenas  2  dias  (06  e  07/abr),  com  pico  em  07/abr  (148  conversas).  O  agente  sustentou  o  volume  sem  degradação  aparente  de  tom  ou  qualidade  de  resposta.  
+Público  lusófono  identificado  
+Conv.  03b9f02a:  lead  de  Portugal  (António)  em  conversa  filosófica  extensa.  A  IA  adaptou  vocabulário,  ortografia  e  tom  para  o  português  europeu  com  naturalidade.  Ponto  de  atenção:  conversas  longas  e  off-topic  podem  consumir  capacidade  de  atendimento  sem  retorno.  
+Número  errado  nos  follow-ups:  origem  sistêmica  
+O  número  +55  31  95347-1577  aparece  nas  mensagens  de  follow-up  automático  (atribuídas  ao  'Lead'  no  sistema),  não  nas  respostas  da  IA.  A  correção  deve  ser  feita  na  template  da  campanha,  não  no  prompt.  É  urgente.  
+Conv.  08ccdf20  —  Caso  de  risco  operacional  
+IA  validou  um  'contrato  assinado'  enviado  por  foto  e  disse  ao  lead  que  podia  iniciar  as  aulas.  Isso  cria  precedente  perigoso:  qualquer  lead  pode  enviar  uma  imagem  e  ser  liberado.  A  regra  de  que  o  contrato  é  pessoal  e  simbólico  deve  ser  reforçada  com  proibição  explícita  de  'aceitar'  documentos.  
+Conv.  086c9590  —  Maior  gap  de  conteúdo  identificado  
+Conversa  com  15+  trocas  onde  a  lead  perguntou  repetidamente  'que  prática  é  essa?'  sem  receber  resposta  de  conteúdo.  A  IA  respondeu  em  loop  ('siga  o  vídeo')  porque  não  tem  na  base  a  descrição  do  exercício.  Esse  documento  é  a  maior  prioridade  de  conteúdo  para  a  próxima  versão  da  base.  
+  
+Relatório  gerado  em  07/04/2026   ·   Análise  de  IA  —  Awsales   ·   CR  Treinamentos  |  Suporte  v2 
+

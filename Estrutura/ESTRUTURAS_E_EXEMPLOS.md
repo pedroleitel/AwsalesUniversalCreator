@@ -5,10 +5,28 @@ Este documento possui os guias de estrutura para criação de textos e checkpoin
 ## 0. O Que é Uma Campanha na AWSales?
 
 Uma campanha na plataforma Awsales é, em essência, a junção de duas peças principais:
-1. **O Checkpoint:** É o "cérebro" das etapas do bot (funil). Ele diz para onde a conversa deve ir, o que focar no momento e quais são os passos lógicos.
+1. **O Checkpoint:** É o "cérebro" das etapas da IA (funil). Ele diz para onde a conversa deve ir, o que focar no momento e quais são os passos lógicos.
 2. **A Base de Conhecimento (FAQs Produto + Playbook):** São as informações passivas da plataforma.
    - **MUITO IMPORTANTE:** As FAQs funcionam via **Busca Semântica (RAG)**. Quando o lead (cliente) envia uma mensagem no WhatsApp, a IA compara o contexto da mensagem com o banco de FAQs buscando as 5 mais relevantes.
    - A busca semântica é flexível e dá match mesmo quando a Pergunta (Título da FAQ) está redigida em linguagem mais formal ou de bastidor, desde que a intenção esteja contemplada. Portanto, ao **avaliar uma FAQ existente**, só recomende reescrever a pergunta quando ela estiver realmente desconectada da intenção do lead, a ponto de não conseguir cobrir nenhuma mensagem real. Ao **criar uma FAQ nova**, prefira escrever a Pergunta na linguagem coloquial do lead (ex: "O que ganho comprando isso?" será acionado se o lead disser "qual a vantagem?", "tem algum bônus?", etc.). Sempre avalie FAQs sob a ótica da intenção do lead, mas sem ser excessivamente rigoroso com o formato da pergunta.
+
+### Orquestração Multiagente Real
+
+A campanha não roda só com "Checkpoint + FAQs". Esses artefatos alimentam uma cadeia de agentes:
+- **Checkpoint Manager:** mantém memória factual e estado da conversa.
+- **Information Manager:** consulta FAQs/catálogo e organiza fatos para a resposta.
+- **Integration Manager:** planeja tools apenas quando encontra `@toolName` no checkpoint.
+- **Integration Runner:** executa a sequência de tools planejada.
+- **Copywriter:** escreve a resposta final ao lead.
+- **Response Auditor:** valida idioma, coerência e vazamento de contexto interno.
+- **Smart Follow-Up:** usa transcrição + checkpoint para decidir retomada, timing e mensagem.
+
+Consequência prática:
+- Checkpoint = roteador de estado, ritmo, prioridade, limites, próximo passo e uso de tools.
+- FAQ Produto = fatos comerciais e operacionais.
+- FAQ Playbook = objeções, argumentos, psicologia do avatar e tom.
+- Follow-Up Inteligente = precisa de status, pendência, temperatura e alavanca registrados pelo checkpoint.
+- Integrações = só funcionam se o checkpoint mencionar a tool no formato correto.
 
 ### Como as FAQs São Criadas na Plataforma
 
@@ -68,29 +86,36 @@ O objetivo desses textos é adicionar informações EXTRAS que **não estão pre
 - **Lista de Objeções Comuns (Desculpa vs Razão real) e Como Transpor**
 - **Credibilidade do Especialista (Provas, currículo aplicável)**
 - **Tom de Voz (Jargões do nicho a usar, expressões a evitar terminantemente)**
+- **Estratégia Comercial (RAR, SPIN enxuto, urgência real, escassez real, contraste de custo da inação, CTA de avanço)**
+- **Limites Éticos (não inventar garantia, não prometer resultado absoluto, não usar escassez falsa, não pressionar com fatos inexistentes)**
 
 ---
 
 ## 2. Checkpoint — O Artefato Mais Crítico da Campanha
 
-O Checkpoint é o artefato mais importante de toda a campanha. Ele é literalmente o **prompt que alimenta o sub-agente Checkpoint Manager** dentro da plataforma AWSales. É ele quem diz ao bot:
+O Checkpoint é o artefato mais importante de toda a campanha. Ele é literalmente o **prompt que alimenta o sub-agente Checkpoint Manager** dentro da plataforma AWSales. É ele quem diz à IA:
 - Em que etapa da conversa ele está
 - Como deve se comportar em cada momento
 - Quando avançar, quando recuar, quando fechar
 - Quais regras nunca quebrar
 
-Se o Checkpoint for fraco, genérico ou resumido demais, o bot perde o controle do funil, erra o tom, não sabe quando avançar etapa e a conversa morre. **Um Checkpoint ruim invalida todo o resto** (FAQs perfeitas e abertura matadora não salvam um bot sem direção).
+Se o Checkpoint for fraco, genérico ou resumido demais, a IA perde o controle do funil, erra o tom, não sabe quando avançar etapa e a conversa morre. **Um Checkpoint ruim invalida todo o resto** (FAQs perfeitas e abertura matadora não salvam uma IA sem direção).
 
-### Checkpoint = Comportamento e Fluxo (NÃO Conhecimento)
-A plataforma tem dois sub-agentes separados:
-- **Checkpoint Manager** — controla fluxo e comportamento do bot (alimentado pelo Checkpoint)
-- **Information Manager** — busca informações nas FAQs por semântica (alimentado pela Base de Conhecimento)
+### Checkpoint = Roteador Multiagente (NÃO Conhecimento)
+A plataforma tem uma cadeia de agentes. O checkpoint influencia todos:
+- **Checkpoint Manager** — registra memória factual e estado da conversa.
+- **Information Manager** — busca informações nas FAQs por semântica.
+- **Integration Manager** — procura menções `@toolName` no checkpoint para decidir se planeja ferramentas.
+- **Copywriter** — interpreta momento, tom e próximo passo com base no checkpoint.
+- **Smart Follow-Up** — usa checkpoint para entender pendência, temperatura e alavanca de retomada.
 
-Portanto, o Checkpoint deve focar em **como o bot age**, não no que o produto é. NÃO repita no checkpoint informações que já estão cobertas pelas FAQs (preço detalhado, lista de módulos, garantia, etc.) — isso é redundante e desperdiça tokens. Repita informação das FAQs apenas quando ela for essencial para uma regra de comportamento (ex: "Se o lead perguntar sobre parcelamento, ofereça primeiro 12x antes do à vista").
+Portanto, o Checkpoint deve focar em **como a IA age**, não no que o produto é. NÃO repita no checkpoint informações que já estão cobertas pelas FAQs (preço detalhado, lista de módulos, garantia, etc.) — isso é redundante e desperdiça tokens. Repita informação das FAQs apenas quando ela for essencial para uma regra de comportamento (ex: "Se o lead perguntar sobre parcelamento, ofereça primeiro 12x antes do à vista").
 
 ### Rico em Instrução, Enxuto em Repetição
-- O Checkpoint Manager **substitui o arquivo inteiro** a cada atualização — ele não acumula. Se a instrução não estiver lá, o bot não sabe.
+- O Checkpoint Manager **substitui o arquivo inteiro** a cada atualização — ele não acumula. Se a instrução não estiver lá, a IA não sabe.
 - O Copywriter (sub-agente que gera a resposta final) se baseia no checkpoint para interpretar o momento da conversa. Sem contexto psicológico e regras de condução claras, ele vira genérico.
+- O Integration Manager só executa ferramentas se o checkpoint mencionar a tool explicitamente no formato correto.
+- O Smart Follow-Up precisa que o checkpoint deixe claro status, pendência, temperatura do lead, alavanca de valor e próximo passo.
 - **NÃO RESUMA DEMAIS as instruções de comportamento.** Preserve contexto psicológico do avatar, lógica de etapas e regras de condução ricamente detalhadas. A economia inteligente de tokens vem de cortar repetição de FAQs, não de cortar instruções de comportamento.
 
 ### Estrutura Base do Checkpoint
@@ -98,9 +123,9 @@ Portanto, o Checkpoint deve focar em **como o bot age**, não no que o produto �
 # CHECKPOINT DA CAMPANHA: [Nome da Campanha]
 
 ## 1. CONTEXTO E MISSÃO
-- Papel do Agente: [Quem o bot finge ser]
+- Papel do Agente: [identidade da IA na campanha]
 - Objetivo Principal: [O que precisa acontecer no fim]
-- Mensagem de Abertura Enviada (Para o bot saber de onde começa):
+- Mensagem de Abertura Enviada (Para a IA saber de onde começa):
 "Olá, tudo bem? ..."
 
 ## 2. INFORMAÇÕES GERAIS E LINKS
@@ -113,7 +138,22 @@ Portanto, o Checkpoint deve focar em **como o bot age**, não no que o produto �
 - O que o AI Não deve fazer: [Ex: Prometer bônus acabados]
 - Não usar emojis.
 
-## 4. ETAPAS DO FUNIL (Exemplo: SPIN ou Aniquilador)
+## 4. ROTEADOR DE ESTADO DO LEAD
+- [ ] Intenção de compra: enviar link imediatamente, sem nova pergunta diagnóstica.
+- [ ] Dúvida factual: responder pela FAQ Produto e reconectar ao próximo passo.
+- [ ] Objeção: validar a trava, usar FAQ Playbook e avançar para decisão.
+- [ ] Ambivalência: fazer uma pergunta única de trava.
+- [ ] Problema operacional: resolver ou acionar suporte/tool e retomar objetivo da campanha.
+- [ ] Recusa clara: respeitar e encerrar sem insistência.
+
+## 5. PONTE DE VENDA
+- Dor/interesse do lead:
+- Objeção provável:
+- Custo de não agir:
+- Benefício central do produto:
+- Próximo passo desejado:
+
+## 6. FLUXO PRINCIPAL (RAR / SPIN Enxuto / Aniquilador Assertivo)
 ### ETAPA 1: XXXXX
 - Objetivo: ...
 - Como agir: ...
@@ -140,36 +180,37 @@ Portanto, o Checkpoint deve focar em **como o bot age**, não no que o produto �
 
 ## 3. Mensagens de Disparo (WhatsApp) — A Porta de Entrada
 
-A Abertura e os FUPs sao o segundo artefato mais critico da campanha. Se a abertura nao gerar resposta do lead, **o bot nunca entra em acao** e todo o resto (FAQs, Checkpoint, agente) e inutil. A abertura e a unica chance de captar a atencao.
+A Abertura e os FUPs são o segundo artefato mais crítico da campanha. Se a abertura não gerar resposta do lead, **a IA nunca entra em ação** e todo o resto (FAQs, Checkpoint, agente) é inútil. A abertura é a única chance de captar a atenção.
 
 ### Por Que a Abertura e Tao Importante
 - O lead recebe dezenas de mensagens por dia no WhatsApp. A abertura compete com tudo isso.
-- Uma abertura generica ("Oi, tudo bem? Vi que voce se interessou...") e ignorada. Uma abertura com gancho especifico (dor, preco, urgencia, beneficio concreto) gera resposta.
-- O tom da abertura define a expectativa do lead para toda a conversa. Se comecar robotico, o lead ja trata como spam.
+- Uma abertura genérica ("Oi, tudo bem? Vi que você se interessou...") é ignorada. Uma abertura com gancho específico (dor, preço, urgência, benefício concreto) gera resposta.
+- O tom da abertura define a expectativa do lead para toda a conversa. Se começar robótico, o lead já trata como spam.
 - A abertura deve ser coerente com o tipo de campanha e o agente selecionado.
 
 ### Estrutura das Mensagens de Disparo
 
 **Abertura (1a mensagem — a mais importante)**
-- Deve ter um gancho claro: dor, preco, urgencia ou beneficio concreto
-- Cumprimento natural (nunca comecar direto com "Tudo bem?")
-- CTA isolado no ultimo paragrafo
-- Se houver deadline de preco: use preco + urgencia
-- Se ticket for perpetuo/fixo: reconexao emocional primeiro, preco depois
+- Deve ter um gancho claro: dor, preço, urgência ou benefício concreto
+- Cumprimento natural (nunca começar direto com "Tudo bem?")
+- Não usar emoji na abertura de janela/template inicial
+- CTA isolado no último parágrafo
+- Se houver deadline de preço: use preço + urgência
+- Se ticket for perpétuo/fixo: reconexão emocional primeiro, preço depois
 
 **Exemplo — Abandono de Carrinho com Escassez:**
-"Oi! Tudo bem? 😊
+"Oi! Tudo bem?
 Vi que voce chegou na pagina de [Produto] mas acabou nao finalizando.
-Lembrando que os [Entregaveis/Beneficios] estao disponiveis com o valor de [Preco X] apenas ate [Data], depois vai para [Preco Y].
+Lembrando que os [Entregáveis/Benefícios] estão disponíveis com o valor de [Preço X] apenas até [Data], depois vai para [Preço Y].
 Quer ajuda para garantir sua vaga?"
 
 **FUP 1 (Foco Valor — reforco de beneficios)**
-"Oi, passando so para lembrar que alem de todo o material das aulas, o acesso garante tambem [Beneficio 2] e [Beneficio 3].
-Se tiver qualquer instabilidade travando sua matricula, me avisa!"
+"Oi, passando só para lembrar que além de todo o material das aulas, o acesso garante também [Benefício 2] e [Benefício 3].
+Se tiver qualquer instabilidade travando sua matrícula, me avisa!"
 
 **FUP 2 (Despedida/Ultima Escassez — ultimo contato)**
-"O link com a condicao exclusiva fecha em algumas horas.
-Vou deixar o atalho aqui caso voce ja tenha se decidido:
+"O link com a condição exclusiva fecha em algumas horas.
+Vou deixar o atalho aqui caso você já tenha se decidido:
 👉 [URL completa sem variavel ou {{link_vendas}} se o disparo for interno]
 Estou no suporte ate o fechamento caso precise."
 
@@ -181,7 +222,7 @@ Quando a campanha possuir imagens de prova social (antes/depois, resultados de c
 
 ### Como Funciona na Plataforma
 
-Na plataforma AWSales, ao criar uma FAQ, é possível anexar um arquivo (imagem) e atribuir um nome de variável a ele (ex: `imagem1`). Na resposta da FAQ, basta referenciar `{{imagem1}}` para que o bot envie a imagem junto com o texto.
+Na plataforma AWSales, ao criar uma FAQ, é possível anexar um arquivo (imagem) e atribuir um nome de variável a ele (ex: `imagem1`). Na resposta da FAQ, basta referenciar `{{imagem1}}` para que a IA envie a imagem junto com o texto.
 
 ### Como Criar FAQs com Imagens
 
@@ -223,6 +264,12 @@ O sistema roda 3 prompts em sequência:
 1. Análise de Necessidade (SEND ou SKIP) — Decide se faz sentido enviar.
 2. Agendamento (Timing) — Decide o momento ideal para enviar.
 3. Mensagem Personalizada — Gera a mensagem com base no ponto exato onde a conversa parou.
+
+O Follow-Up Inteligente lê transcrição + checkpoint. Por isso, em campanhas de venda, o checkpoint precisa deixar fácil para ele entender:
+- Status atual: link enviado, objeção ativa, pagamento travado, material enviado, lead pediu tempo, recusa clara.
+- Temperatura: HOT, WARM ou COLD, quando isso estiver evidente.
+- Pendência: o que ficou em aberto e qual seria o próximo avanço natural.
+- Alavanca de valor: principal dor, desejo, economia, oportunidade ou benefício que justifica retomar.
 
 ### O Que o CS Preenche
 

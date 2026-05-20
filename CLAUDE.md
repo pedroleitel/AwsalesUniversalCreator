@@ -18,17 +18,88 @@ Este projeto é um sistema universal para criação de campanhas na plataforma A
 - Fase 2: Avaliar FAQs → criar Checkpoint → criar Mensagens
 - Fase 3: Otimizações (ler tudo primeiro, aplicar diretamente, validar formatação, checar FAQs)
 
-**Arquitetura da plataforma:** Dois sub-agentes — Checkpoint Manager (comportamento/fluxo) e Information Manager (busca semântica nas FAQs). Checkpoint NÃO deve repetir conteúdo das FAQs.
+**Arquitetura da plataforma:** cadeia multiagente. Checkpoint Manager mantém memória/estado; Information Manager consulta FAQs/catálogo; Integration Manager só planeja tools quando encontra `@toolName`; Integration Runner executa; Copywriter escreve a resposta final; Response Auditor valida segurança/coerência; Smart Follow-Up usa transcrição + checkpoint para retomar conversas. Checkpoint NÃO deve repetir conteúdo das FAQs.
 
 **Regras críticas:** Zero asteriscos/emojis no checkpoint, FAQs em linguagem coloquial do lead (busca semântica), links como variáveis no checkpoint (`{{link_vendas}}`), preço parcelado antes do preço à vista, Tools referenciadas como `@tool_name`.
 
-## Bot sem nome
+## Orquestração real dos agentes AWSales
 
-Nunca atribuir nome pessoal ao bot de IA em checkpoints ou mensagens. Manter identidade neutra (ex: "assistente da equipe de experiência"). Nomes de pessoas reais (consultores) só para referências de escalonamento, não para o bot.
+O checkpoint é o artefato mais decisivo porque funciona como roteador da cadeia inteira, não apenas como script de etapas.
 
-**Why:** O bot não deve se passar por um membro específico da equipe.
+**Checkpoint Manager:** atualiza a memória factual da conversa. Ele não deve ser fonte de preço, prazo, bônus, garantia ou política comercial. Esses fatos pertencem às FAQs Produto/catálogo ou ao insumo oficial.
 
-**How to apply:** No checkpoint "Papel do Agente", descrever o papel sem nome. Em mensagens, usar saudações sem se apresentar por nome.
+**Information Manager:** consulta a base de conhecimento e entrega informação para o Copywriter. Se a FAQ Produto estiver fraca, o agente fica sem fatos; se a FAQ Playbook estiver fraca, o agente contorna objeções de forma genérica.
+
+**Integration Manager:** só planeja ferramentas quando o checkpoint contém menção explícita no formato correto de tool. Se não houver `@toolName`, ele tende a retornar `should_run_tools:false` e o Copywriter apenas conversa.
+
+**Copywriter:** escreve a resposta final usando checkpoint + informações encontradas + variáveis. Se o checkpoint estiver passivo, ele responde passivo; se estiver agressivo demais, ele pode soar pressionador.
+
+**Response Auditor:** pega idioma errado, vazamento de sistema, meta-comentário e incoerência. Ele não deve ser tratado como proteção suficiente contra abordagem comercial ruim. A técnica de venda precisa estar correta no checkpoint e no Playbook.
+
+**Smart Follow-Up:** depende de status, pendência, temperatura, alavanca de valor e próximo passo. Checkpoints que só dizem "Etapa 3" geram follow-ups genéricos.
+
+## Técnica comercial universal
+
+Este projeto atende clientes de nichos variados, não apenas público cristão. Portanto, a venda pode ser mais assertiva, direta e orientada a conversão, desde que não use mentira, falsa escassez, promessa inventada ou coerção.
+
+Padrão comercial para campanhas de venda: RAR — Recuperação/Venda Adaptativa com Baixa Reatância.
+
+Base de raciocínio:
+- Venda adaptativa: ajustar o ritmo ao estado do lead converte melhor do que seguir roteiro fixo.
+- Reatância psicológica: linguagem controladora aumenta resistência; linguagem com escolha e próximo passo claro reduz defesa.
+- Entrevista Motivacional: boas perguntas fazem o lead verbalizar motivo de ação; confronto cedo demais faz ele defender a objeção.
+- Abandono de carrinho: abandono não é desinteresse; pode ser fricção, comparação, risco percebido, pagamento, timing ou simples distração.
+- Intenção em ação: quando o lead sinaliza compra, o melhor próximo passo é concreto e imediato.
+
+Aplicação universal:
+- Lead quente: enviar link/preço/caminho de compra imediatamente, sem continuar diagnóstico.
+- Lead com dúvida factual: responder pela FAQ Produto e reconectar ao próximo passo.
+- Lead com objeção: validar rapidamente, responder pela FAQ Playbook e contrastar o custo de continuar parado com o benefício de agir agora.
+- Lead ambivalente: fazer uma pergunta única de trava, não entrevista longa.
+- Lead frio ou sem contexto: usar SPIN enxuto por no máximo uma pergunta por mensagem.
+- Lead recusou claramente: respeitar, tentar entender uma vez se couber, e encerrar sem insistência.
+
+Para clientes universais, é permitido usar contraste comercial mais forte do que em público cristão:
+- ROI, perda financeira, tempo desperdiçado, oportunidade perdida, custo de esperar, risco de continuar igual, comparação entre "pagar para resolver" vs "continuar pagando o preço do problema".
+- Urgência e escassez podem ser usadas quando forem reais: prazo, lote, bônus limitado, agenda, turma, condição operacional.
+- Não usar urgência falsa, ameaça, culpa pessoal, promessa garantida ou números que não estejam no insumo.
+
+## Checkpoint enxuto por design
+
+Checkpoint é roteador comportamental, não base de conhecimento. Ele deve carregar identidade da IA, tom, limites, ordem de decisão, gates anti-handoff, uso de tools, variáveis/links e critérios de encaminhamento. Não deve repetir explicações detalhadas, passos de produto, contornos completos de objeção, scripts longos, definições ou respostas que já estão cobertas pelas FAQs.
+
+**Why:** As FAQs são lidas pelo Information Manager via busca semântica; repetir esse conteúdo no checkpoint aumenta tokens em agentes que carregam `{checkpoints}` e pode criar conflito entre duas fontes. Em suporte, checkpoint grande também não reduz handoff por si só; o que reduz handoff é ter gates claros antes de transferir e FAQs completas para responder a dúvida.
+
+**How to apply:** Ao enxugar checkpoint, remover apenas conteúdo já coberto nas FAQs e manter no checkpoint as travas operacionais: consultar FAQ antes de transferir, coletar dado mínimo, não prometer ação humana, tentar retenção quando fizer sentido, não enviar formulário/link errado, e listar casos que realmente exigem humano. Antes de cortar uma seção, validar que o tema existe nas FAQs. Se não existir, criar/ajustar FAQ em vez de manter resposta longa no checkpoint.
+
+Caso real de referência: `Falcão das milhas/Suporte/Checkpoint/checkpoint.md` (2026-05-15). Checkpoint reduzido de ~24.887 chars / 3.643 palavras para ~10.382 chars / 1.502 palavras (~58% menor), mantendo gates anti-handoff. Temas removidos foram validados contra FAQs de Produto/Playbook: erro 404, acesso, erro técnico, Buscador, busca manual, Tarifas Awards, Skyscanner, cards, monitoramento, programa de milhas, tarifa que some, cotação específica, renovação automática, cancelamento/reembolso, Consultoria Individual, Balcão de Milhas, The Travel e Black Falcon.
+
+## Abertura de janela sem emoji
+
+Mensagem de abertura (template HSM / primeira mensagem da campanha) nunca deve ter emoji. FUPs e demais mensagens da conversa podem ter emoji conforme regra geral (até 3 por mensagem, preferência no cumprimento).
+
+**Why:** Convenção operacional do CS. Templates de abertura têm regras mais rígidas (aprovação Meta, taxa de entrega) e o padrão da agência é mantê-los limpos sem emoji.
+
+**How to apply:** Ao gerar a mensagem de abertura de qualquer campanha, zero emojis. Cumprimento natural ("Oi, tudo bem?") sem o 😊 / 👋 / similares. Aplica só à abertura, não aos FUPs nem ao fluxo de conversa do bot.
+
+## Terminologia: IA, não "bot"
+
+Sempre se referir ao agente da AWSales como "IA", "agente de IA" ou "assistente". Nunca "bot". O cliente faz distinção: bot é fluxo automatizado (rule-based), agente de IA é o sistema com Checkpoint Manager + LLM. Confundir os dois soa amador.
+
+**Why:** Vocabulário operacional do CS da agência. "Bot" carrega conotação de chatbot antigo e empobrece a percepção do produto.
+
+**How to apply:** Em checkpoints, mensagens de campanha, conversas com o usuário e qualquer artefato escrito, usar "IA", "agente de IA" ou "assistente". Em raras menções históricas a "bot" (texto legado), pode manter; em texto novo, sempre IA.
+
+## Nome da IA na campanha
+
+A IA pode (e geralmente deve) ter nome quando o cliente tiver batizado o assistente. O que não pode é a IA se passar por uma pessoa real específica (consultor, fundador). Nomes de IA assistente (ex: Nia, Aura, Sofia) são permitidos quando definidos pelo cliente.
+
+**Why:** Nomes de IA criam vínculo e identidade da experiência. O risco a evitar é a IA se passar por humano real, não usar nome próprio em si.
+
+**How to apply:**
+- Se a base de conhecimento ou o cliente atribuiu um nome (ex: Nia no FDS), a IA usa esse nome em apresentações e fechamentos.
+- Se a campanha não tiver nome atribuído, manter identidade neutra ("assistente da equipe de experiência").
+- Nunca usar nome de pessoa real (Paulo Aguiar, Lucas Firmino, etc.) como identidade da IA. Nomes de pessoas reais só aparecem como referência ("o time do Paulo", "as tutorias com o time treinado pelo Paulo"), nunca como o "eu" do agente.
 
 ## FAQs sem variáveis ou links
 
@@ -37,6 +108,16 @@ FAQs na plataforma AWSales nunca devem conter links externos nem variáveis de n
 **Why:** Links/integrações são tratados no nível do checkpoint/plataforma, não na base de conhecimento.
 
 **How to apply:** Ao escrever Texto Complementar para geração de FAQs, focar só em conteúdo (o que são as coisas, como funcionam, objeções, tom). Nunca incluir variáveis de navegação ou URLs em textos complementares voltados para extração de FAQ. Se a intenção for disparar imagem de prova social, seguir a exceção documentada na seção abaixo.
+
+## Prompts de Extração — Recuperação == Venda Direta
+
+Os Prompts de Extração internos da plataforma para os tipos **Recuperação de Vendas** e **Venda Direta** são **idênticos** (verificado em 2026-05-06 lendo `Prompts de extração/Prompt de extração - Recuperação de vendas.txt` e `Prompts de extração/Prompt de extração - Venda Direta.txt`). Tanto o prompt de Produto quanto o de Playbook batem palavra por palavra (única diferença é cosmética).
+
+**Why:** O `Estrutura/PROMPT_SISTEMA_UNIVERSAL.md` lista 5 tipos com prompts "específicos por tipo de campanha", o que dá a entender que cada tipo tem lente diferente. Para Recuperação vs Venda Direta isso não é verdade hoje.
+
+**How to apply:** Quando o cliente tiver uma campanha de Venda Direta + uma de Recuperação para o MESMO produto, criar UMA única Base de Conhecimento na plataforma (tipo Venda Direta OU Recuperação, tanto faz) e apontar as duas campanhas para ela. Não duplicar a base. O comportamento diferenciado entre Venda Ativa e Recuperação fica 100% no checkpoint.
+
+Não verificado ainda para Lançamentos, Customer Success e SDR — esses podem ter prompts genuinamente diferentes; conferir caso a caso quando aparecer.
 
 ## Follow-Up Inteligente
 
@@ -83,7 +164,7 @@ Quando a campanha tiver imagens de prova social (antes/depois, resultados de cli
 
 Toda referência a tool no checkpoint DEVE usar o formato exato `Utilize a tool para [ação] @nome_da_tool` (do guia `Estrutura/Guia — Criar Tool Personalizada na Awsales.md`). Nunca usar `@tool` em definições, listagens, checklists, parênteses ou referências a eventos passados.
 
-**Why:** O Integration Manager (Gemini 2.5 Flash normal — modelo caro) escaneia o checkpoint procurando `@toolName` em cada turno para planejar execuções. Menções fora do formato correto (ex: "Após sucesso da @criar_agendamento", "Use @consultar_horarios", "(@registrar_lead_no_rp)" em checklist) podem fazer ele:
+**Why:** O Integration Manager escaneia o checkpoint procurando `@toolName` em cada turno para planejar execuções. O modelo pode variar por agente, mas a lógica do prompt é a mesma: se encontrar menção de tool, ele tenta planejar. Menções fora do formato correto (ex: "Após sucesso da @criar_agendamento", "Use @consultar_horarios", "(@registrar_lead_no_rp)" em checklist) podem fazer ele:
 - Planejar execução desnecessária da tool, gastando tokens à toa.
 - Em casos críticos, executar a tool indevidamente — risco real, não teórico (ex: duplicar agendamento por causa de uma referência a evento passado).
 
@@ -110,6 +191,78 @@ Quando o usuário pedir para reduzir custos de uma campanha, seguir este diagnó
 7. **Recomendar monitoramento de 7 dias** após aplicar e medir de novo.
 
 Caso real de referência: SDR Lucas Firmino (D'Leon, abr/2026). Checkpoint cortado de 22.230 para 11.834 chars (47%). Diagnóstico inicial: Gemini 2.5 Flash normal era 48% do gasto (não Lite, como se imaginava). Aplicado em 28/04/2026.
+
+## Campanha FDS — Fundamentos da Sintonização (estado vivo)
+
+Cliente: CR Treinamentos (Paulo Aguiar). Produto: Fundamentos da Sintonização (FDS) — programa de 90 dias para "sintonizar a vida ideal" em 7 áreas. Acesso perpétuo aos módulos gravados; 3 meses de comunidade/tutorias/IA Consultor; garantia 7 dias incondicional.
+
+**Ticket (preço REAL do checkout):** 12x R$ 247,00 sem juros no cartão / R$ 2.388,27 à vista (Pix ou cartão). Preço âncora exibido na Assiny: "De R$ 5.000,00". A página de vendas em HTML mostra R$ 2.497 à vista — esse valor está DESATUALIZADO. Sempre usar 12x R$ 247 / R$ 2.388,27.
+
+Pasta mãe das campanhas: `CR Treinamentos/Campanha de vendas do FDS/`. Duas campanhas compartilham a MESMA base de conhecimento (FAQs + Texto Complementar) — só o checkpoint muda:
+- `Venda Ativa - FDS/` — disparo pra base quente que pagou pra entrar no lançamento. Não tem mensagem de abertura criada por nós: o cliente vai disparar 3 copies próprias variando. Checkpoint NÃO deve embutir copy exata de abertura — só recapitular essência. Agente: Aniquilador de Objeções.
+- `Recuperação de vendas - FDS/` — abandono do checkout (entrou no Assiny e saiu sem finalizar). Tem mensagem de abertura + FUPs criados por nós. Agente: Aniquilador de Objeções.
+
+IA da campanha: **Nia** (mesmo nome usado em outras campanhas FDS — manter coerência).
+
+Insumos: `Insumo/Página de vendas/fds-pagina-completa-v1.html` (HTML da pgvendas) e `Insumo/Áudio de instruções adicionais/Audio 1 e 2.txt` (instruções operacionais da cliente — críticas).
+
+### Métodos de pagamento por checkout (confirmado por screenshot)
+
+- **Assiny (`{{link_assiny}}`):** cartão de crédito (12x sem juros) + Pix. Suporta "Não sou brasileiro" (telefone internacional). 3DS ativo.
+- **Hotmart (`{{link_hotmart}}`):** cartão de crédito (12x sem juros, com opção "Usar dois cartões") + Pix + PayPal + Dois cartões + Cupom de desconto disponível no checkout.
+- **TMB (`{{link_tmb}}`):** boleto parcelado em 12x (valor unitário PENDENTE — cliente vai mandar).
+
+### Bônus de fechamento (venda ativa — escassez real, com critérios objetivos)
+
+Diferente dos bônus permanentes da página de vendas (Confronto 2.0 R$ 1.997 + Jornada da Transformação 17 Dias R$ 997), a venda ativa pós-lançamento usa três bônus temporários, todos reais e com FAQs já criadas no Information Manager (atualizadas em 2026-05-06):
+
+1. **Sintonização Individual 1-on-1 com o Paulo** — sessão de ~90min ao vivo, com diagnóstico prévio + Alfa + Re-escrita; só os 5 primeiros compradores; sem gravação; contemplado avisado em até 48h via WhatsApp + e-mail.
+2. **Despertar do Milhão** — workshop gravado (Fluxo do Dinheiro) + imersão ao vivo online de Sintonização da frequência do dinheiro com o Paulo; só os 100 primeiros compradores; imersão ao vivo sem replay; data e link enviados na Comunidade WhatsApp + e-mail aos contemplados.
+3. **Sintoniza Experience Presencial SP** — evento presencial de 2 dias em SP (data e local em finalização); para quem decidiu até meia-noite do dia do início das vendas; limitado a 200 vagas; passagem e hospedagem NÃO inclusas; contemplado avisado em até 48h via WhatsApp + e-mail.
+
+**Regra inegociável (reforçada pelo cliente em 2026-05-06):** a Nia NUNCA promete posição do lead na fila, NUNCA afirma "você garantiu o bônus X", NUNCA diz "ainda dá tempo". A entrega do bônus depende de critérios objetivos (ordem de compra, horário de corte) que só ficam claros após o processamento. Resposta padrão para qualquer "tô dentro?" / "ainda tem?": "as vagas são limitadas, o caminho de tentar pegar é fechar agora a compra; quem foi contemplado recebe comunicação por WhatsApp e e-mail em até 48 horas".
+
+### Hierarquia de checkout (regra inegociável da cliente)
+
+A IA NUNCA escolhe livremente o checkout. Segue exatamente esta ordem:
+
+1. **Assiny (PADRÃO SEMPRE)** — `https://rebrand.ly/fds-a` → variável `{{link_assiny}}`. Todo lead recebe esse link primeiro. Tem 3DS ativo (validação do banco — ver abaixo).
+2. **Hotmart (atrito específico)** — `https://rebrand.ly/fds-H` → variável `{{link_hotmart}}`. Só oferecer quando o lead reclamar de problemas no Assiny: "não consigo comprar", cartão internacional, "moro fora do Brasil", "não consigo preencher meu telefone", ou qualquer outro atrito de compra.
+3. **TMB (boleto parcelado)** — `https://rebrand.ly/fds-T` → variável `{{link_tmb}}`. Só e somente só se o lead citar EXPLICITAMENTE a palavra "boleto" ou "boleto parcelado" ("quero boleto", "tem boleto parcelado?"). Permite parcelar de 2 a 12 vezes. A IA NÃO informa o valor exato das parcelas — orienta o lead a conferir os valores diretamente no link da TMB.
+4. **Consultor humano (último recurso)** — link PENDENTE (cliente vai mandar). Só escoar quando IA detectar tentativas múltiplas de pagamento sem sucesso. Não é canal de dúvida geral, é canal de resgate de tentativa de compra travada.
+
+### 3DS na Assiny (orientação obrigatória)
+
+A Assiny tem 3DS ativo: validação do banco do cliente. Em algumas transações (não todas), o banco que ia recusar o cartão envia notificação ao cliente para confirmar a compra. A notificação chega por SMS ou no aplicativo do banco. Se o cliente não aprovar, o banco recusa.
+
+A IA tem que estar instruída a orientar o lead a aprovar essa notificação quando ele relatar recusa de cartão. Aplica só ao Assiny — não rola na TMB.
+
+**Why:** Pedido explícito da cliente no áudio. "É para a IA estar instruída a orientar a pessoa a aprovar isso." Sem essa orientação, perde-se venda recuperável.
+
+**How to apply:** Na FAQ de "cartão recusado" / "compra não passou", incluir orientação ao agente para perguntar se o lead recebeu notificação no app do banco ou SMS, explicar o que é o 3DS e instruir a aprovar para finalizar. No checkpoint, etapa de tratamento de objeção de pagamento contempla esse fluxo antes de oferecer Hotmart.
+
+### Pendências do cliente (cobrar)
+
+- [ ] Link do consultor humano (último caso de tentativa de pagamento)
+- [ ] Janela total da campanha de venda ativa (data de início e data de fim — assumindo por ora que fecha junto com o bônus Sintoniza Experience SP em 06/05/2026 23h59)
+- [ ] Por quantos dias a recuperação de checkout abandonado vai rodar após o fechamento da venda ativa
+- [ ] **CRÍTICO — Conflito de acesso "perpétuo" vs "1 ano":** página de vendas em HTML diz "acesso permanente aos módulos gravados". Base de Suporte FDS oficial (em uso na campanha de Suporte) diz "O acesso ao curso é de 1 ano contado a partir da data da compra. Após 1 ano, o acesso à plataforma encerra." Apenas tutorias ao vivo + IA Consultor são 3 meses; o resto do curso (módulos + bônus) acompanha o ciclo de 1 ano. A versão segura adotada nas FAQs de venda otimizadas é "1 ano" (alinhada com a operação real). Cobrar definição: se cliente confirmar permanente, ajustar FAQ 4 da base de Produto.
+
+### Bônus do carrinho aberto (completos — descobertos no cruzamento com base de Suporte 2026-05-06)
+
+A página de vendas em HTML lista apenas Confronto 2.0 e Jornada da Transformação 17 Dias. A base de Suporte FDS oficial revela que são **5 bônus** liberados para todos que compram dentro da janela:
+
+1. **Confronto 2.0** — curso completo de alto nível em 2 blocos (valor avulso R$ 1.997)
+2. **Lista de Ouro** — curadoria pessoal do Paulo de filmes e livros para elevar frequência e QI
+3. **10 Workshops Exclusivos** — imersões temáticas gravadas de 1 a 2h cada (medo, fé, identidade, casamento, missão de vida, etc.)
+4. **Jornada da Transformação de 17 Dias** — toda a jornada ao vivo do lançamento, acesso permanente (valor avulso R$ 997)
+5. **Ho'oponopono com Foco no Positivo** — versão corrigida pelo Paulo da prática tradicional
+
+São DIFERENTES dos 3 bônus de fechamento (Sintonização Individual / Despertar do Milhão / Sintoniza Experience), que vão só para alguns compradores específicos.
+
+### Aprendizados de campo da campanha FDS
+
+- (em construção — preencher após primeiras otimizações pós go-live)
 
 ## Campanha SDR Lucas Firmino — D'Leon (estado vivo)
 
