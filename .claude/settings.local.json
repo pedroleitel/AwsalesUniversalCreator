@@ -39,7 +39,9 @@
       "Bash(git fetch *)",
       "Bash(git ls-tree *)",
       "Bash(grep -nE \"169|189|152|1\\\\.478|167,03|R\\\\\\\\\\\\$ \" \"/Users/ricardoariza/AwsalesUniversalCreator/Jv Academy/Lista de Espera v2/Checkpoint/checkpoint.md\")",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }
