@@ -109,6 +109,18 @@ FAQs na plataforma AWSales nunca devem conter links externos nem variáveis de n
 
 **How to apply:** Ao escrever Texto Complementar para geração de FAQs, focar só em conteúdo (o que são as coisas, como funcionam, objeções, tom). Nunca incluir variáveis de navegação ou URLs em textos complementares voltados para extração de FAQ. Se a intenção for disparar imagem de prova social, seguir a exceção documentada na seção abaixo.
 
+## FAQs sem valores, ofertas ou condições de pagamento
+
+FAQs na plataforma AWSales nunca devem conter valores de produto, parcelas, formas de pagamento ou condições de oferta (preço, desconto à vista, número de parcelas, entrada de boleto, etc.). Essas informações ficam EXCLUSIVAMENTE no Checkpoint de cada campanha. A FAQ, quando precisar tocar no tema, deve remeter o agente a consultar o checkpoint da campanha em uso.
+
+**Why:** É padrão na operação AWSales uma mesma Base de Conhecimento (FAQs Produto + Playbook) ser compartilhada por várias campanhas do mesmo produto (ex: Lista de Espera, Disparo, Recuperação, Ascensão), cada uma com oferta diferente (lotes, descontos, condições temporárias, números de parcela próprios). Hard-codar valor numa FAQ compartilhada quebra automaticamente as campanhas que têm oferta diferente — virou regra geral, não exceção. Caso real (JV Academy, 2026-05-20): a FAQ "Qual o preço e as condições de pagamento" da base compartilhada tinha 12x R$ 152,86 e R$ 1.478 à vista; cliente corrigiu a Lista de Espera v2 para 12x R$ 169 e 12x R$ 189 boleto, e os valores antigos da FAQ entraram em conflito com as outras 3 campanhas que usam a mesma base.
+
+**How to apply:**
+- Ao avaliar/criar FAQ que toca em preço, parcela, forma de pagamento ou condição de oferta, a resposta deve instruir o agente a consultar o checkpoint da campanha em uso para puxar valores e condições, e descrever apenas a estratégia comportamental (ordem de apresentação, quando mostrar parcelado antes do à vista, quando revelar ou não o valor à vista, regras de internacional/erro).
+- Todos os valores numéricos, links de checkout, regras de desconto, bônus específicos da oferta e janelas de venda vão no Checkpoint.
+- Vale também para FAQs de objeção de preço (ex: "Como abordar quem acha caro?"): manter o contorno comportamental, mas tirar os valores literais e remeter ao checkpoint.
+- Ao otimizar uma campanha que altere valores, sempre alertar o usuário sobre o impacto cross-campanha das FAQs compartilhadas antes de aplicar.
+
 ## Prompts de Extração — Recuperação == Venda Direta
 
 Os Prompts de Extração internos da plataforma para os tipos **Recuperação de Vendas** e **Venda Direta** são **idênticos** (verificado em 2026-05-06 lendo `Prompts de extração/Prompt de extração - Recuperação de vendas.txt` e `Prompts de extração/Prompt de extração - Venda Direta.txt`). Tanto o prompt de Produto quanto o de Playbook batem palavra por palavra (única diferença é cosmética).

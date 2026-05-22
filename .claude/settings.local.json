@@ -37,7 +37,9 @@
       "Bash(python gerar_relatorio.py)",
       "Bash(python -c \"from pypdf import PdfReader; r = PdfReader\\(r'Relatório de Performance - Suporte Falcão das Milhas - 11-05.pdf'\\); print\\(f'pages: {len\\(r.pages\\)}'\\); print\\('---PAGE 1---'\\); print\\(r.pages[0].extract_text\\(\\)\\)\")",
       "Bash(git fetch *)",
-      "Bash(git ls-tree *)"
+      "Bash(git ls-tree *)",
+      "Bash(grep -nE \"169|189|152|1\\\\.478|167,03|R\\\\\\\\\\\\$ \" \"/Users/ricardoariza/AwsalesUniversalCreator/Jv Academy/Lista de Espera v2/Checkpoint/checkpoint.md\")",
+      "Bash(git add *)"
     ]
   }
 }
