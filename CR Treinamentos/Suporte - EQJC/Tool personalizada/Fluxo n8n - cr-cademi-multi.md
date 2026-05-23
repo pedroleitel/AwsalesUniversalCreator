@@ -1,6 +1,6 @@
 # Fluxo n8n — cr-cademi-multi
 
-Workflow que consulta múltiplas instâncias Cademi (EQJC + Ruptura) em paralelo a partir de um único email e retorna a lista de cursos onde o aluno tem acesso ativo. Criado em paralelo ao workflow antigo `cr-deep-link-cademi` (que continua atendendo a tool antiga `@gerar_deep_link_cademi_via_n8n`), pra não interromper produção durante a transição.
+Workflow que consulta múltiplas instâncias Cademi (EQJC + Ruptura + FDS) em paralelo a partir de um único email e retorna a lista de cursos onde o aluno tem acesso ativo. Criado em paralelo ao workflow antigo `cr-deep-link-cademi` (que continua atendendo a tool antiga `@gerar_deep_link_cademi_via_n8n`), pra não interromper produção durante a transição.
 
 Webhook URL (dev): `https://n8n-dev.awsales.io/webhook/cr-cademi-multi`
 Webhook URL (prod, depois do push): `https://flow.awsales.io/webhook/cr-cademi-multi`
@@ -29,13 +29,13 @@ Empresa tem 2 instâncias n8n: dev (`n8n-dev.awsales.io`) e prod (`flow.awsales.
 ```
 Webhook1 (POST)
   ├──► Buscar Usuario Ruptura  (Continue on Error) ──┐
-  │                                                    ├──► Merge ──► Agregar Resposta (Code) ──► Respond Sucesso
-  └──► Buscar Usuario EQJC      (Continue on Error) ──┘
+  ├──► Buscar Usuario EQJC      (Continue on Error) ──┼──► Merge ──► Agregar Resposta (Code) ──► Respond Sucesso
+  └──► Buscar Usuario FDS       (Continue on Error) ──┘
 ```
 
-6 nós no total: Webhook + 2 HTTPs + Merge + Code + Respond Sucesso.
+7 nós no total: Webhook + 3 HTTPs + Merge + Code + Respond Sucesso.
 
-**Por que o Merge é necessário:** o nó Code com múltiplas conexões de input (2 HTTPs) é executado uma vez por conexão, gerando outputs separados. O Merge combina os 2 outputs num único input pro Code, garantindo execução única.
+**Por que o Merge é necessário:** o nó Code com múltiplas conexões de input (3 HTTPs) é executado uma vez por conexão, gerando outputs separados. O Merge combina os 3 outputs num único input pro Code, garantindo execução única.
 
 ---
 
@@ -94,17 +94,38 @@ Com `Continue` simples, tanto sucesso (200 OK) quanto erro (409 "email não cada
 
 ---
 
+## Nó 2C — Buscar Usuario FDS
+
+- **Tipo:** HTTP Request
+- **Method:** GET
+- **URL:** `https://fundamentosdasintonizacao.cademi.com.br/api/v1/usuario/{{ $json.body.email }}`
+- **Authentication:** None
+- **Send Query Parameters:** OFF
+- **Send Headers:** ON
+  - **Specify Headers:** Using Fields Below
+  - Header 1:
+    - **Name:** `Authorization`
+    - **Value:** `Bearer 061390ca-a7e3-476f-9263-07c55990510f`
+- **Send Body:** OFF
+
+**Settings → On Error:** `Continue` (igual aos nós EQJC e Ruptura)
+
+Token herdado do workflow antigo `cr-deep-link-cademi` (ver `CR Treinamentos/Área de membros e entrada de grupos - FDS/Tool personalizada/Fluxo n8n - cr-deep-link-cademi.md`). Confirmar com o cliente se ainda é válido.
+
+---
+
 ## Nó 3 — Merge
 
 - **Tipo:** Merge
 - **Mode:** `Append`
-- **Number of Inputs:** 2 (padrão)
+- **Number of Inputs:** 3
 
 **Conexões:**
 - Input 1: Buscar Usuario Ruptura
 - Input 2: Buscar Usuario EQJC
+- Input 3: Buscar Usuario FDS
 
-O Merge no modo Append concatena os items das 2 entradas num único array de output. Esse array vira o input único do Code.
+O Merge no modo Append concatena os items das 3 entradas num único array de output. Esse array vira o input único do Code.
 
 ---
 
@@ -121,7 +142,7 @@ try {
   const cursos = [];
   let nome_aluno = '';
 
-  // Pega TODOS os items que chegaram do Merge (2 items, um de cada HTTP)
+  // Pega TODOS os items que chegaram do Merge (3 items, um de cada HTTP)
   // Não depende dos nomes dos nós — independente da ordem ou label
   const allInputs = $input.all();
 
@@ -142,6 +163,9 @@ try {
     } else if (deeplink.includes('aruptura.cademi.com.br')) {
       id = 'ruptura';
       nome = 'A Ruptura';
+    } else if (deeplink.includes('fundamentosdasintonizacao.cademi.com.br')) {
+      id = 'fds';
+      nome = 'Fundamentos da Sintonização';
     } else {
       // Domínio Cademi desconhecido — ignora
       continue;
@@ -328,6 +352,11 @@ Todos retornam **HTTP 200** independente do resultado.
 - [x] Teste: email de ambos → `qtd_cursos: 2`
 - [x] Teste: email inexistente → `ok: false`
 - [x] Workflow ativado no dev (Active)
+- [ ] Nó "Buscar Usuario FDS" adicionado ao workflow (dev) — domínio `fundamentosdasintonizacao.cademi.com.br`, Bearer `061390ca-...`
+- [ ] Merge atualizado para 3 inputs
+- [ ] Code "Agregar Resposta" atualizado com bloco `else if` do FDS
+- [ ] Teste: email só de FDS → `qtd_cursos: 1, id: fds`
+- [ ] Teste: email em 3 cursos → `qtd_cursos: 3`
 - [ ] Push do workflow do dev para prod
 - [ ] Tool da Awsales atualizada com URL prod (depois do push)
 - [ ] Checkpoint Suporte EQJC atualizado (Seção 7 + variável Ruptura)
