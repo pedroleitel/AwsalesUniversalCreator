@@ -15,22 +15,38 @@ Orientador acadêmico: Prof. Ericson Marquiere Reis Silva (marquiere@unifei.edu.
 
 ```
 Estágio/
-├── Arquivos que enviei/                          # Docs originais assinados (TCE, Plano, Requerimento)
-│   ├── 1._Termo_de_Compromisso_de_Estagio...pdf      # TCE assinado 02/12/2025
-│   ├── 3._Requerimento_de_Matricula...pdf            # Requerimento de matrícula
-│   └── Modelo_de_atividades_-_Awsales...pdf          # Plano de Atividades assinado
-├── Arquivos templates/                           # Templates oficiais UNIFEI
+├── Arquivos que enviei/         # ENTRADA: PDFs ASSINADOS que o Pedro entregou na Coordenação
+│   ├── 1._Termo_de_Compromisso_de_Estagio...pdf
+│   ├── 3._Requerimento_de_Matricula...pdf
+│   └── Modelo_de_atividades_-_Awsales...pdf
+│
+├── Arquivos templates/          # REFERÊNCIA: TEMPLATES OFICIAIS BRANCOS baixados do site da UNIFEI
 │   ├── 6. Modelo de Declaração e Avaliação de Horas Estagiadas.doc
 │   └── 7. Modelo de Relatório Final.pdf
-├── Exemplos/                                     # Relatórios reais já aprovados
-│   ├── Wesley/RELATÓRIO_FINAL_DE_ESTÁGIO.pdf         # Engenharia Elétrica, modelo simples
-│   └── Pedro Goias/                                  # Engenharia Elétrica, modelo mais completo (REFERÊNCIA)
+│
+├── Exemplos/                    # REFERÊNCIA: relatórios REAIS de outros alunos JÁ APROVADOS pela Coordenação
+│   ├── Wesley/                       # Eng. Elétrica, formato mínimo (passou raspando)
+│   │   └── RELATÓRIO_FINAL_DE_ESTÁGIO.pdf
+│   └── Pedro Goias/                  # Eng. Elétrica, formato mais robusto — REFERÊNCIA CANÔNICA
 │       ├── RELATÓRIO_FINAL_DE_ESTÁGIO___PEDRO_HENRIQUE_BARBOSA_OLIVEIRA.pdf
 │       └── Declaração e Avaliação de Horas Estagiadas Signed.pdf
-├── relatorio_estagio.tex                         # ARQUIVO PRINCIPAL — relatório em construção
-├── declaracao_horas.tex                          # Declaração pré-preenchida para Daniel assinar
-└── CONTINUE_ESTAGIO.md                           # Este arquivo
+│
+├── relatorio_estagio.tex        # SAÍDA: relatório em LaTeX que estamos construindo (compila no Overleaf)
+├── declaracao_horas.tex         # SAÍDA: declaração pré-preenchida para o supervisor (Daniel) assinar
+└── CONTINUE_ESTAGIO.md          # ESTE ARQUIVO
 ```
+
+### Semântica das pastas (importante)
+
+- **`Arquivos que enviei/`** → Documentos **já assinados** pelo Pedro, pela empresa e pela UNIFEI no momento do cadastro do estágio (02/12/2025). São a **fonte da verdade** para datas, jornada, CNPJ, dados pessoais, supervisor, atividades previstas (Cláusula 9 do TCE). Sempre que houver dúvida sobre algum dado oficial, é aqui.
+
+- **`Arquivos templates/`** → Templates **em branco** disponibilizados pela Coordenação Geral de Estágios do Campus Itabira (fonte: https://graduacaoitabira.unifei.edu.br/coordenacao-geral-de-estagios/). Dois documentos finais precisam ser entregues seguindo esses templates:
+  - **Relatório Final** (template `7.`) → o `relatorio_estagio.tex` segue esse template
+  - **Declaração e Avaliação de Horas** (template `6.`, .doc) → o `declaracao_horas.tex` segue esse template, com tabela de avaliação que **só o supervisor preenche e assina**
+
+- **`Exemplos/`** → Relatórios **reais de outros alunos** já aprovados pela Coordenação, usados como referência de forma e estilo (não de conteúdo). Pedro Goias é a referência canônica porque o documento dele é mais polido e tem Seção 7 (Referências). Wesley é mais cru e simples. **Não copiar conteúdo, só formato.**
+
+- **`relatorio_estagio.tex` e `declaracao_horas.tex`** → São os arquivos que o Pedro vai compilar no Overleaf e entregar à Coordenação. **São os únicos `.tex` da pasta.**
 
 ## Dados-chave do estágio
 
