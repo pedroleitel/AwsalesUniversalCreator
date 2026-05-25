@@ -1,0 +1,243 @@
+\documentclass[12pt,a4paper,oneside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{mathptmx}
+\usepackage[a4paper,top=3cm,bottom=3cm,left=3cm,right=3cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{indentfirst}
+\setlength{\parindent}{1.25cm}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\begin{document}
+
+% =============================================================
+% CAPA
+% =============================================================
+\begin{center}
+{\large Universidade Federal de Itajubá -- Campus de Itabira\\[0.4cm]
+Instituto de Ciências e Tecnologias}\\[3cm]
+
+{\Huge\bfseries RELATÓRIO FINAL DE ESTÁGIO}\\[3cm]
+
+\begin{flushleft}
+Discente: Pedro Henrique Leite Mendes\\
+RA: 2020030824\\
+Curso: Engenharia de Controle e Automação\\
+Data de Entrega: 25/05/2026
+\end{flushleft}
+\end{center}
+
+\thispagestyle{empty}
+\clearpage
+
+% =============================================================
+% SUMÁRIO
+% =============================================================
+\renewcommand{\contentsname}{Conteúdo}
+\tableofcontents
+\thispagestyle{empty}
+\clearpage
+
+\setcounter{page}{1}
+
+% =============================================================
+% 1. INTRODUÇÃO
+% =============================================================
+\section{Introdução}
+
+\subsection{Objetivo}
+
+O objetivo deste estágio em Engenharia de Controle e Automação na AwSales LTDA foi adquirir experiência prática e aplicar os conhecimentos teóricos adquiridos durante o curso de graduação em situações reais de trabalho, atuando na configuração, monitoramento e otimização de agentes de Inteligência Artificial aplicados a fluxos de comunicação e atendimento digital.
+
+\subsection{Dados do aluno estagiário}
+
+\begin{itemize}[leftmargin=2em,topsep=0pt]
+  \item Nome: Pedro Henrique Leite Mendes.
+  \item Curso: Engenharia de Controle e Automação.
+  \item Instituição de Ensino: Universidade Federal de Itajubá -- Campus Itabira.
+  \item Matrícula: 2020030824.
+  \item Contato: pedrohlmendes@hotmail.com.
+\end{itemize}
+
+\subsection{Dados da Empresa onde o estágio foi realizado}
+
+\begin{itemize}[leftmargin=2em,topsep=0pt]
+  \item Nome da Empresa: AwSales LTDA.
+  \item Setor de Atuação: Desenvolvimento e licenciamento de programas de computador (\textit{Autonomous Service Builder} de agentes de Inteligência Artificial).
+  \item Endereço: Rua Ministro Orozimbo Nonato, 102 -- Vila da Serra, Nova Lima -- MG, 34006-053.
+  \item CNPJ: 59.298.768/0001-36.
+  \item Site: \url{https://www.awsales.io/}.
+\end{itemize}
+
+\subsection{Período de realização do estágio}
+
+\begin{itemize}[leftmargin=2em,topsep=0pt]
+  \item Data de Início: 01/10/2025.
+  \item Data de Término: 25/05/2026.
+  \item Carga horária: 30 horas semanais, totalizando aproximadamente 966 horas (novecentas e sessenta e seis horas).
+\end{itemize}
+
+\subsection{Dados do Supervisor do Estágio}
+
+\begin{itemize}[leftmargin=2em,topsep=0pt]
+  \item Nome do Supervisor: Daniel Roscoe Oliveira.
+  \item Cargo: Gerente de Estratégia e Operações.
+  \item Contato: daniel@mambaculture.com.
+\end{itemize}
+
+% =============================================================
+% 2. ATIVIDADES DESENVOLVIDAS
+% =============================================================
+\section{Atividades desenvolvidas}
+
+\subsection{Descrição das atividades desenvolvidas pela empresa}
+
+A AwSales LTDA é uma empresa brasileira de tecnologia sediada em Nova Lima -- MG, que se posiciona como um \textit{Autonomous Service Builder}: uma plataforma de Inteligência Artificial que opera agentes autônomos especializados em vendas, atendimento, retenção e \textit{onboarding}, atuando 24 horas por dia em canais conversacionais como o WhatsApp. A empresa é \textit{Meta Business Partner}, com acesso prioritário às APIs oficiais do WhatsApp, e atende clientes \textit{enterprise} em setores como educação (Uniasselvi, G4 Educação) e segurança residencial (Emive), além de operações digitais de infoprodutores e \textit{e-commerces}.
+
+A plataforma é composta por quatro grandes módulos: \textit{Agent Studio}, que traduz objetivos descritos em linguagem natural em comportamento operacional de agente sem necessidade de fluxogramas; \textit{AgentsCore}, conjunto de arquiteturas estratégicas que definem como o agente pensa, decide e executa; \textit{Memory Base}, base de conhecimento em camadas (contexto institucional, regras operacionais, dados por usuário, histórico de conversa); e \textit{Cortex}, sistema de otimização contínua que monitora conversas em tempo real, testa variações de abordagem em paralelo e promove automaticamente as que geram melhor resultado. A plataforma oferece mais de 100 integrações com CRMs, ERPs, gateways de pagamento e ferramentas de suporte, com promessa de implantação em até 14 dias úteis.
+
+Durante o estágio, o estagiário atuou na área de operação e otimização desses agentes de IA, com foco na parametrização e manutenção de \textit{checkpoints} (instruções de comportamento), em FAQs (base de conhecimento), em \textit{tools} (integrações com sistemas externos), em mensagens de disparo para WhatsApp e na análise de dados de desempenho e custo das campanhas em produção.
+
+\subsection{Cronologia de desenvolvimento das atividades referentes ao estágio}
+
+O desenvolvimento do estágio seguiu a progressão estipulada no Plano de Atividades acordado entre a instituição de ensino e a empresa concedente, sendo estruturado em quatro grandes etapas, distribuídas ao longo de aproximadamente oito meses.
+
+\textbf{Etapa 1 -- Outubro a Novembro de 2025 (Integração e Treinamento):}
+\begin{itemize}[leftmargin=2em,topsep=0pt]
+  \item Integração na empresa e reuniões iniciais com o supervisor.
+  \item Treinamento técnico na plataforma AwSales e em ambiente de testes.
+  \item Estudo da documentação interna e da arquitetura multiagente do produto.
+  \item Suporte e acompanhamento de clientes ativos, sob supervisão direta.
+\end{itemize}
+
+\textbf{Etapa 2 -- Dezembro de 2025 a Fevereiro de 2026 (Criação de Agentes):}
+\begin{itemize}[leftmargin=2em,topsep=0pt]
+  \item Criação e configuração de agentes de IA em campanhas novas.
+  \item Aplicação do fluxo obrigatório de três fases para criação de campanhas (textos complementares, FAQs, checkpoint, mensagens de disparo).
+  \item Atendimento a demandas de \textit{Customer Success} e \textit{Account Management}.
+  \item Reuniões de acompanhamento com o supervisor.
+\end{itemize}
+
+\textbf{Etapa 3 -- Março a Abril de 2026 (Análise e Otimização):}
+\begin{itemize}[leftmargin=2em,topsep=0pt]
+  \item Análise de dados de desempenho e custos de campanhas em produção.
+  \item Otimização de \textit{checkpoints} e redução do consumo de \textit{tokens} dos sub-agentes mais caros.
+  \item Verificação cruzada de FAQs para evitar conflitos com as regras do \textit{checkpoint}.
+  \item Validação automatizada de formato de \textit{tools} via expressões regulares.
+\end{itemize}
+
+\textbf{Etapa 4 -- Maio de 2026 (Integrações e Documentação):}
+\begin{itemize}[leftmargin=2em,topsep=0pt]
+  \item Refatoração de integrações entre a plataforma AwSales e sistemas externos via \textit{webhooks} HTTPS.
+  \item Padronização do contrato de resposta das \textit{tools} críticas (padrão \textit{payload-ok}).
+  \item Consolidação da documentação interna em arquivos Markdown versionados em Git.
+  \item Elaboração do relatório final e dos documentos de entrega à Coordenação de Estágio.
+\end{itemize}
+
+% =============================================================
+% 3. METODOLOGIAS E TECNOLOGIAS
+% =============================================================
+\section{Metodologia e tecnologias envolvidas no desenvolvimento do estágio}
+
+As atividades exigiram domínio da plataforma proprietária AwSales, conhecimento sobre modelos de linguagem (LLMs) utilizados nos sub-agentes da cadeia, ferramentas de orquestração externa (n8n, Zapier, ActiveCampaign), linguagens auxiliares como Python e ferramentas de versionamento (Git). Os tópicos abaixo descrevem as principais frentes técnicas do estágio.
+
+\subsection{Configuração de agentes de IA}
+
+A configuração de um agente na plataforma AwSales é composta por três artefatos principais: \textit{Checkpoint} (instruções de comportamento e fluxo), \textit{Base de Conhecimento} (FAQs de Produto e Playbook consultadas por busca semântica) e \textit{Mensagens de Disparo} (abertura e \textit{follow-ups}). O estagiário acompanhou e executou o ciclo completo de criação de campanhas, seguindo o padrão interno de geração de textos complementares, avaliação das FAQs extraídas pela plataforma, construção do checkpoint e redação das mensagens de WhatsApp.
+
+\subsection{Otimização de checkpoints e análise de custos}
+
+Uma das atividades centrais foi a otimização de campanhas em produção visando redução do custo operacional. O procedimento padrão consistiu em agregar os custos da campanha por sub-agente (a partir das planilhas \texttt{.xlsx} exportadas pela plataforma), identificar o modelo de linguagem mais oneroso e enxugar o checkpoint removendo apenas o conteúdo já coberto pelas FAQs, sem alterar o comportamento ou os gates operacionais do agente. A leitura dos dados e o cruzamento entre custo e configuração do agente foram feitos com Python e a biblioteca \texttt{openpyxl}.
+
+Em um caso prático (campanha SDR Lucas Firmino -- D'Leon), o checkpoint foi reduzido de 22.230 para 11.834 caracteres (cerca de 47\%), com projeção de economia de R\$ 280 a R\$ 370 por janela de 19 dias. Em outra campanha (suporte Falcão das Milhas), o checkpoint foi reduzido em aproximadamente 58\%, mantendo todos os gates de transferência para atendimento humano.
+
+\subsection{Integrações entre sistemas via webhook}
+
+A última frente do estágio envolveu a integração da plataforma AwSales a sistemas externos via \textit{webhooks} HTTPS e ferramentas de orquestração visual. O ponto técnico de maior impacto foi a refatoração de uma integração de geração de \textit{deep link} de acesso a uma área de membros. A versão anterior, composta por duas \textit{tools} encadeadas, propagava erros HTTP 404 da API externa como falha técnica, disparando handoff indevido para humano. A nova versão centraliza a lógica em um \textit{workflow} no n8n, que sempre devolve HTTP 200 com um \textit{payload} indicando sucesso ou falha de aplicação, transformando a condição ``membro não encontrado'' em um caminho conversacional tratado normalmente pelo checkpoint.
+
+\subsection{Documentação técnica}
+
+Em paralelo às atividades técnicas, foi mantido um repositório de documentação interna em arquivos Markdown versionados em Git, contendo regras universais de criação de campanhas, configuração de \textit{tools} personalizadas, estado vivo de cada campanha e padrões de formatação obrigatórios da plataforma.
+
+% =============================================================
+% 4. RESULTADOS OBTIDOS
+% =============================================================
+\section{Resultados obtidos}
+
+Os resultados alcançados ao longo dos quatro meses de estágio foram satisfatórios e atendem aos objetivos previstos no Plano de Atividades. Entre eles, destacam-se:
+
+\begin{itemize}[leftmargin=2em]
+  \item Domínio operacional da plataforma AwSales, com capacidade de configurar e otimizar campanhas completas de forma autônoma.
+  \item Contribuição direta em otimizações de campanhas em produção, com redução de cerca de 47\% no tamanho do checkpoint da campanha SDR Lucas Firmino e 58\% no checkpoint da campanha de suporte Falcão das Milhas, preservando o comportamento e os gates operacionais.
+  \item Refatoração de integração crítica de \textit{deep link}, com substituição de duas \textit{tools} legadas por uma única integração via n8n e padronização do contrato de resposta, reduzindo handoffs indevidos para atendimento humano.
+  \item Consolidação de um repositório de documentação interna versionado em Git, organizando regras universais de criação de campanhas, configuração de \textit{tools} e estado vivo de cada cliente.
+\end{itemize}
+
+Durante o estágio, foi possível ampliar significativamente o conhecimento sobre arquiteturas de sistemas baseados em LLMs, padrões de busca semântica (RAG), engenharia de \textit{prompt}, integração entre sistemas via APIs REST e \textit{webhooks} e práticas de versionamento de artefatos textuais. A oportunidade também permitiu o contato com áreas de \textit{Customer Success}, \textit{Account Management} e Tech da empresa, ampliando a rede de contatos profissionais e abrindo possibilidades futuras na AwSales LTDA.
+
+% =============================================================
+% 5. PARTICIPAÇÃO DO ESTAGIÁRIO
+% =============================================================
+\section{Participação do estagiário}
+
+\subsection{Disciplinas úteis na jornada}
+
+A fundamentação teórica adquirida ao longo da graduação demonstrou-se indispensável para o desempenho satisfatório das atividades na empresa. A disciplina de \textbf{Programação} foi pré-requisito direto para a automação de tarefas de leitura e agregação de planilhas de custo em Python, manipulação de arquivos Markdown das campanhas e validação de formato \texttt{@tool} dos \textit{checkpoints} por expressões regulares. \textbf{Sistemas Lineares} e \textbf{Controle de Sistemas} forneceram o vocabulário e a intuição necessários para modelar a campanha como um sistema em malha fechada, onde a mensagem do lead funciona como entrada, a cadeia de sub-agentes age como controlador e atuador e as métricas de desempenho realimentam o projeto. Esse arcabouço foi essencial para a escolha de quais partes do \textit{checkpoint} eram efetivamente "lei de controle" e quais eram "modelo da planta" e deveriam ser deslocadas para a base de FAQs.
+
+Complementarmente, \textbf{Probabilidade e Estatística} foi aplicada na análise dos dados de custo e desempenho das campanhas, com separação de variação aleatória de tendência sistemática. \textbf{Métodos Numéricos} forneceu a base conceitual para raciocinar sobre redução de custo sob restrições de qualidade. \textbf{Redes de Computadores} deu suporte ao trabalho com APIs REST, \textit{webhooks} HTTPS e tratamento de \textit{timeouts}, idempotência e contratos de mensagem. \textbf{Bancos de Dados} subsidiou o raciocínio sobre indexação semântica de FAQs (RAG) e versionamento de artefatos. \textbf{Engenharia Econômica} foi necessária para a análise de custo por campanha e o raciocínio de \textit{trade-off} técnico-econômico na escolha dos modelos de linguagem por sub-agente. Por fim, \textbf{Instrumentação} contribuiu para a leitura crítica dos \textit{dashboards} de desempenho, dos "sensores virtuais" (logs estruturados) e das métricas operacionais coletadas em produção.
+
+\subsection{Conhecimentos complementares necessários}
+
+Além das disciplinas da grade curricular, a execução plena das atividades demandou a aquisição de competências técnicas complementares não totalmente cobertas pelo curso. Foi essencial o estudo da arquitetura de sistemas baseados em modelos de linguagem de grande porte (LLMs), incluindo os conceitos de \textit{Retrieval-Augmented Generation} (RAG), busca semântica sobre bases vetoriais, engenharia de \textit{prompts} e orquestração de cadeias multiagentes. Também foi necessário o aprofundamento em práticas de versionamento de artefatos textuais com Git e \textit{Conventional Commits}, no uso de ferramentas de orquestração visual como n8n, Zapier e ActiveCampaign, e na compreensão dos padrões internos de integração da plataforma AwSales (formato \texttt{@tool}, padrão \textit{payload-ok} para \textit{webhooks}, restrições de formatação de \textit{checkpoints}).
+
+Esse aprendizado foi conduzido por meio da leitura sistemática da documentação interna da empresa, do acompanhamento direto do time técnico e da inspeção de campanhas em produção. Como sugestão de conteúdo complementar a ser oferecido pela universidade, ressalta-se a relevância de uma disciplina voltada a sistemas baseados em IA e integrações entre serviços, dado o crescimento acelerado da demanda por esse perfil no mercado.
+
+\subsection{Contribuições e inovações}
+
+As principais contribuições do estagiário ao longo do estágio concentraram-se em três frentes complementares. A primeira foi a execução prática das otimizações de campanha, com destaque para a redução de aproximadamente 47\% no tamanho do \textit{checkpoint} da campanha SDR Lucas Firmino (D'Leon), preservando o comportamento e os \textit{gates} operacionais, e a redução de cerca de 58\% no \textit{checkpoint} da campanha de suporte Falcão das Milhas, ambos validados empiricamente em janelas de monitoramento de sete dias.
+
+A segunda foi a consolidação metodológica, traduzida na escrita de regras universais que passaram a ser observadas em todas as campanhas novas, incluindo o formato canônico de menção a \textit{tools} (\texttt{Utilize a tool para [ação] @nome\_da\_tool}), a separação rígida entre \textit{checkpoint} (comportamento) e FAQs (conhecimento), as restrições de formatação dos \textit{checkpoints} e as regras de abertura de janela de WhatsApp.
+
+A terceira foi o auxílio na evolução da camada de integrações, com destaque para a refatoração da \textit{tool} de \textit{deep link} de acesso à área de membros: duas \textit{tools} legadas, encadeadas diretamente contra a API externa, foram substituídas por uma única integração via \textit{workflow} no n8n, que devolve sempre HTTP 200 com um \textit{payload} bem-formado, transformando falhas externas em caminhos conversacionais normais e eliminando \textit{handoffs} indevidos para atendimento humano.
+
+\subsection{Atividades que mais contribuíram para o desenvolvimento acadêmico e profissional}
+
+Entre as atividades realizadas, três se destacaram pelo impacto direto no desenvolvimento acadêmico e profissional do estagiário. A primeira foi a participação no ciclo completo de diagnóstico e otimização da campanha SDR Lucas Firmino, que exigiu agregar custos por sub-agente em planilhas \texttt{.xlsx} usando Python e \texttt{openpyxl}, cruzar com a configuração do agente para identificar o gargalo (modelo Gemini 2.5 Flash respondendo por 48\% do gasto) e enxugar o \textit{checkpoint} sem perder inteligência comportamental. Esse trabalho consolidou a percepção de que problemas de operação de IA podem (e devem) ser tratados com método de engenharia.
+
+A segunda foi a refatoração da integração de \textit{deep link} via n8n, que exigiu raciocínio sistemático sobre tratamento de erros em sistemas distribuídos, contratos de \textit{API} e mecanismos de \textit{fallback}, em estreita analogia com conceitos de instrumentação industrial e \textit{condicionamento de sinal}.
+
+A terceira foi a consolidação do conjunto de documentos universais que normatizam a criação de campanhas na empresa (\textit{Prompt do Sistema Universal}, \textit{Estruturas e Exemplos}, \textit{Follow-Up Inteligente}, \textit{Playbook de Relatórios de Suporte e Handoff}, \textit{Guia para Criar Tool Personalizada}). Esse trabalho desenvolveu, na prática, competências de escrita técnica, governança de conhecimento e padronização de processos, hoje cada vez mais demandadas em ambientes de engenharia que envolvem sistemas baseados em IA.
+
+% =============================================================
+% 6. CONCLUSÃO
+% =============================================================
+\section{Conclusão}
+
+A experiência de estágio na AwSales LTDA foi enriquecedora e proporcionou um ambiente prático para aplicar os conhecimentos teóricos adquiridos ao longo do curso de Engenharia de Controle e Automação na Universidade Federal de Itajubá -- Campus Itabira. Sob a supervisão do Gerente de Operações, Daniel Roscoe Oliveira, foi possível integrar-se à empresa e participar ativamente de suas atividades.
+
+Durante o estágio, desde a integração inicial até a elaboração da documentação técnica final, foram aplicados conhecimentos em programação, análise de dados, sistemas de controle, integração entre serviços e engenharia econômica. Destaca-se especialmente a importância das atividades de otimização de campanhas, em que foi possível identificar gargalos de custo, propor reduções no tamanho dos checkpoints e validar empiricamente os ganhos, garantindo eficiência operacional e qualidade de atendimento.
+
+Ao longo do processo, foram adquiridas habilidades significativas na utilização da plataforma AwSales, em ferramentas de automação como n8n e Zapier, em linguagens auxiliares como Python e em práticas de versionamento com Git. Além disso, a oportunidade permitiu ampliar a rede de contatos profissionais e fortalecer a expertise em arquiteturas de sistemas baseados em Inteligência Artificial.
+
+Este estágio não apenas complementou a formação acadêmica, mas também abriu portas para futuras oportunidades no mercado de trabalho. Fica registrado o agradecimento pela experiência e pelas lições aprendidas durante este período na AwSales LTDA.
+
+% =============================================================
+% 7. REFERÊNCIAS BIBLIOGRÁFICAS
+% =============================================================
+\section{Referências Bibliográficas}
+
+\begin{itemize}[leftmargin=2em]
+  \item AWSALES. \textbf{Site Institucional}. Disponível em: \url{https://www.awsales.io/}. Acesso em: 25 maio 2026.
+  \item AWSALES. \textbf{AwSales para WhatsApp -- Meta Business Partner}. Disponível em: \url{https://awsales.io/meta}. Acesso em: 25 maio 2026.
+  \item BRASIL. \textbf{Lei n.\textsuperscript{o} 11.788, de 25 de setembro de 2008}: dispõe sobre o estágio de estudantes. Brasília: Presidência da República, 2008.
+  \item UNIVERSIDADE FEDERAL DE ITAJUBÁ. \textbf{Diretrizes para Realização de Estágio Acadêmico do Curso de Engenharia de Controle e Automação -- Campus Itabira}. Itabira: UNIFEI. Disponível em: \url{https://sigaa.unifei.edu.br/sigaa/verProducao?idProducao=1766561}. Acesso em: 25 maio 2026.
+  \item UNIVERSIDADE FEDERAL DE ITAJUBÁ. \textbf{Modelo de Relatório Final de Estágio}. Itajubá: UNIFEI. Disponível em: \url{https://graduacaoitabira.unifei.edu.br/coordenacao-geral-de-estagios/}. Acesso em: 25 maio 2026.
+\end{itemize}
+
+\end{document}
