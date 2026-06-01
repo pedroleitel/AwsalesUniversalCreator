@@ -522,3 +522,111 @@ Próximo passo (depois de destravar CKC): ler openapi.json completo, pedir Sandb
 - 🌐 **UTF-8 obrigatório** — site 100% espanhol, dados terão acentos (ñ, á, é, í, ó, ú).
 - 🚫 **TX blacklisted** em prod (confirmado no sandbox da Dosable + provavelmente compliance estadual).
 - 🩺 **PHI (dados de saúde)** — Dosable lida com dados sensíveis HIPAA. Cuidado ao logar payloads em texto plano. Considerar redação de campos médicos nos logs.
+
+---
+
+### 2026-05-28 (CKC postback destravado)
+
+**Causa raíz por que postback nunca chegava:** doc oficial CKC diz duas vezes *"Test Card orders will not export through the webhook system"*. Orders `FFDEF248FF` e `DD030BE4AE` foram criadas com test card `0000000000000000` → CKC bloqueia exportação por design. Não era route, URL, n8n ou Cloudflare.
+
+**Refinamento via Jose Dias (customer real do funil Dosable):**
+- History do Jose mostrou entry `"Order# D5A8EFC4EC failed to export to webhook profile: Hub-Main (1) due to error: 404 Not Found"`.
+- Prova que (a) postback dispara mesmo sem card quando origem é funil/lead, (b) **Hub-Main do Ruben tá QUEBRADO 404 Not Found no Vercel**, (c) `Nuestra-AWSales-Dev` nem foi tentado porque faltava route `Partial`.
+
+**Ações concluídas:**
+- ✅ Route `Partial` adicionada ao `Nuestra-AWSales-Dev`.
+- ✅ CKC retry queue rodou próximo cycle 15min e disparou 2 payloads PARTIAL pendentes pro n8n:
+  - `D5A8EFC4EC` (Jose Dias — origem Dosable funnel, tem `custom1` UUID e `custom2: "Checkout Page"`)
+  - `41C65E08F5` (Test User3 — origem Order Entry manual, sem customs e sem ipAddress)
+- ✅ Confirmado fluxo end-to-end criando 1 order via Order Entry External Payment (Pedro Awsales, `B94140F702`, $199 PREPAID). Postback chegou no n8n ~49min depois (consistente com cycle 15min).
+- ✅ Headers confirmaram IP CKC `44.219.22.112` (lista oficial), JSON body funciona (Field Mapping `Content-Type: application/json` + `httpMethod: POST` aplicam), Cloudflare na frente do n8n.
+- ✅ Documentado em `docs/checkout-champ/payloads/partial.md`, `new-sale.md` + `README.md` com índice de Customer Types capturados vs pendentes.
+
+**Novo receiver descoberto (4º no workflow n8n):**
+- `Forms-site` em `https://n8n-dev.awsales.io/webhook/nuestra-forms-site` — Willian (CTO Nuestra RX) configurou Cloudflare Worker em `webhook.nuestrarx.com` como proxy do intake form de `nuestrarx.com/evaluacion`.
+- Headers identificadores: `x-nrx-source: webhook.nuestrarx.com`, `user-agent: NuestraRx-Intake-Proxy/1.0`, `cf-worker: nuestrarx.com`.
+- 2 events planejados: `intake_partial` (já chegando) e `intake_submitted` (Willian implementando). Pendente confirmar com Willian em que momento exato `intake_submitted` dispara — Pedro completou fluxo até seleção de plano + redirect WhatsApp Matheus e só recebeu `intake_partial`.
+- Payload é estruturado próprio (`source`, `tracking`, `contact`, `address`, `demographics`, `biometrics`, `goals`, `medical_history`, `treatment_selection`, `consent`, `eligibility`, `meta`). Tem `tracking.dosable_lead_id` e `tracking.dosable_session_id` (null em intake_partial — provavelmente populado em intake_submitted).
+- Receiver NÃO substitui Dosable webhook — é uma camada adicional do próprio site Nuestra (form view) antes de chegar no CKC.
+
+**Cycle CKC = 15min default.** Não esperar postback em segundos.
+**Webhook logs ficam em customer history**, não Admin → Logs.
+
+**Bandeira pro Ruben (avisar):** Hub-Main retorna 404 no Vercel — endpoint `/api/webhooks/checkoutchamp` quebrado ou path errado.
+
+**Próximos passos (em ordem):**
+1. Escrever normalizer CKC → AWSales (`docs/checkout-champ/normalizer/`). Mapear `orderStatus: "PARTIAL"` → evento AWSales correspondente (provavelmente `ABANDONED_CART`). Reaproveitar shape do normalizer NMI (currency `USD` → `US`, etc.).
+2. Capturar samples dos outros Customer Types após primeira venda real pós-lançamento (segunda 01/06):
+   - `New Sale`, `Capture`, `Declined`, `Refunded`, `Chargeback`, `Rebill`.
+3. Aplicar `Code node` normalizer + IF skip + HTTP Request → AWSales no workflow n8n (mesmo padrão NMI).
+4. Avisar Ruben sobre Hub-Main 404.
+5. Mover pra Dosable assim que tiver Sandbox API Key.
+
+---
+
+### 2026-05-29 (sessão longa — CKC normalizer em prod, Forms-site mapeado, Willian docs)
+
+**Concluído no CKC (normalizer end-to-end funcionando):**
+- ✅ Adicionados Field Mappings `productName` (`product1_name`) + `productId` (`product1_crmId`) no profile `Nuestra-AWSales-Dev`. Confirmados via doc oficial CKC (`help.checkoutchamp.com/.../export-webhook-field-mapping-options`). Escolhemos `product1_crmId` em vez de `product1_id` porque Client ID externo está vazio nos 54 produtos da STAGING (Product IDs 325-431 internos).
+- ✅ Payload PARTIAL `D3638D3CA3` confirmou campos chegando: `productId: "325"`, `productName: "Rush Semaglutide/B6 1.12mg alternative"`.
+- ✅ Capturados mais 4 Customer Types via testes na order Pedro Awsales (test4@nuestrarx.com, External Payment): `Refunded`, `Declined` (via Cancel Order que CKC trata como QA Decline), `Capture` (via Approve QA), `Rebill` (via Force Bill NOW).
+- ✅ Capturado **2º sample de New Sale com cartão real** (Mastercard 4444, Camila Possan vinda do funil Dosable, `paySource: CREDITCARD`, `transactionId: "pi_..."` formato Stripe-like estranho — confirmar com Ruben/Willian).
+- ✅ **Total: 6 customer types catalogados, 8 samples reais**: Partial (2), New Sale (2: PREPAID+CREDITCARD), Refunded (1), Declined (1), Capture (1), Rebill (1). Faltam Paused, Chargeback, Cancelled (route não existe ainda no profile Dev).
+- ✅ Normalizer `docs/checkout-champ/normalizer/code-node.js` escrito + mapping.md detalhando decisões + gaps. Usa `productName`/`productId` com fallback `campaignName`. Skip rules pra eventos sem mapping AWSales (Partial). Retorna `[]` quando skip — sem IF necessário, n8n para a chain.
+- ✅ Normalizer ligado no n8n: Webhook trigger CKC → Code (normalizer) → HTTP Request → AWSales endpoint `/credentials/checkout-champ`. **Funcionando em prod** (1 produto criado no AWSales dashboard como prova).
+
+**Erro 422 AWSales — root cause encontrada:**
+- HTTP Request V4.3 do n8n com `Body Content Type: JSON` + `Specify Body: Using JSON` + `{{ $json }}` envia Object JavaScript que o AWSales recebe como `null` (Zod retorna `": Expected object, received null"` na raiz).
+- Tentativa com `{{ JSON.stringify($json) }}` em modo JSON também falhou (n8n wrap como string entre aspas).
+- **Solução definitiva:** trocar Body Content Type pra **`Raw`** + Content Type Header `application/json` + Body `={{ JSON.stringify($json) }}`. Aí n8n envia body como JSON puro sem rewrap. Documentado no `mapping.md`.
+
+**Forms-site mapeado em detalhe (`docs/forms-site/perguntas.md`):**
+- 18 perguntas em 3 blocos: PERFIL (P1-P4, gera `intake_partial`), HISTORIAL (P5-P16, caminho "Quiero continuar yo mismo"), PRODUCTO+PLAN (P17-P18).
+- P4 é FORK do funil: lead pode escolher continuar via WhatsApp (handoff pro bot AWSales) ou continuar no site sozinho.
+- Cross-ref com schema Willian (`awsales_t64_schema.md`): 11 perguntas batem 1:1, 3 são exclusivas do site (sinais vitais, cirurgia prévia, opioides), 2 usam checkbox no site mas textarea no schema (medicações + alergias — precisa mapper).
+- 33 perguntas IDs 6400-6433 + 10 HARD STOPS catalogados.
+- Produtos definidos: Semaglutide $179 (Rush ID 1147, Medivera ID 55), Tirzepatide $279 (Rush 1151, Medivera 56). CEO ainda não decidiu Rush vs Medivera como default — usar Rush.
+
+**Mecânica do Forms-site descoberta via 4 payloads reais analisados:**
+- Cada submit de step dispara 1 payload completo (snapshot cumulativo do session). `session_id` estável (`nrx_<ts>_<rand>`), `stage` evolui `parent` → `beluga`, `step` indica etapa.
+- ~16-18 payloads por usuário completando tudo. Mesmo no step "submit" (3 consents + 2 uploads tudo `accept`) o event continua sendo `intake_partial`. **`intake_submitted` ainda não foi visto na prática.**
+- Payload tem 3 camadas: estrutura normalizada (`contact`, `demographics`, etc), `raw_answers.{intake, beluga}` (~50 chaves Beluga schema), `resume.{cross_device_token, cross_device_url}` (Worker mints UUID one-shot pra WhatsApp follow-up).
+- Worker v1.1 deployed pelo Willian em `webhook.nuestrarx.com` (header `user-agent: NuestraRx-Intake-Proxy/1.1`).
+
+**Handoff docs do Willian (em `handoff-awsales-20260528/`):**
+- `awsales_t64_schema.md` + `.json`: schema oficial das 33 perguntas pro endpoint `/ai-handoff` (Tenant 64 weightloss).
+- `sample_request.json`: exemplo POST esperado.
+- Endpoint: `POST https://webhook.nuestrarx.com/ai-handoff` com `Authorization: Bearer <AI_HANDOFF_SECRET>`.
+- KV namespace ID: `a63841c1b88b4d34aac52be693f84263` (storage de retomada do quiz).
+- AI_HANDOFF_SECRET salvo (NÃO em arquivo desta pasta — guardar em Credentials n8n).
+- Endpoint é server-to-server. Provável fluxo: site dispara `intake_partial` → bot AWSales puxa lead via WhatsApp → bot completa quiz na conversa → bot bate `/ai-handoff` com payload formatado → Worker valida + cria customer Dosable + devolve checkout_url → bot manda URL pro lead.
+
+**Customer "Carlos Sixteste" no CKC (cust ID 13) é uma anomalia:**
+- Apareceu como customer aparentemente novo mas tem mesmo histórico de orders/transactions do test4@nuestrarx.com. CKC parece ter renomeado ou Pedro editou em algum momento sem perceber. Não bloqueia mas vale notar pra próxima sessão.
+
+**Bloqueios atuais:**
+- 🔴 **Force Bill NOW bloqueado** por 24h cooldown (cooldown CKC, esperar pra forçar Rebill de novo).
+- 🔴 **Route `Cancelled` não existe** no profile Nuestra-AWSales-Dev. Cancel Subscription disparada hoje não vai gerar postback. Pra catalogar esse sample, adicionar route Cancelled + fazer Cancel em outra sub.
+- 🟡 **Sandbox API Key Dosable** ainda não foi liberada. Quase tudo do próximo passo depende dela.
+
+**🚨 GRANDE BLOQUEIO: Dosable bloqueia próximas frentes.** Pedro identificou que muita coisa depende do Dosable estar pronto:
+- Webhook outbound Dosable → n8n (`/webhook/nuestra-dosable`) — precisa Sandbox API Key + saber se Dosable expõe webhook registration via API ou só via dashboard interno deles.
+- Como Dosable cria order no CKC (qual endpoint CKC chamado, formato, autenticação) — pra reconciliar.
+- Beluga Health webhook (potencial 5ª integração) — não investigado, pode existir entre Dosable e Beluga.
+- Definir como `intake_submitted` vai ser gerado e quem chama `/ai-handoff` (site vs bot WhatsApp).
+
+**Reunião com Willian às 13h hoje:** Pedro vai validar 6 perguntas (3 sistemas + 1 forms-site + 1 geral + 1 timeline go-live). Perguntas reduzidas pra essenciais.
+
+**Estado dos receivers n8n (atualizado):**
+- ✅ NMI (`/webhook/nuestra-nmi`) — receiver + normalizer + envio AWSales rodando parcial. HMAC validation pendente.
+- ✅ CKC (`/webhook/nuestra-champ`) — receiver + normalizer + envio AWSales rodando FULL. 6 customer types cobertos, fields product corretos.
+- 🟡 Forms-site (`/webhook/nuestra-forms-site`) — receiver recebendo intake_partial. Normalizer NÃO escrito ainda. Decisão pendente: skip todos partials, ou montar payload pro `/ai-handoff` (mais útil), ou esperar `intake_submitted`.
+- 🔴 Dosable (`/webhook/nuestra-dosable`) — não começado. Bloqueado por Sandbox API Key.
+
+**Próximos passos (em ordem, considerando bloqueio Dosable):**
+1. Reunião 13h com Willian — destravar Sandbox API Key + clarificar fluxo `/ai-handoff` + `intake_submitted`.
+2. Após reunião, escolher caminho Forms-site: skip total OU montar formato pro `/ai-handoff` em vez do AWSales.
+3. Coordenar com Ruben sobre Hub-Main 404 (pendente desde 28/05).
+4. Adicionar route Cancelled ao profile Dev + capturar último Customer Type CKC quando der pra forçar Cancel Sub.
+5. Quando Dosable destravar: criar receiver `/webhook/nuestra-dosable` + entender mecanismo CKC → Dosable (test card aparece no Dosable apesar de bloqueado no postback CKC — implica canal sync separado).
+6. Investigar Beluga Health (5º receiver possível) só após Dosable destravado.

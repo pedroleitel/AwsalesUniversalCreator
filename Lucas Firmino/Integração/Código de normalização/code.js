@@ -35,8 +35,19 @@ function resolveEmail(rawEmail, rawPhone) {
   return digits ? `lead-${digits}@placeholder.awsales.io` : "no-email@placeholder.awsales.io";
 }
 
+// --- Resolve observation: usa a real se vier no payload; senão usa fallback ---
+// Bot pode chamar a tool sem observation (campo não-Req no schema). Endpoint
+// destino rejeita string vazia, então sempre garantir conteúdo mínimo.
+function resolveObservation(rawObservation) {
+  const obs = String(rawObservation || "").trim();
+  if (obs) return obs;
+  return "Agendamento solicitado via IA WhatsApp - sem observações adicionais do lead";
+}
+
 // --- Timestamp UTC no formato ISO 8601 sem milissegundos ---
 const timestamp = new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
+
+const observation = resolveObservation(body.observation);
 
 // --- Payload final no formato AWSales output-personalizado ---
 const output = {
@@ -63,7 +74,7 @@ const output = {
     engagement_level: "high",
     intent_level: "ready",
     emotional_tone: "interessado",
-    context_notes: ""
+    context_notes: observation
   }
 };
 
