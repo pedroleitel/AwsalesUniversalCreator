@@ -1,0 +1,65 @@
+[
+  {
+    "outbound": {
+      "product": "semaglutide",
+      "plan": "3_month_plan",
+      "contact": {
+        "first_name": "Isis",
+        "last_name": "Silva",
+        "email": "Csar24@live.com",
+        "phone": "96355350975",
+        "lead_state": "KS",
+        "gender": "Male",
+        "date_of_birth": "01/06/2004"
+      },
+      "answers": {
+        "gastricBypass": {
+          "value": "No",
+          "question": "¿Has tenido bypass gástrico en los últimos 6 meses?"
+        },
+        "currentMeds": {
+          "value": "hormones",
+          "question": "¿Qué medicamentos tomas actualmente?"
+        },
+        "injectionAbility": {
+          "value": "Yes",
+          "question": "¿Puedes inyectarte tú mismo?"
+        },
+        "finalConsents": {
+          "value": "Yes",
+          "question": "Confirmación de consentimientos finales"
+        },
+        "bmi": {
+          "value": "33.2",
+          "question": "BMI"
+        },
+        "dob": {
+          "value": "01/06/2004",
+          "question": "Fecha de nacimiento"
+        },
+        "height_cm": {
+          "value": "190",
+          "question": "Altura en cm"
+        },
+        "weight_kg": {
+          "value": "120",
+          "question": "Peso actual en kg"
+        },
+        "goal_weight": {
+          "value": "100",
+          "question": "Peso meta"
+        },
+        "age_range": {
+          "value": "30-44",
+          "question": "Rango de edad"
+        }
+      },
+      "source": {
+        "channel": "whatsapp",
+        "agent": "awsales-bot",
+        "captured_at": "2026-06-05T18:31:57"
+      }
+    },
+    "outbound_json": "{\"product\":\"semaglutide\",\"plan\":\"3_month_plan\",\"contact\":{\"first_name\":\"Isis\",\"last_name\":\"Silva\",\"email\":\"Csar24@live.com\",\"phone\":\"96355350975\",\"lead_state\":\"KS\",\"gender\":\"Male\",\"date_of_birth\":\"01/06/2004\"},\"answers\":{\"gastricBypass\":{\"value\":\"No\",\"question\":\"¿Has tenido bypass gástrico en los últimos 6 meses?\"},\"currentMeds\":{\"value\":\"hormones\",\"question\":\"¿Qué medicamentos tomas actualmente?\"},\"injectionAbility\":{\"value\":\"Yes\",\"question\":\"¿Puedes inyectarte tú mismo?\"},\"finalConsents\":{\"value\":\"Yes\",\"question\":\"Confirmación de consentimientos finales\"},\"bmi\":{\"value\":\"33.2\",\"question\":\"BMI\"},\"dob\":{\"value\":\"01/06/2004\",\"question\":\"Fecha de nacimiento\"},\"height_cm\":{\"value\":\"190\",\"question\":\"Altura en cm\"},\"weight_kg\":{\"value\":\"120\",\"question\":\"Peso actual en kg\"},\"goal_weight\":{\"value\":\"100\",\"question\":\"Peso meta\"},\"age_range\":{\"value\":\"30-44\",\"question\":\"Rango de edad\"}},\"source\":{\"channel\":\"whatsapp\",\"agent\":\"awsales-bot\",\"captured_at\":\"2026-06-05T18:31:57\"}}"
+  }
+]

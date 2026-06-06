@@ -78,6 +78,31 @@ Painel CKC → **Admin → Users → + (botão verde)** → marcar como **API Us
 
 ---
 
+## Nuestra RX - AI Handoff
+
+### Onde usar
+AWSales -> Configurar Habilidades Personalizadas -> Criar conexao da tool `Enviar avaliacao Nuestra RX`.
+
+### Coletado
+
+- [x] **Nome da conexao AWSales:** `Nuestra RX - AI Handoff`
+- [x] **Organizacao AWSales:** `Nuestra Rx` (`b34f181e-c7b3-49fb-b69f-3454a7336df2`)
+- [x] **Tipo de autenticacao:** `Bearer Token`
+- [x] **Endpoint:** `https://webhook.nuestrarx.com/ai-handoff`
+- [x] **AI_HANDOFF_SECRET / Token:** `EKSqZLZXgARMrY9l9eDOreI_aNH4u9ebkwRBYyuMRSM`
+
+### Como colar na AWSales
+
+No campo `Token`, colar somente o valor do `AI_HANDOFF_SECRET`, sem `Bearer` antes.
+
+Header final esperado pela requisicao:
+
+```http
+Authorization: Bearer EKSqZLZXgARMrY9l9eDOreI_aNH4u9ebkwRBYyuMRSM
+```
+
+---
+
 ## Receivers (webhook URLs do n8n)
 
 Quando criar os webhooks no n8n, anotar aqui pra referência:

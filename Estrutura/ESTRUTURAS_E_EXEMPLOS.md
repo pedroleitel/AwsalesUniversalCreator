@@ -176,6 +176,53 @@ Portanto, o Checkpoint deve focar em **como a IA age**, não no que o produto é
 - Liste TODAS as variáveis no rodapé sob `[VARIÁVEIS DE SISTEMA UTILIZADAS NO CHECKPOINT]`.
 - **SEMPRE escreva o Checkpoint com acentuação pt-br correta.** Nunca remova acentos (é, ã, ç, á, ú, õ, etc.).
 
+### Campos de Marcação Exigem Caixas `- [ ]` Reais (senão o Checkpoint Manager loopa)
+
+Todo campo que a IA precisa **marcar ou atualizar ao longo da conversa** deve ser uma caixa de marcação literal `- [ ]`, uma por opção, nunca bullet simples (`-`, `•`) nem texto corrido. Isso vale para: situação/perfil do lead, problema admitido, dor central, trava/objeção, status, temperatura, alavanca de valor, próximo passo e as etapas de SPIN/Aniquilador.
+
+**Por quê:** o **Checkpoint Manager** atualiza a memória da conversa marcando essas caixas. A caixa `- [ ]` é o "slot" onde ele grava o estado. Sem a caixa, ele não entende a instrução de atualizar o campo e a IA pode **entrar em loop** (caso real de um agente de Ecom que travava porque os campos vinham como bullet, sem caixa para marcar).
+
+Errado (bullet, sem caixa):
+```markdown
+- Iniciante Total: nunca tentou, está só na curiosidade.
+- Pesquisador Travado: já pesquisou muito, mas paralisou.
+```
+
+Certo (caixa marcável):
+```markdown
+- [ ] Iniciante Total: nunca tentou, está só na curiosidade.
+- [ ] Pesquisador Travado: já pesquisou muito, mas paralisou.
+```
+
+Atenção: o output bruto da plataforma traz esses campos com emoji (🔥) e negrito mangueado (`**[ ] - **`). Limpar na otimização, mantendo apenas a caixa `- [ ]` limpa, sem asterisco e sem emoji.
+
+### Campo de Classificação Precisa de Critério + Default Seguro (não só a caixa)
+
+A caixa `- [ ]` sozinha não basta. Todo campo de classificação (temperatura, status, estado/etapa, trava, score, qualificação) precisa de três coisas, senão o agente escolhe o valor mais conservador e erra:
+
+1. **Critério por sinal observável**, não rótulo abstrato. Ex: "Morno = respondeu e segue na conversa ou concordou com o valor", não "Morno = interesse médio".
+2. **Ordem imperativa** de atualizar a cada resposta ("marque sempre exatamente uma"), não "marque ao longo do atendimento".
+3. **Default seguro + desacoplamento.** Enum vazio faz a plataforma assumir o menor valor (ex: Temperatura vazia vira Frio). E um campo não arrasta o outro (estar em "Ambivalência" não torna a lead "Fria").
+
+O critério pode refletir o **momento da conversa**, não só a fala literal do lead — ex: "recebeu o link e está prestes a fechar" conta como Quente mesmo sem pedido explícito. Desde que o sinal esteja escrito de forma observável.
+
+Caso real: lead disse "faz muito sentido" e foi marcada Frio, porque a caixa de Temperatura existia mas sem critério nem ordem de marcar. O agente deixou vazio e a plataforma assumiu o default Frio.
+
+As opções do enum também precisam cobrir os estados reais da conversa. Segundo caso (mesma campanha): numa objeção de preço, o Status saiu como "Adiou decisão" por faltar a opção "objeção ativa" — o modelo cravou a vizinha mais próxima e isso engana o Follow-Up. Cobrir os estados frequentes do objetivo da campanha (não todos os possíveis, mas os comuns).
+
+### Como a Cadeia Funciona na Prática (visto no LangSmith)
+
+Observado em campanha real (casca Recuperação/RAR, 2 turnos). A cadeia tende a ser geral, mas detalhes podem variar por casca de agente — validar no LangSmith quando possível.
+
+- Ordem por turno: **Checkpoint Manager → Information Manager → Copywriter → Response Auditor**.
+- O **Information Manager resume as FAQs** num bloco que o Copywriter consome — o Copywriter vê o RESUMO, não a FAQ crua. Ele também injeta contexto temporal (data como verdade absoluta), variáveis resolvidas e dados do lead. FAQ pobre = resposta pobre.
+- O **Copywriter** escreve a resposta final E é onde os marcadores de estado/temperatura se materializam. O Checkpoint Manager observado **não preencheu** esses campos. Conclusão: ponha o critério no checkpoint (que o Copywriter lê); não dependa do Checkpoint Manager para classificar.
+- O **Response Auditor valida só qualidade técnica** (mentira, promessa falsa, falha de tool, idioma, vazamento de JSON/sistema, quebra de persona, URL inventada, hostilidade). Ele **não** valida estratégia, tom, temperatura nem "quando mandar link". Esses erros passam batido — previna no checkpoint/Playbook.
+- O check de mentira é **rígido com número comercial**: preço, parcela, garantia, prazo e bônus só podem ser ditos se estiverem LITERAIS em alguma fonte autorizada (resumo das FAQs, checkpoint, variáveis, transcrição, tools). Logo, todo número que o agente pode falar tem que estar na **FAQ Produto**, senão vira resposta evasiva ou RETRY.
+- URLs só passam se aparecerem literais numa fonte autorizada — por isso **link sempre como variável**.
+
+**Regra de escrita (qualquer objetivo de campanha):** defina os campos de estado que importam para o objetivo da campanha (venda: temperatura/trava/intenção; suporte: problema resolvido/handoff; show-up: intenção de presença; SDR: qualificação/agendamento), cada um com caixa + critério observável + default seguro + ordem de atualizar a cada resposta. Conduza pelo checkpoint, entregue fato pela FAQ, e trave tom/ética/limites no checkpoint porque o Auditor não cobre isso.
+
 ---
 
 ## 3. Mensagens de Disparo (WhatsApp) — A Porta de Entrada

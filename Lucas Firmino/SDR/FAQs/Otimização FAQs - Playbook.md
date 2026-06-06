@@ -1,34 +1,51 @@
-# Otimização FAQs - Playbook (SDR Lucas Firmino)
+# Otimização FAQs - Playbook
 
-## FAQ NOVA — adicionar à base
+Campanha: SDR - Lucas Firmino
 
-### Pergunta
+## Adicionar FAQ
 
-Tem como vocês me atenderem só por mensagem, sem precisar ir até a clínica?
+Pergunta:
+Como conduzir o lead que chega pelo anúncio genérico e não responde à pergunta aberta?
 
-### Resposta
+Resposta:
+Não abra com pergunta ampla demais quando o lead só enviou a mensagem padrão do anúncio. Primeiro dê contexto em uma frase: a campanha oferece avaliação presencial gratuita em BH e condição especial para lentes de porcelana. Depois faça uma pergunta de escolha simples, como se o incômodo principal é cor, formato/tamanho ou espaços entre os dentes. Se ele não responder, o follow-up deve retomar com essas opções concretas, não com curiosidade genérica. O objetivo é diminuir esforço mental e fazer o lead dar o primeiro sinal de dor.
 
-Reforce que cada caso é único e só com análise presencial o profissional consegue montar o plano certo: quantidade exata de lentes, cor, formato e o investimento real para o caso. A avaliação é gratuita justamente para o lead sair com clareza total e sem compromisso. Acolha o motivo da resistência (tempo, agenda, insegurança) sem desqualificar e mostre que uma única ida resolve dúvidas que ele carrega há meses. Lembre do estacionamento a 2 minutos a pé para reduzir a fricção. Convide para escolher um horário de manhã ou de tarde, sem pressionar. Não ofereça atendimento por texto, vídeo ou virtual como alternativa, mesmo que insista.
+Motivo:
+A maior concentração de parada ocorreu logo após a pergunta de dor. A pergunta aberta é correta, mas para lead de anúncio frio ela pode exigir esforço demais.
 
-### Motivo da inclusão
+## Adicionar FAQ
 
-Cobre uma objeção comum (lead que pode ir a BH mas prefere resolver tudo por mensagem) que hoje não tem FAQ dedicada. Diferente de "mora longe ou não pode ir a BH" (desqualificação por impossibilidade), aqui o lead É qualificado e precisa ser conduzido para a presencial. Sem essa FAQ, o Information Manager retorna vazio e o Copywriter improvisa, podendo enviar o lead para o suporte humano por engano.
+Pergunta:
+Como agir quando o lead pede preço, fotos ou agendamento antes de responder a dor?
 
----
+Resposta:
+Trate preço, fotos e agendamento como sinais de interesse, não como desvio do roteiro. Se pediu preço, responda o valor oficial primeiro e conecte à avaliação gratuita. Se pediu fotos, envie prova social e pergunte algo específico sobre cor, formato ou naturalidade. Se pediu agendamento, faça só uma qualificação mínima sobre o objetivo estético e avance para horários. Não bloqueie o lead quente exigindo uma sequência completa de perguntas antes de atender o que ele pediu.
 
-## FAQs existentes — manter ativas sem alteração
+Motivo:
+Houve conversas em que o lead pediu preço ou queria avançar e a IA voltou para perguntas de dor. Isso aumenta abandono em SDR.
 
-Todas as 12 FAQs atuais do Playbook seguem ativas e coerentes com o novo checkpoint enxuto:
+## Adicionar FAQ
 
-- O que fazer quando dizem que é caro ou não têm dinheiro?
-- Como identificar se vale agendar agora?
-- Como usar urgência e escassez sem parecer pressão?
-- Como abordar preço sem espantar e ainda qualificar?
-- Como criar desejo pela avaliação sem entregar tudo?
-- Como proceder com menores de 18 anos ou gestantes/lactantes?
-- Como responder ao medo de dor ou de desgaste do dente?
-- Quais perguntas usar para validar a dor real sem soar inquisitivo?
-- Como preparar o lead e reduzir faltas após agendar?
-- E se o lead disser que mora longe ou não pode ir a BH?
-- Como qualificar sem parecer entrevista?
-- Como lidar com o famoso "vou pensar" sem perder o lead?
+Pergunta:
+Como fazer follow-up sem parecer repetitivo quando o lead para de responder?
+
+Resposta:
+Retome a última pendência concreta. Se parou após preço, pergunte se o ponto foi valor total, entrada ou parcelas. Se parou após fotos, cite a dor dele e o resultado mostrado. Se parou na distância, pergunte se existe uma data em que venha a BH. Se parou no horário, peça período ou dia preferido para consultar opções reais. Evite frases genéricas como "fiquei curiosa" ou perguntas amplas que reiniciam a conversa. Não usar emojis.
+
+Motivo:
+Os follow-ups do histórico muitas vezes voltaram com pergunta abstrata ou com emoji, mesmo o checkpoint proibindo emojis. Isso enfraquece retomada e dá sensação de automação.
+
+## Adicionar FAQ
+
+Pergunta:
+Como lidar com lead que cita influenciador, celebridade ou resultado específico do anúncio?
+
+Resposta:
+Acolha a referência sem confirmar promessa específica que não está na base. Traduza o desejo para a dor estética por trás: brilho, cor, formato, naturalidade, dentes alinhados ou sorriso mais marcante. Depois conecte com a avaliação gratuita, porque o profissional precisa ver o sorriso para dizer o que é possível no caso dele. Se o lead pedir uma condição comercial do anúncio que não consta na base, use a condição oficial cadastrada e ofereça suporte humano para verificar o criativo.
+
+Motivo:
+Alguns leads vieram com referências de anúncio e nomes externos. A IA precisa aproveitar o desejo sem inventar prova, promessa ou preço.
+
+## Ativar sem alteração
+
+Ativar as demais FAQs de Playbook. Não identifiquei necessidade de remoção nas FAQs atuais.

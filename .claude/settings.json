@@ -2,7 +2,27 @@
   "permissions": {
     "allow": [
       "Bash(git pull *)",
-      "Bash(git stash *)"
+      "Bash(git stash *)",
+      "WebSearch",
+      "WebFetch(domain:docs.nmi.com)",
+      "WebFetch(domain:help.checkoutchamp.com)",
+      "WebFetch(domain:dosable.com)",
+      "WebFetch(domain:apidocs.checkoutchamp.com)",
+      "WebFetch(domain:secure.nmi.com)",
+      "WebFetch(domain:nuestrarx.com)",
+      "Bash(git commit -m ' *)",
+      "Bash(python -c \"import openpyxl; wb=openpyxl.load_workbook\\('Conversas/query_result_2026-06-01T18_53_54.730540091-03_00.xlsx', read_only=True\\); ws=wb.active; print\\('DIMS', ws.max_row, ws.max_column\\); rows=list\\(ws.iter_rows\\(min_row=1,max_row=1,values_only=True\\)\\); print\\('HEADERS', rows\\)\")",
+      "Bash(python3)",
+      "Bash(PYTHONIOENCODING=utf-8 PYTHONUTF8=1 python3)",
+      "Bash(python -c \"import reportlab; print\\('reportlab', reportlab.Version\\)\")",
+      "Bash(PYTHONUTF8=1 python _build_pdf.py)",
+      "Read(//c/c/Users/Pedro/Desktop/AwsalesUniversalCreator/Lucas Firmino/SDR/**)",
+      "Bash(python -c \"import fitz; print\\('fitz ok'\\)\")",
+      "Bash(PYTHONUTF8=1 python -c ' *)",
+      "Bash(cd \"/c/Users/Pedro/Desktop/AwsalesUniversalCreator/Lucas Firmino/SDR\" && rm -f _preview_1.png _preview_2.png && ls -la \"Relatorio - Otimizacao Campanha SDR D'Leon.pdf\")"
+    ],
+    "additionalDirectories": [
+      "c:\\c\\Users\\Pedro\\Desktop\\AwsalesUniversalCreator\\Lucas Firmino\\SDR"
     ]
   }
 }

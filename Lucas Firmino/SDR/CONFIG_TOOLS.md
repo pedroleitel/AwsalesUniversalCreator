@@ -1,13 +1,13 @@
-﻿# CONFIGURAÃ‡ÃƒO DE TOOLS â€” SDR D'Leon (Lentes de Porcelana)
+# CONFIGURAÇÃO DE TOOLS — SDR D'Leon (Lentes de Porcelana)
 
-InstruÃ§Ãµes para os campos das tools na plataforma AWSales. Colar no campo "InstruÃ§Ãµes para a LLM" de cada parÃ¢metro.
+Instruções para os campos das tools na plataforma AWSales. Colar no campo "Instruções para a LLM" de cada parâmetro.
 
 ---
 
 ## @consultar_horarios_disponiveis
 
 ### date
-Se o lead disse dia da semana (ex: "quinta"), calcule a prÃ³xima ocorrÃªncia a partir da data atual. Se nÃ£o especificou, use hoje.
+Se o lead disse dia da semana (ex: "quinta"), calcule a próxima ocorrência a partir da data atual. Se não especificou, use hoje. Expediente: segunda a sexta 08:00-19:40, sábado 08:00-11:40, domingo não atende. Descarte da resposta qualquer horário fora desses limites antes de apresentar ao lead.
 
 ### serviceId
 Valor fixo: 1
@@ -17,22 +17,23 @@ Valor fixo: 1
 ## @criar_agendamento
 
 ### date
-Usar exatamente a data verificada como disponÃ­vel na consulta anterior.
+Usar exatamente a data verificada como disponível na consulta anterior.
 
 ### hour
-Usar exatamente o horÃ¡rio que o lead escolheu entre as opÃ§Ãµes.
+Usar exatamente o horário que o lead escolheu entre as opções.
 
 ### name
-Nome completo coletado na etapa 4.2. NÃ£o inventar sobrenome.
+Nome completo coletado na etapa 4.2. Não inventar sobrenome.
 
 ### cellPhone
-NÃºmero confirmado na etapa 4.2. Se o lead confirmou o nÃºmero da conversa, usar esse.
+Número confirmado na etapa 4.2. Se o lead confirmou o número da conversa, usar esse.
 
 ### serviceId
 Valor fixo: 1
 
 ### observation
-Resumir em 1-2 frases: incÃ´modo estÃ©tico principal, objetivo e observaÃ§Ãµes relevantes (ex: pediu presenÃ§a do Dr. Lucas, gestante, receio especÃ­fico).
+Resumir em 1-2 frases: incômodo estético principal, objetivo e observações relevantes (ex: pediu presença do Dr. Lucas, gestante, receio específico).
+
 ---
 
 ## @registrar_lead_rp_uno
@@ -66,5 +67,3 @@ Usar o valor homologado para esta integração. Os prints recebidos mostram conf
 
 ### originId
 Valor fixo: 2
-
-
