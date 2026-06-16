@@ -528,7 +528,7 @@ function buildMetadata(body, eventKind, answersCount) {
   const stage = get(body, 'resume.stage');
   const profileOnly = isInitialProfileOnly(body);
 
-  return stripUndefined({
+  const full = stripUndefined({
     nrx_event: get(body, 'event'),
     nrx_event_version: get(body, 'event_version'),
     event_kind: eventKind,
@@ -557,6 +557,8 @@ function buildMetadata(body, eventKind, answersCount) {
     source_url: get(body, 'source.url'),
     source_lang: get(body, 'source.lang'),
     source_referrer: get(body, 'source.referrer'),
+    lead_first_name: getFirst(body, ['contact.first_name', 'raw_answers.intake.fname']),
+    lead_last_name: getFirst(body, ['contact.last_name', 'raw_answers.intake.lname']),
     phone_country: get(body, 'contact.phone_country'),
     whatsapp_url: get(body, 'contact.whatsapp_url'),
     lead_state: get(body, 'address.state_code'),
@@ -572,6 +574,22 @@ function buildMetadata(body, eventKind, answersCount) {
     bmi: get(body, 'biometrics.bmi'),
     bmi_class: get(body, 'biometrics.bmi_class'),
     goal_weight: profileOnly ? undefined : getFirst(body, ['goals.weight_loss_goal', 'raw_answers.beluga.goalWeight']),
+    goal_weight_unit: profileOnly ? undefined : get(body, 'raw_answers.beluga.goalWeightUnit'),
+    highest_weight: profileOnly ? undefined : get(body, 'raw_answers.beluga.highestWeight'),
+    highest_weight_unit: profileOnly ? undefined : get(body, 'raw_answers.beluga.highestWeightUnit'),
+    current_medications: profileOnly ? undefined : labelValue(getFirst(body, ['medical_history.current_medications', 'raw_answers.beluga.rxMeds'])),
+    allergies: profileOnly ? undefined : labelValue(getFirst(body, ['medical_history.allergies', 'raw_answers.beluga.allergiesList'])),
+    weight_management_approach: profileOnly ? undefined : labelValue(get(body, 'raw_answers.beluga.approach')),
+    medical_conditions: profileOnly ? undefined : labelValue(getFirst(body, ['raw_answers.beluga.conditions', 'medical_history.conditions_quick', 'medical_history.conditions_detail'])),
+    glp1_drug_allergies: profileOnly ? undefined : labelValue(getFirst(body, ['medical_history.drug_allergies_glp1', 'raw_answers.beluga.drugAllergies'])),
+    // Gravidez no metadata: a IA repassa metadata de forma confiavel a tool (o form_answers
+    // ela manda vazio as vezes). O normalizador da tool preenche o answer 6404 a partir
+    // daqui (metadata.pregnancy_status), evitando perguntar gravidez a leads mulheres.
+    pregnancy_status: profileOnly ? undefined : getFirst(body, ['medical_history.pregnancy_status', 'raw_answers.beluga.pregnancy']),
+    // Espelhados no metadata para a tool nao re-perguntar (a IA manda form_answers vazio):
+    // bypass gastrico (hard stop ja respondido no form) e uso previo de GLP-1.
+    gastric_bypass: profileOnly ? undefined : getFirst(body, ['medical_history.gastric_bypass_recent', 'raw_answers.beluga.gastricBypass']),
+    prior_glp1_use: profileOnly ? undefined : getFirst(body, ['medical_history.prior_glp1_use', 'raw_answers.beluga.priorGlp1Use']),
     selected_medication: profileOnly ? undefined : labelValue(treatment),
     selected_plan: profileOnly ? undefined : labelValue(plan),
     plan_price: profileOnly ? undefined : get(body, 'raw_answers.intake.planPrice'),
@@ -587,6 +605,39 @@ function buildMetadata(body, eventKind, answersCount) {
     form_version: get(body, 'meta.form_version'),
     answers_count: answersCount,
   });
+
+  if (eventKind !== 'checkout_reached') return full;
+
+  // Metadata ENXUTO para o evento de checkout (input da campanha de Recuperacao de Vendas).
+  // Motivo: o campo metadata da tool e copiado pela PROPRIA IA (input_type: llm) em cada
+  // chamada. Com ~50 campos a LLM trunca/quebra a serializacao (caso real 2026-06-10:
+  // height_display com aspa de polegada 5'7" gerou JSON invalido, o parse falhou e o
+  // backfill inteiro morreu -> tool pediu dados que ja existiam). Menos campos = copia
+  // confiavel. height_display fica FORA de proposito (a aspa quebra o JSON); height_cm
+  // basta, o normalizador da tool converte cm -> pes.
+  const KEEP = [
+    'nrx_event', 'event_kind', 'recovery_type',
+    'checkout_url', 'form_resume_url',
+    'dosable_lead_id', 'dosable_session_id',
+    'lead_first_name', 'lead_last_name', 'lead_state',
+    'biological_sex', 'dob',
+    'height_cm', 'weight_lbs',
+    'highest_weight', 'highest_weight_unit',
+    'allergies', 'medical_conditions', 'current_medications',
+    'weight_management_approach', 'glp1_drug_allergies',
+    'pregnancy_status', 'gastric_bypass', 'prior_glp1_use',
+    'can_self_inject_from_raw',
+    'final_consents_from_raw',
+    'selected_medication', 'selected_plan', 'plan_price',
+  ];
+
+  const lean = {};
+
+  for (const key of KEEP) {
+    if (full[key] !== undefined) lean[key] = full[key];
+  }
+
+  return lean;
 }
 
 function buildRouting(body, eventKind, awsalesPayload) {
@@ -596,7 +647,7 @@ function buildRouting(body, eventKind, awsalesPayload) {
   const stateKey = getStateKey(body, awsalesPayload.lead);
   const recoveryUrl = get(body, 'checkout_url') || getFirst(body, ['resume.cross_device_url', 'resume.url']);
   const isWaHandoff = eventKind === 'whatsapp_handoff';
-  const shouldSendNow = eventKind === 'form_abandonment_confirmed';
+  const shouldSendNow = eventKind === 'form_abandonment_confirmed' || eventKind === 'checkout_reached';
   const shouldEverSend = !isWaHandoff &&
     !['contact_captured', 'form_progress_snapshot', 'form_completed_no_checkout'].includes(eventKind);
 
@@ -624,7 +675,10 @@ function getEventKind(body) {
 
   if (isWaHandoff) return 'whatsapp_handoff';
   if (sourceEvent === 'intake_abandoned') return 'form_abandonment_confirmed';
-  if (hasCheckoutUrl || sourceEvent === 'intake_plan_selected') return 'checkout_abandonment';
+  // intake_plan_selected = lead chegou no checkout (ja traz checkout_url). E o OUTPUT
+  // da campanha de recuperacao de formulario: objetivo cumprido, parar de insistir.
+  if (sourceEvent === 'intake_plan_selected') return 'checkout_reached';
+  if (hasCheckoutUrl) return 'checkout_abandonment';
   if (sourceEvent === 'intake_submitted' || sourceEvent === 'intake_completed') return 'form_completed_no_checkout';
   if (sourceEvent === 'intake_progress' && (step === 'processing' || step === 'success')) return 'form_completed_no_checkout';
   if (sourceEvent === 'intake_progress') return 'form_progress_snapshot';
@@ -635,6 +689,7 @@ function getEventKind(body) {
 function getAwsalesEvent(body, eventKind) {
   const sourceEvent = get(body, 'event');
 
+  if (eventKind === 'checkout_reached') return 'form_response';
   if (eventKind === 'checkout_abandonment') return 'form_response';
   if (eventKind === 'form_completed_no_checkout') return 'form_response';
   if (sourceEvent === 'intake_submitted' || sourceEvent === 'intake_completed') return 'form_response';
@@ -651,6 +706,7 @@ function getDelayMinutes(eventKind) {
 function getRecommendedAction(eventKind) {
   const actions = {
     form_abandonment_confirmed: 'Send awsales_payload now. The Worker already waited 20 minutes and emitted intake_abandoned.',
+    checkout_reached: 'Send awsales_payload now as the campaign OUTPUT. Lead reached checkout (has checkout_url); stop the form-recovery campaign.',
     form_abandonment: 'Store latest state, wait 10 minutes without newer payload, then send awsales_payload.',
     contact_captured: 'Store context only. Do not trigger AWSales because the lead only captured contact and may continue.',
     form_progress_snapshot: 'Store/debug only. Do not trigger AWSales because intake_progress is a progress/autosave snapshot.',
@@ -665,6 +721,7 @@ function getRecommendedAction(eventKind) {
 function getRoutingReason(eventKind) {
   const reasons = {
     form_abandonment_confirmed: 'The Worker durable object timed out by session_id and emitted intake_abandoned after 20 minutes.',
+    checkout_reached: 'Lead selected plan and generated checkout_url; the form-recovery objective is complete (output event).',
     form_abandonment: 'The lead is in the form flow and may still continue; debounce avoids 15 campaign inputs.',
     contact_captured: 'intake_partial only means contact was captured; the lead can still continue normally.',
     form_progress_snapshot: 'intake_progress can fire while the lead is actively moving through the form.',

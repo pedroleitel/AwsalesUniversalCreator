@@ -1,65 +1,177 @@
 [
   {
+    "product": "semaglutide",
+    "plan": "quarterly",
+    "birthday": "01/15/1985",
+    "date_of_birth": "01/15/1985",
+    "contact": {
+      "first_name": "Sílvia",
+      "last_name": "Xavier",
+      "email": "Lucca.Xavier32@hotmail.com",
+      "phone": "56203439870",
+      "lead_state": "FL",
+      "gender": "Female",
+      "date_of_birth": "01/15/1985",
+      "birthday": "01/15/1985"
+    },
+    "answers": {
+      "6400": {
+        "value": "None"
+      },
+      "6401": {
+        "value": "ninguno"
+      },
+      "6402": {
+        "value": "ninguno"
+      },
+      "6403": {
+        "value": "Female"
+      },
+      "6404": {
+        "value": "No"
+      },
+      "6406": {
+        "value": "200"
+      },
+      "6407": {
+        "value": "5'6\""
+      },
+      "6408": {
+        "value": "181"
+      },
+      "6410": {
+        "value": "Actively managing"
+      },
+      "6411": {
+        "value": [
+          "None of the above"
+        ]
+      },
+      "6415": {
+        "value": "No"
+      },
+      "6416": {
+        "value": [
+          "None of the above"
+        ]
+      },
+      "6417": {
+        "value": [
+          "None of these"
+        ]
+      },
+      "6418": {
+        "value": "Yes, I can inject myself or have reliable help"
+      },
+      "6430": {
+        "value": "No estoy embarazada, no estoy amamantando ni planeo embarazo."
+      },
+      "6431": {
+        "value": "I have read and understand the above information and I do consent and wish to move forward with this treatment plan"
+      },
+      "6432": {
+        "value": "I have read the above information and I do consent and wish to move forward"
+      },
+      "6433": {
+        "value": "I have read and understand the above information and I wish to continue"
+      }
+    },
+    "source": {
+      "channel": "whatsapp",
+      "agent": "awsales-bot",
+      "captured_at": "2026-06-07T18:38:36"
+    },
     "outbound": {
       "product": "semaglutide",
-      "plan": "3_month_plan",
+      "plan": "quarterly",
+      "birthday": "01/15/1985",
+      "date_of_birth": "01/15/1985",
       "contact": {
-        "first_name": "Isis",
-        "last_name": "Silva",
-        "email": "Csar24@live.com",
-        "phone": "96355350975",
-        "lead_state": "KS",
-        "gender": "Male",
-        "date_of_birth": "01/06/2004"
+        "first_name": "Sílvia",
+        "last_name": "Xavier",
+        "email": "Lucca.Xavier32@hotmail.com",
+        "phone": "56203439870",
+        "lead_state": "FL",
+        "gender": "Female",
+        "date_of_birth": "01/15/1985",
+        "birthday": "01/15/1985"
       },
       "answers": {
-        "gastricBypass": {
-          "value": "No",
-          "question": "¿Has tenido bypass gástrico en los últimos 6 meses?"
+        "6400": {
+          "value": "None"
         },
-        "currentMeds": {
-          "value": "hormones",
-          "question": "¿Qué medicamentos tomas actualmente?"
+        "6401": {
+          "value": "ninguno"
         },
-        "injectionAbility": {
-          "value": "Yes",
-          "question": "¿Puedes inyectarte tú mismo?"
+        "6402": {
+          "value": "ninguno"
         },
-        "finalConsents": {
-          "value": "Yes",
-          "question": "Confirmación de consentimientos finales"
+        "6403": {
+          "value": "Female"
         },
-        "bmi": {
-          "value": "33.2",
-          "question": "BMI"
+        "6404": {
+          "value": "No"
         },
-        "dob": {
-          "value": "01/06/2004",
-          "question": "Fecha de nacimiento"
+        "6406": {
+          "value": "200"
         },
-        "height_cm": {
-          "value": "190",
-          "question": "Altura en cm"
+        "6407": {
+          "value": "5'6\""
         },
-        "weight_kg": {
-          "value": "120",
-          "question": "Peso actual en kg"
+        "6408": {
+          "value": "181"
         },
-        "goal_weight": {
-          "value": "100",
-          "question": "Peso meta"
+        "6410": {
+          "value": "Actively managing"
         },
-        "age_range": {
-          "value": "30-44",
-          "question": "Rango de edad"
+        "6411": {
+          "value": [
+            "None of the above"
+          ]
+        },
+        "6415": {
+          "value": "No"
+        },
+        "6416": {
+          "value": [
+            "None of the above"
+          ]
+        },
+        "6417": {
+          "value": [
+            "None of these"
+          ]
+        },
+        "6418": {
+          "value": "Yes, I can inject myself or have reliable help"
+        },
+        "6430": {
+          "value": "No estoy embarazada, no estoy amamantando ni planeo embarazo."
+        },
+        "6431": {
+          "value": "I have read and understand the above information and I do consent and wish to move forward with this treatment plan"
+        },
+        "6432": {
+          "value": "I have read the above information and I do consent and wish to move forward"
+        },
+        "6433": {
+          "value": "I have read and understand the above information and I wish to continue"
         }
       },
       "source": {
         "channel": "whatsapp",
         "agent": "awsales-bot",
-        "captured_at": "2026-06-05T18:31:57"
+        "captured_at": "2026-06-07T18:38:36"
       }
     },
-    "outbound_json": "{\"product\":\"semaglutide\",\"plan\":\"3_month_plan\",\"contact\":{\"first_name\":\"Isis\",\"last_name\":\"Silva\",\"email\":\"Csar24@live.com\",\"phone\":\"96355350975\",\"lead_state\":\"KS\",\"gender\":\"Male\",\"date_of_birth\":\"01/06/2004\"},\"answers\":{\"gastricBypass\":{\"value\":\"No\",\"question\":\"¿Has tenido bypass gástrico en los últimos 6 meses?\"},\"currentMeds\":{\"value\":\"hormones\",\"question\":\"¿Qué medicamentos tomas actualmente?\"},\"injectionAbility\":{\"value\":\"Yes\",\"question\":\"¿Puedes inyectarte tú mismo?\"},\"finalConsents\":{\"value\":\"Yes\",\"question\":\"Confirmación de consentimientos finales\"},\"bmi\":{\"value\":\"33.2\",\"question\":\"BMI\"},\"dob\":{\"value\":\"01/06/2004\",\"question\":\"Fecha de nacimiento\"},\"height_cm\":{\"value\":\"190\",\"question\":\"Altura en cm\"},\"weight_kg\":{\"value\":\"120\",\"question\":\"Peso actual en kg\"},\"goal_weight\":{\"value\":\"100\",\"question\":\"Peso meta\"},\"age_range\":{\"value\":\"30-44\",\"question\":\"Rango de edad\"}},\"source\":{\"channel\":\"whatsapp\",\"agent\":\"awsales-bot\",\"captured_at\":\"2026-06-05T18:31:57\"}}"
+    "outbound_json": "{\"product\":\"semaglutide\",\"plan\":\"quarterly\",\"birthday\":\"01/15/1985\",\"date_of_birth\":\"01/15/1985\",\"contact\":{\"first_name\":\"Sílvia\",\"last_name\":\"Xavier\",\"email\":\"Lucca.Xavier32@hotmail.com\",\"phone\":\"56203439870\",\"lead_state\":\"FL\",\"gender\":\"Female\",\"date_of_birth\":\"01/15/1985\",\"birthday\":\"01/15/1985\"},\"answers\":{\"6400\":{\"value\":\"None\"},\"6401\":{\"value\":\"ninguno\"},\"6402\":{\"value\":\"ninguno\"},\"6403\":{\"value\":\"Female\"},\"6404\":{\"value\":\"No\"},\"6406\":{\"value\":\"200\"},\"6407\":{\"value\":\"5'6\\\"\"},\"6408\":{\"value\":\"181\"},\"6410\":{\"value\":\"Actively managing\"},\"6411\":{\"value\":[\"None of the above\"]},\"6415\":{\"value\":\"No\"},\"6416\":{\"value\":[\"None of the above\"]},\"6417\":{\"value\":[\"None of these\"]},\"6418\":{\"value\":\"Yes, I can inject myself or have reliable help\"},\"6430\":{\"value\":\"No estoy embarazada, no estoy amamantando ni planeo embarazo.\"},\"6431\":{\"value\":\"I have read and understand the above information and I do consent and wish to move forward with this treatment plan\"},\"6432\":{\"value\":\"I have read the above information and I do consent and wish to move forward\"},\"6433\":{\"value\":\"I have read and understand the above information and I wish to continue\"}},\"source\":{\"channel\":\"whatsapp\",\"agent\":\"awsales-bot\",\"captured_at\":\"2026-06-07T18:38:36\"}}",
+    "should_call_http": true,
+    "tool_response": null,
+    "tool_response_json": null,
+    "diagnostics": {
+      "ready_for_http": true,
+      "missing_required_contact_fields": [],
+      "missing_required_answer_ids": []
+    }
   }
 ]

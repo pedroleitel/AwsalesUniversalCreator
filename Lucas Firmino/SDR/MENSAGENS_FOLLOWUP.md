@@ -18,7 +18,7 @@ Orientações para configurar no painel da campanha (Configurar Follow-up Inteli
 
 ## Orientações para mensagens personalizadas
 
-O bot é a Julia, da Clínica D'Leon. O CTA é sempre agendar a avaliação gratuita presencial em BH. Não usar emojis. Não reiniciar a conversa com pergunta genérica se já existe uma pendência clara.
+O bot é a Julia, da Clínica D'Leon. O CTA é sempre agendar a avaliação gratuita presencial em BH. Não usar emojis. Não reiniciar a conversa com pergunta genérica se já existe uma pendência clara. Nunca enviar a mesma mensagem duas vezes em sequência.
 
 Use o contexto real:
 - Se parou após a pergunta de dor, retome com opções concretas: cor, formato/tamanho ou espaços entre os dentes.
@@ -34,7 +34,7 @@ Use a "campanha 2026 O Ano da Transformação" como gancho apenas quando fizer s
 
 ## Orientações sobre a necessidade de follow-ups
 
-SKIP se: lead já agendou, disse que não pode ir a BH em nenhuma data previsível, é menor de 18 para procedimento, rejeitou totalmente o investimento após contorno, pediu para não ser contatado, ou a conversa é ruído/spam sem intenção odontológica.
+SKIP se: lead já agendou, disse que não pode ir a BH em nenhuma data previsível, é menor de 18 para procedimento, rejeitou totalmente o investimento após contorno, pediu para não ser contatado, a conversa é ruído/spam sem intenção odontológica, ou a última mensagem da IA já foi um follow-up e o lead ainda não respondeu depois dela.
 
 SEND se: parou após pedir preço, parou após ver fotos, parou escolhendo horário, parou dizendo "vou ver o dia", parou na dúvida sobre distância, ou revelou dor estética mas não avançou. Silêncio após valores ou fotos NÃO é rejeição.
 

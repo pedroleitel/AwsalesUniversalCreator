@@ -36,7 +36,7 @@ Resumir em 1-2 frases: incômodo estético principal, objetivo e observações r
 
 ---
 
-## @registrar_lead_rp_uno
+## @registrar_lead_no_rp
 
 ### name
 Usar o nome que o lead informou na conversa. Priorizar nome completo. Se o lead só informou o primeiro nome, usar apenas o primeiro nome. Não inventar sobrenome.

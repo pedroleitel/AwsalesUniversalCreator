@@ -55,7 +55,7 @@ Campo `Nome da Tool`:
 
 Campo `Descrição (para a IA)`:
 
-`Use esta tool quando o lead quiser finalizar a avaliação Nuestra RX pelo WhatsApp e a IA já tiver coletado os dados obrigatórios do lead, respostas clínicas e consentimentos. A tool envia a avaliação para a Nuestra RX e pode retornar um checkout_url. Não use se faltarem dados, se houver critério de desqualificação, ou se o lead ainda não confirmou que deseja seguir para checkout.`
+`Use esta tool somente no final, quando o lead quiser gerar checkout e quando todos os dados obrigatórios já estiverem disponíveis em metadata, form_answers ou na conversa. Antes de chamar, confirme que contact tem first_name, last_name, email, phone e lead_state, e que answers contém os IDs mínimos: 6400, 6401, 6402, 6403, 6404, 6406, 6407, 6408, 6410, 6411, 6415, 6416, 6417, 6418, 6431, 6432 e 6433. Não chame esta tool se faltar qualquer campo; pergunte o dado faltante ao lead primeiro. Não envie só as respostas coletadas no WhatsApp; use também os dados já salvos em metadata e form_answers. A tool envia a avaliação para a Nuestra RX e pode retornar checkout_url.`
 
 ## Tela 2 da tool na AWSales
 
@@ -77,104 +77,97 @@ Query parameters:
 
 Não adicionar nenhum.
 
-Body Schema em modo `JSON`:
+Body Schema no formato real da AWSales:
+
+Use este JSON na configuração da tool. Ele é o formato de lista de campos que a tela da AWSales transforma no modo Formulário.
 
 ```json
-{
-  "type": "object",
-  "required": ["product", "plan", "contact", "answers", "source"],
-  "properties": {
-    "product": {
-      "type": "string",
-      "enum": ["semaglutide", "tirzepatide"],
-      "description": "Produto/tratamento escolhido pelo lead."
-    },
-    "plan": {
-      "type": "string",
-      "description": "Plano ou oferta escolhida pelo lead, conforme configurado pela Nuestra RX."
-    },
-    "contact": {
-      "type": "object",
-      "required": ["first_name", "last_name", "email", "phone", "lead_state"],
-      "properties": {
-        "first_name": {
-          "type": "string",
-          "description": "Primeiro nome do lead."
-        },
-        "last_name": {
-          "type": "string",
-          "description": "Sobrenome do lead."
-        },
-        "email": {
-          "type": "string",
-          "description": "Email do lead."
-        },
-        "phone": {
-          "type": "string",
-          "description": "Telefone do lead em formato internacional quando disponível."
-        },
-        "lead_state": {
-          "type": "string",
-          "description": "Estado dos EUA informado pelo lead, por exemplo TX, FL, CA."
-        },
-        "gender": {
-          "type": "string",
-          "description": "Sexo biológico informado pelo lead."
-        },
-        "date_of_birth": {
-          "type": "string",
-          "description": "Data de nascimento do lead, preferencialmente YYYY-MM-DD."
-        },
-        "shipping_address": {
-          "type": "object",
-          "description": "Endereço de entrega quando coletado.",
-          "properties": {
-            "line1": { "type": "string" },
-            "city": { "type": "string" },
-            "state": { "type": "string" },
-            "postal_code": { "type": "string" },
-            "country": { "type": "string" }
-          }
-        }
-      }
-    },
-    "answers": {
-      "type": "object",
-      "description": "Respostas clínicas indexadas pelo ID da pergunta Nuestra RX. Cada resposta deve seguir o formato { value, question }. Para checkbox, value deve ser array de strings.",
-      "additionalProperties": {
-        "type": "object",
-        "required": ["value"],
-        "properties": {
-          "value": {
-            "description": "Valor da resposta. Pode ser string, número, booleano ou array, conforme o tipo da pergunta."
-          },
-          "question": {
-            "type": "string",
-            "description": "Texto resumido da pergunta."
-          }
-        }
-      }
-    },
-    "source": {
-      "type": "object",
-      "required": ["channel", "agent"],
-      "properties": {
-        "channel": {
-          "type": "string",
-          "description": "Canal de origem. Use whatsapp."
-        },
-        "agent": {
-          "type": "string",
-          "description": "Identificação do agente AWSales."
-        },
-        "captured_at": {
-          "type": "string",
-          "description": "Data/hora em ISO 8601 em que os dados foram coletados."
-        }
-      }
-    }
+[
+  {
+    "name": "product",
+    "type": "string",
+    "input_type": "llm",
+    "fixed_type": "hardcoded",
+    "value": "",
+    "enum_values": [],
+    "description": "Produto escolhido pelo lead. Use exatamente semaglutide ou tirzepatide.",
+    "required": true,
+    "dependency_tool": "",
+    "dependency_field": ""
+  },
+  {
+    "name": "plan",
+    "type": "string",
+    "input_type": "llm",
+    "fixed_type": "hardcoded",
+    "value": "",
+    "enum_values": [],
+    "description": "Plano escolhido pelo lead. Use monthly, quarterly ou rush conforme a oferta.",
+    "required": true,
+    "dependency_tool": "",
+    "dependency_field": ""
+  },
+  {
+    "name": "contact",
+    "type": "object",
+    "input_type": "llm",
+    "fixed_type": "hardcoded",
+    "value": "",
+    "enum_values": [],
+    "description": "Dados do lead. Inclua first_name, last_name, email, phone, lead_state, gender e birthday em MM/DD/YYYY. Se só tiver date_of_birth, envie também. Use metadata e lead para preencher campos já existentes.",
+    "required": true,
+    "dependency_tool": "",
+    "dependency_field": ""
+  },
+  {
+    "name": "answers",
+    "type": "object",
+    "input_type": "llm",
+    "fixed_type": "hardcoded",
+    "value": "",
+    "enum_values": [],
+    "description": "Respostas novas ou confirmadas na conversa, por ID da pergunta Nuestra RX. Exemplo: {\"6415\":{\"value\":\"No\",\"question\":\"Gastric bypass\"}}. Para 6416 use None of the above quando não houver alergia GLP-1. Para 6417 use None of these quando não houver uso prévio de GLP-1. Não precisa recriar tudo se metadata e form_answers forem enviados.",
+    "required": true,
+    "dependency_tool": "",
+    "dependency_field": ""
+  },
+  {
+    "name": "metadata",
+    "type": "object",
+    "input_type": "llm",
+    "fixed_type": "hardcoded",
+    "value": "",
+    "enum_values": [],
+    "description": "Copie o objeto metadata completo disponível no contexto do lead/campanha. É obrigatório enviar para reaproveitar estado, sexo, data de nascimento, altura, peso, BMI, etapa de abandono e links.",
+    "required": true,
+    "dependency_tool": "",
+    "dependency_field": ""
+  },
+  {
+    "name": "form_answers",
+    "type": "object",
+    "input_type": "llm",
+    "fixed_type": "hardcoded",
+    "value": "",
+    "enum_values": [],
+    "description": "Copie a lista form_answers completa disponível no contexto do lead/campanha. Mesmo sendo lista, se a AWSales não aceitar tipo array, envie como objeto/JSON válido com os itens da lista.",
+    "required": true,
+    "dependency_tool": "",
+    "dependency_field": ""
+  },
+  {
+    "name": "source",
+    "type": "object",
+    "input_type": "llm",
+    "fixed_type": "hardcoded",
+    "value": "",
+    "enum_values": [],
+    "description": "Origem da coleta. Use channel=whatsapp, agent=awsales-bot e captured_at em ISO.",
+    "required": true,
+    "dependency_tool": "",
+    "dependency_field": ""
   }
-}
+]
 ```
 
 ## Teste manual da tool na AWSales
@@ -275,6 +268,12 @@ Webhook n8n:
 
 Code node `Parse Body`:
 
+Fonte atual para copiar no n8n:
+
+`Nuestra RX/Integração/docs/tool-ai-handoff-normalizer.n8n.js`
+
+Use esse arquivo `.js` como fonte de verdade. O normalizador precisa reaproveitar `metadata` e `form_answers`, converter pesos para número sem unidade e preencher respostas obrigatórias antes do HTTP.
+
 ```js
 function parseMaybeJson(value) {
   if (typeof value !== 'string') return value;
@@ -345,8 +344,69 @@ function normalizeGender(value) {
   return map[raw] || value;
 }
 
+function isBlank(value) {
+  if (value === null || value === undefined) return true;
+  if (typeof value === 'string') return value.trim() === '';
+  return false;
+}
+
+function firstNonBlank(values) {
+  for (const value of values) {
+    if (!isBlank(value)) return value;
+  }
+
+  return undefined;
+}
+
+function splitFullName(value) {
+  const parts = String(value || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return {};
+
+  return {
+    first_name: parts[0],
+    last_name: parts.slice(1).join(' '),
+  };
+}
+
+function normalizeContact(body) {
+  const contact = parseMaybeJson(body.contact) || {};
+  const splitName = splitFullName(firstNonBlank([contact.name, contact.full_name, body.name, body.full_name]));
+  const shippingAddress = parseMaybeJson(contact.shipping_address) || contact.shipping_address;
+
+  return {
+    ...contact,
+    first_name: firstNonBlank([contact.first_name, contact.firstName, contact.firstname, body.first_name, body.firstName, splitName.first_name]),
+    last_name: firstNonBlank([contact.last_name, contact.lastName, contact.lastname, body.last_name, body.lastName, splitName.last_name]),
+    email: firstNonBlank([contact.email, body.email]),
+    phone: firstNonBlank([contact.phone, contact.phone_e164, contact.phoneE164, body.phone, body.phone_e164, body.phoneE164]),
+    lead_state: firstNonBlank([
+      contact.lead_state,
+      contact.leadState,
+      contact.state,
+      contact.state_code,
+      contact.stateCode,
+      body.lead_state,
+      body.leadState,
+      body.state,
+      body.state_code,
+      body.stateCode,
+      shippingAddress && shippingAddress.state,
+    ]),
+    gender: normalizeGender(firstNonBlank([contact.gender, contact.sex, contact.biological_sex, body.gender, body.sex, body.biological_sex])),
+    date_of_birth: firstNonBlank([contact.date_of_birth, contact.dateOfBirth, contact.dob, body.date_of_birth, body.dateOfBirth, body.dob]),
+    shipping_address: shippingAddress,
+  };
+}
+
+function getMissingRequiredContactFields(contact) {
+  return ['first_name', 'last_name', 'email', 'phone', 'lead_state'].filter((field) => isBlank(contact[field]));
+}
+
 function normalizeYesNo(value) {
-  const raw = String(value || '').trim().toLowerCase();
+  if (value === true) return 'Yes';
+  if (value === false) return 'No';
+
+  const raw = String(value ?? '').trim().toLowerCase();
 
   if (['yes', 'si', 'sí', 'y', 'true'].includes(raw)) return 'Yes';
   if (['no', 'n', 'false'].includes(raw)) return 'No';
@@ -361,6 +421,125 @@ function normalizeInjectionAbility(value) {
   if (normalized === 'No') return "No, I'd need an oral option instead (Direct to oral formulation or disqualified if not offered)";
 
   return value;
+}
+
+function normalizeApproach(value) {
+  const raw = String(value ?? '').trim().toLowerCase();
+
+  const map = {
+    active: 'Actively managing',
+    actively_managing: 'Actively managing',
+    'actively managing': 'Actively managing',
+    some_efforts: 'Some efforts',
+    'some efforts': 'Some efforts',
+    attempted: 'Some efforts',
+    no_active_efforts: 'No active efforts',
+    'no active efforts': 'No active efforts',
+    none: 'No active efforts',
+  };
+
+  return map[raw] || value;
+}
+
+function toArray(value) {
+  if (Array.isArray(value)) return value;
+  if (value === null || value === undefined || value === '') return [];
+  return [value];
+}
+
+function normalizeMedicalConditions(value) {
+  const values = toArray(value);
+  const output = [];
+
+  const map = {
+    none: 'None of the above',
+    no: 'None of the above',
+    ninguno: 'None of the above',
+    ninguna: 'None of the above',
+    noneoftheabove: 'None of the above',
+    gallstonesasymptomatic: 'Current gallstones without symptoms',
+    currentgallstoneswithoutsymptoms: 'Current gallstones without symptoms',
+    currentgallstones: 'Current gallstones without symptoms',
+    gallstones: 'Current gallstones without symptoms',
+    symptomaticgallstones: 'Current symptomatic gallstones',
+    currentsymptomaticgallstones: 'Current symptomatic gallstones',
+    cholecystectomy: 'Past removal of your gallbladder',
+    gallbladderremoved: 'Past removal of your gallbladder',
+    pastremovalofyourgallbladder: 'Past removal of your gallbladder',
+    thyroid: 'Hypothyroidism, Hyperthyroidism, or Thyroid Issues',
+    thyroidissues: 'Hypothyroidism, Hyperthyroidism, or Thyroid Issues',
+    hypothyroidism: 'Hypothyroidism, Hyperthyroidism, or Thyroid Issues',
+    hyperthyroidism: 'Hypothyroidism, Hyperthyroidism, or Thyroid Issues',
+  };
+
+  for (const item of values) {
+    const compact = String(item ?? '').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    const mapped = map[compact] || item;
+    if (mapped && !output.includes(mapped)) output.push(mapped);
+  }
+
+  return output.length ? output : ['None of the above'];
+}
+
+function normalizeGlpAllergies(value) {
+  const values = toArray(value);
+  const output = [];
+
+  const map = {
+    none: 'None of the above',
+    no: 'None of the above',
+    ninguno: 'None of the above',
+    ninguna: 'None of the above',
+    noneoftheabove: 'None of the above',
+    ozempic: 'Ozempic (Semaglutide)',
+    semaglutide: 'Ozempic (Semaglutide)',
+    semaglutida: 'Ozempic (Semaglutide)',
+    mounjaro: 'Mounjaro (Tirzepatide)',
+    tirzepatide: 'Mounjaro (Tirzepatide)',
+    tirzepatida: 'Mounjaro (Tirzepatide)',
+    wegovy: 'Wegovy (Semaglutide)',
+    zepbound: 'Zepbound (Tirzepatide)',
+    saxenda: 'Saxenda (Liraglutide)',
+    trulicity: 'Trulicity (dulaglutide)',
+  };
+
+  for (const item of values) {
+    const compact = String(item ?? '').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    const mapped = map[compact] || item;
+    if (mapped && !output.includes(mapped)) output.push(mapped);
+  }
+
+  return output.length ? output : ['None of the above'];
+}
+
+function normalizePriorGlp1Use(value) {
+  const values = toArray(value);
+  const output = [];
+
+  const map = {
+    none: 'None of these',
+    no: 'None of these',
+    ninguno: 'None of these',
+    ninguna: 'None of these',
+    noneofthese: 'None of these',
+    semaglutide: 'Semaglutide (Ozempic, Wegovy, Rybelsus)',
+    semaglutida: 'Semaglutide (Ozempic, Wegovy, Rybelsus)',
+    ozempic: 'Semaglutide (Ozempic, Wegovy, Rybelsus)',
+    wegovy: 'Semaglutide (Ozempic, Wegovy, Rybelsus)',
+    rybelsus: 'Semaglutide (Ozempic, Wegovy, Rybelsus)',
+    tirzepatide: 'Tirzepatide (Zepbound, Mounjaro)',
+    tirzepatida: 'Tirzepatide (Zepbound, Mounjaro)',
+    zepbound: 'Tirzepatide (Zepbound, Mounjaro)',
+    mounjaro: 'Tirzepatide (Zepbound, Mounjaro)',
+  };
+
+  for (const item of values) {
+    const compact = String(item ?? '').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    const mapped = map[compact] || item;
+    if (mapped && !output.includes(mapped)) output.push(mapped);
+  }
+
+  return output.length ? output : ['None of these'];
 }
 
 function formatHeightFromCm(value) {
@@ -456,9 +635,14 @@ function normalizeAnswers(value) {
 
 function normalizeAnswerValueById(id, value) {
   if (id === '6403') return normalizeGender(value);
+  if (id === '6404') return normalizeYesNo(value);
   if (id === '6407' && Number.isFinite(Number(value))) return formatHeightFromCm(value);
   if (id === '6408' && Number.isFinite(Number(value))) return formatLbsFromKg(value);
+  if (id === '6410') return normalizeApproach(value);
+  if (id === '6411') return normalizeMedicalConditions(value);
   if (id === '6415') return normalizeYesNo(value);
+  if (id === '6416') return normalizeGlpAllergies(value);
+  if (id === '6417') return normalizePriorGlp1Use(value);
   if (id === '6418') return normalizeInjectionAbility(value);
   if (id === '6431' && normalizeYesNo(value) === 'Yes') return 'I have read and understand the above information and I do consent and wish to move forward with this treatment plan';
   if (id === '6432' && normalizeYesNo(value) === 'Yes') return 'I have read the above information and I do consent and wish to move forward';
@@ -468,9 +652,10 @@ function normalizeAnswerValueById(id, value) {
 }
 
 const body = $json.body || {};
-const contact = parseMaybeJson(body.contact) || {};
+const contact = normalizeContact(body);
 const answers = normalizeAnswers(body.answers);
 const normalizedGender = normalizeGender(contact.gender);
+const missingRequiredContactFields = getMissingRequiredContactFields(contact);
 
 if (!answers['6403'] && normalizedGender) {
   setAnswer(answers, '6403', normalizedGender);
@@ -490,8 +675,13 @@ const outbound = {
 return [
   {
     json: {
+      ...outbound,
       outbound,
       outbound_json: JSON.stringify(outbound),
+      diagnostics: {
+        ready_for_http: missingRequiredContactFields.length === 0,
+        missing_required_contact_fields: missingRequiredContactFields,
+      },
     },
   },
 ];
@@ -505,6 +695,16 @@ HTTP Request node:
 - Header `Content-Type`: `application/json`
 - Body: Raw JSON
 - Raw body expression: `{{ $json.outbound_json }}`
+
+Validacao obrigatoria antes do HTTP:
+
+Depois do Code node, adicione um IF:
+
+- Condicao: `{{ $json.should_call_http }} is true`
+- Ramo true: chamar o HTTP Request da Nuestra RX usando `{{ $json.outbound_json }}`
+- Ramo false: responder para a AWSales com `{{ $json.tool_response_json }}`
+
+Nao chame o HTTP Request se `diagnostics.ready_for_http` for false. Isso evita erro de validacao no endpoint e faz a IA pedir os dados faltantes ao lead.
 
 Depois disso, a URL da tool na AWSales deve apontar para o webhook do adapter n8n, nao diretamente para `https://webhook.nuestrarx.com/ai-handoff`.
 
