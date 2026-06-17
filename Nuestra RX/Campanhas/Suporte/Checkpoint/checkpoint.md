@@ -252,11 +252,11 @@ Alavanca de retomada:
 
 ## VARIÁVEIS DE SISTEMA UTILIZADAS NO CHECKPOINT
 
-- `{{email_suporte}}`: hola@nuestrarx.com
-- `{{whatsapp_suporte}}`: https://wa.me/19732826268
-- `{{link_formulario}}`: https://nuestrarx.com/evaluacion
-- `{{link_portal_paciente}}`: https://patient.nuestrarx.com
-- `{{link_seguranca}}`: https://nuestrarx.com/informacion-de-seguridad.html
+- `{{email_suporte}}`: e-mail do suporte humano.
+- `{{whatsapp_suporte}}`: WhatsApp do suporte humano; usado no handoff.
+- `{{link_formulario}}`: link do formulário de avaliação médica.
+- `{{link_portal_paciente}}`: link do portal do paciente onde ele acompanha o pedido.
+- `{{link_seguranca}}`: página de informação de segurança do produto.
 - `{{metadata.thankyou_link}}`: link específico do portal ou área do paciente quando vier no evento.
 - `{{metadata.order_id}}`: número do pedido quando vier no evento.
 - `{{metadata.product_name}}`: nome do tratamento ou plano quando vier no evento.

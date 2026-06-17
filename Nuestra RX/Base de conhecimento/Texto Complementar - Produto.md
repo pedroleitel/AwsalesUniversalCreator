@@ -39,12 +39,14 @@ campaña; al hablar de precio, el conserje los informa (no los esquiva).
 Cada plan incluye todo el paquete: la consulta médica, el medicamento, el envío refrigerado y
 el seguimiento médico continuo por WhatsApp. Sin seguro, sin copagos sorpresa, sin deducibles.
 
-## $0 hoy — solo se cobra si el médico aprueba (pre-save)
+## $0 ahora — solo se cobra si el médico aprueba (pre-save)
 
-En el checkout no se cobra nada: aparece "$0 hoy". Solo se registra la tarjeta y se reserva el
+En el checkout no se cobra nada ahora: solo se registra la tarjeta y se reserva el
 pedido. El primer cobro ocurre únicamente después de que el médico aprueba el caso. Si el
 médico no aprueba, no se cobra nada. Hacer el checkout no es comprar: es reservar el pedido
-para que el médico lo revise. Es un proceso sin riesgo para empezar.
+para que el médico lo revise. Es un proceso sin riesgo para empezar. Al explicarlo al lead se
+dice siempre "ahora no pagas nada", nunca "hoy" ni atado a una ventana de 24 horas; las 24
+horas son solo el tiempo de la revisión médica, no un plazo de pago ni de oferta.
 
 ## Cómo funciona (4 pasos)
 

@@ -164,8 +164,8 @@ Portanto, o Checkpoint deve focar em **como a IA age**, não no que o produto é
 (etc)
 
 ## [VARIÁVEIS DE SISTEMA UTILIZADAS NO CHECKPOINT]
-- {{link_vendas}}: [URL real]
-- {{link_suporte}}: [URL real]
+- {{link_vendas}}: [descrição curta do objetivo, NÃO a URL real]
+- {{link_suporte}}: [descrição curta do objetivo, NÃO a URL real]
 (etc)
 ```
 
@@ -173,7 +173,7 @@ Portanto, o Checkpoint deve focar em **como a IA age**, não no que o produto é
 - **PROIBIDO asteriscos (`**` ou `*`) e emojis!** A plataforma falha ao renderizá-los.
 - Formate usando apenas Markdown limpo (`#`, `##`, listas com `- [ ]`).
 - Adicione expressamente "Não usar emojis." nas limitações do agente.
-- Liste TODAS as variáveis no rodapé sob `[VARIÁVEIS DE SISTEMA UTILIZADAS NO CHECKPOINT]`.
+- Liste TODAS as variáveis no rodapé sob `[VARIÁVEIS DE SISTEMA UTILIZADAS NO CHECKPOINT]`. No rodapé, cada variável recebe uma DESCRIÇÃO CURTA do que ela é/faz, NUNCA o valor real (URL, telefone, e-mail). Ex: `{{link_formulario}}`: link do formulário de avaliação — e não `{{link_formulario}}`: https://.... O valor real fica configurado na plataforma; colá-lo no checkpoint anula o propósito da variável e duplica a fonte da verdade.
 - **SEMPRE escreva o Checkpoint com acentuação pt-br correta.** Nunca remova acentos (é, ã, ç, á, ú, õ, etc.).
 
 ### Campos de Marcação Exigem Caixas `- [ ]` Reais (senão o Checkpoint Manager loopa)

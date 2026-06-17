@@ -219,5 +219,5 @@ Próximo passo:
 
 - `{{metadata.checkout_url}}`: checkout que o lead já gerou, vem no evento de entrada. Pode ser reenviado quando não houver troca de plano ou medicamento e quando a estratégia de link da seção 7 indicar envio.
 - `{{checkout_url}}`: novo checkout retornado pela tool de envio da avaliação, quando o lead troca plano ou medicamento.
-- `{{whatsapp_suporte}}`: https://wa.me/19732826268
-- `{{link_seguranca}}`: https://nuestrarx.com/informacion-de-seguridad.html
+- `{{whatsapp_suporte}}`: WhatsApp do suporte humano; usado no handoff.
+- `{{link_seguranca}}`: página de informação de segurança do produto.

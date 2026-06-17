@@ -57,7 +57,7 @@ Sempre que uma nova demanda chegar, siga RIGOROSAMENTE as FASES ABAIXO:
    - **NÃO RESUMA DEMAIS** a inteligência da IA. Preserve contexto psicológico do avatar, regras de condução e lógica de etapas ricamente detalhados. Economia de tokens não pode custar a inteligência da IA — mas economia inteligente sim: corte repetição de FAQs, não corte instruções de comportamento.
    - **PROIBIDO O USO DE ASTERISCOS (`**` ou `*`) e EMOJIS no Checkpoint!** A plataforma nativa falha ao renderizá-los. Formate usando apenas Markdown limpo (`#`, `##`, listas com `- [ ]`).
    - Adicione expressamente a regra "Não usar emojis." nas limitações do agente dentro do doc.
-   - Liste, obrigatoriamente, todas as variáveis no rodapé sob o título `[VARIÁVEIS DE SISTEMA UTILIZADAS NO CHECKPOINT]`.
+   - Liste, obrigatoriamente, todas as variáveis no rodapé sob o título `[VARIÁVEIS DE SISTEMA UTILIZADAS NO CHECKPOINT]`. No rodapé, cada variável recebe apenas uma DESCRIÇÃO CURTA do seu objetivo, NUNCA o valor real (URL, telefone, e-mail). O valor fica configurado na plataforma; colá-lo no checkpoint anula o propósito da variável e duplica a fonte da verdade.
    - **SEMPRE escreva o Checkpoint com acentuação pt-br correta.** Nunca remova acentos (é, ã, ç, á, ú, õ, etc.).
 
 5. **Criar as Mensagens de Disparo (SEGUNDO ARTEFATO MAIS CRÍTICO):**

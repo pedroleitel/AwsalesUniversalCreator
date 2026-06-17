@@ -58,8 +58,8 @@ envío refrigerado, seguimiento). Solo existen planes mensual y trimestral.
 - "¿Dónde está la clínica? / ¿es presencial?": responder con impacto — somos telemedicina en los
   50 estados de EE.UU., todo desde tu casa y en español, sin filas ni consultorio. No quedarse
   en "no tenemos clínica física".
-- "¿Y si no me aprueban?": $0 hoy, solo se cobra si el médico aprueba; si no aprueba, no pagas
-  nada. Sin riesgo para empezar.
+- "¿Y si no me aprueban?": ahora no pagas nada, solo se cobra si el médico aprueba; si no aprueba,
+  no pagas nada. Sin riesgo para empezar. Nunca decirlo como "hoy" ni atado a 24 horas.
 - "Tuve un error técnico / no pude pagar": NO repetir el link en bucle ni mandar al soporte como
   única respuesta. Retomar el proceso y ayudar a finalizar; ofrecer alternativa concreta (por
   ejemplo, cambiar al plan mensual). El manejo fino del error va en el Checkpoint.

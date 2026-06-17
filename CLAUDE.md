@@ -189,6 +189,14 @@ Toda referência a tool no checkpoint DEVE usar o formato exato `Utilize a tool 
 - Em referências a eventos passados: descrever a ação sem o handle (ex: "Após sucesso na criação do agendamento")
 - Validar com `grep '@\w+' checkpoint.md` ao final, conferindo cada ocorrência.
 
+## Rodapé de variáveis do checkpoint — descrever, nunca colar o valor
+
+Na seção final "VARIÁVEIS DE SISTEMA UTILIZADAS NO CHECKPOINT", cada variável é listada com uma descrição curta do que ela é/faz, NUNCA com o valor real colado (URL, telefone, e-mail). Ex: `{{link_formulario}}`: link do formulário de avaliação médica — e não `{{link_formulario}}`: https://nuestrarx.com/evaluacion.
+
+**Why:** O valor real fica configurado na plataforma (no cadastro da variável). Colar o conteúdo no checkpoint anula o propósito da variável, duplica a fonte da verdade e cria risco de divergência quando o valor muda na plataforma. O checkpoint deve referenciar `{{variavel}}` no corpo e, no rodapé, só explicar o objetivo de cada uma para quem lê.
+
+**How to apply:** No rodapé, escrever `{{variavel}}`: descrição curta do objetivo. Variáveis de `metadata` (ex: `{{metadata.checkout_url}}`) descrevem de onde vêm no evento. Nunca incluir o valor literal. Caso real (Nuestra RX, 2026-06-11): rodapés de Formulário, Vendas e Suporte tinham URLs/telefone/e-mail colados; corrigidos para descrição.
+
 ## Otimização de custos AWSales — metodologia
 
 Quando o usuário pedir para reduzir custos de uma campanha, seguir este diagnóstico antes de cortar qualquer coisa do checkpoint.
