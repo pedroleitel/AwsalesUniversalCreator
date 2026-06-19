@@ -527,6 +527,10 @@ function buildMetadata(body, eventKind, answersCount) {
   const step = get(body, 'resume.step');
   const stage = get(body, 'resume.stage');
   const profileOnly = isInitialProfileOnly(body);
+  // intake_partial_wa chega com stage=parent/step=4 (profileOnly=true), mas o lead JA escolheu
+  // medicamento/plano antes de clicar "Continuar por WhatsApp". Manter a escolha no metadata
+  // pra IA nao re-perguntar medicamento/plano nesse handoff.
+  const keepTreatment = !profileOnly || (eventKind === 'wa_button_handoff' && !isBlank(treatment));
 
   const full = stripUndefined({
     nrx_event: get(body, 'event'),
@@ -590,9 +594,9 @@ function buildMetadata(body, eventKind, answersCount) {
     // bypass gastrico (hard stop ja respondido no form) e uso previo de GLP-1.
     gastric_bypass: profileOnly ? undefined : getFirst(body, ['medical_history.gastric_bypass_recent', 'raw_answers.beluga.gastricBypass']),
     prior_glp1_use: profileOnly ? undefined : getFirst(body, ['medical_history.prior_glp1_use', 'raw_answers.beluga.priorGlp1Use']),
-    selected_medication: profileOnly ? undefined : labelValue(treatment),
-    selected_plan: profileOnly ? undefined : labelValue(plan),
-    plan_price: profileOnly ? undefined : get(body, 'raw_answers.intake.planPrice'),
+    selected_medication: keepTreatment ? labelValue(treatment) : undefined,
+    selected_plan: keepTreatment ? labelValue(plan) : undefined,
+    plan_price: keepTreatment ? get(body, 'raw_answers.intake.planPrice') : undefined,
     eligibility_qualified: get(body, 'eligibility.qualified'),
     eligibility_state_supported: get(body, 'eligibility.state_supported'),
     can_self_inject_from_raw: profileOnly ? undefined : labelValue(get(body, 'raw_answers.beluga.injectionAbility')),
@@ -605,6 +609,69 @@ function buildMetadata(body, eventKind, answersCount) {
     form_version: get(body, 'meta.form_version'),
     answers_count: answersCount,
   });
+
+  // Metadata ENXUTO para o handoff via botao WhatsApp (intake_partial_wa). O lead clicou
+  // "Continuar por WhatsApp" no step 4 (so perfil), entao o full vem cheio de ruido pra IA:
+  // source_*, tracking, resume tokens/ttl, wa_redirect, handoff_channel, form_version,
+  // age_range, bmi_class, height_display (aspa de polegada 5'6" quebra o JSON que a IA copia).
+  // Mantemos so o objetivo: identificar o lead (nome/estado), biometria pra avaliacao medica,
+  // escolha de tratamento se houver, e url de retomada. Email/telefone/nome ficam em `lead`.
+  if (eventKind === 'wa_button_handoff') {
+    const KEEP_WA = [
+      'nrx_event', 'event_kind', 'recovery_type',
+      'form_resume_url',
+      'dosable_lead_id', 'dosable_session_id',
+      'lead_first_name', 'lead_last_name', 'lead_state',
+      'biological_sex',
+      'height_cm', 'weight_lbs', 'bmi',
+      'selected_medication', 'selected_plan', 'plan_price',
+    ];
+
+    const leanWa = {};
+
+    for (const key of KEEP_WA) {
+      if (full[key] !== undefined) leanWa[key] = full[key];
+    }
+
+    return leanWa;
+  }
+
+  // Metadata ENXUTO para a familia de abandono (form_abandonment_confirmed, form_abandonment,
+  // checkout_abandonment) - os eventos que ENVIAM pra campanha de Recuperacao de Formulario.
+  // Mantem: link de retomada + onde parou + backfill medico + identidade. Corta: debug,
+  // analytics, duplicados, derivaveis (bmi_class, weight_kg, age_range), session_id/whatsapp_url,
+  // os flags de elegibilidade (sao false so porque o form ficou incompleto, nao porque o lead
+  // e inelegivel ou o estado e bloqueado - quem decide isso e o checkpoint pelos dados clinicos),
+  // can_self_inject_normalized (default nao-sincronizado que contradiz o _from_raw), plan_price
+  // (preco e dominio do checkpoint) e o height_display (a aspa de polegada 5'1" quebra o JSON
+  // que a IA copia pra tool - mesmo bug de 2026-06-10).
+  if (['form_abandonment_confirmed', 'form_abandonment', 'checkout_abandonment'].includes(eventKind)) {
+    const KEEP_ABANDON = [
+      'nrx_event', 'event_kind',
+      'form_resume_url', 'checkout_url',
+      'resume_stage', 'resume_step', 'resume_step_label',
+      'dosable_lead_id', 'dosable_session_id',
+      'lead_first_name', 'lead_last_name', 'lead_state',
+      'biological_sex', 'dob',
+      'height_cm', 'weight_lbs', 'bmi',
+      'goal_weight', 'goal_weight_unit',
+      'highest_weight', 'highest_weight_unit',
+      'current_medications', 'allergies', 'weight_management_approach',
+      'medical_conditions', 'glp1_drug_allergies',
+      'pregnancy_status', 'gastric_bypass', 'prior_glp1_use',
+      'can_self_inject_from_raw',
+      'final_consents_from_raw',
+      'selected_medication', 'selected_plan',
+    ];
+
+    const leanAbandon = {};
+
+    for (const key of KEEP_ABANDON) {
+      if (full[key] !== undefined) leanAbandon[key] = full[key];
+    }
+
+    return leanAbandon;
+  }
 
   if (eventKind !== 'checkout_reached') return full;
 
@@ -647,7 +714,7 @@ function buildRouting(body, eventKind, awsalesPayload) {
   const stateKey = getStateKey(body, awsalesPayload.lead);
   const recoveryUrl = get(body, 'checkout_url') || getFirst(body, ['resume.cross_device_url', 'resume.url']);
   const isWaHandoff = eventKind === 'whatsapp_handoff';
-  const shouldSendNow = eventKind === 'form_abandonment_confirmed' || eventKind === 'checkout_reached';
+  const shouldSendNow = eventKind === 'form_abandonment_confirmed' || eventKind === 'checkout_reached' || eventKind === 'wa_button_handoff';
   const shouldEverSend = !isWaHandoff &&
     !['contact_captured', 'form_progress_snapshot', 'form_completed_no_checkout'].includes(eventKind);
 
@@ -673,6 +740,11 @@ function getEventKind(body) {
     sourceEvent === 'intake_partial' &&
     (get(body, '_source') === 'wa-handoff' || get(body, 'wa_redirect') === true || get(body, 'handoff_channel') === 'whatsapp');
 
+  // intake_partial_wa = lead clicou "Continuar la atención por WhatsApp con un agente" depois
+  // de preencher o perfil (nome, email, telefone, estado, tratamento). Willian criou esse
+  // evento dedicado (2026-06-18). DEVE enviar agora pra AWSales, para o lead chegar com o
+  // contato/metadata (especialmente o EMAIL) e a IA nao coletar do zero (raiz do bug "N/A").
+  if (sourceEvent === 'intake_partial_wa') return 'wa_button_handoff';
   if (isWaHandoff) return 'whatsapp_handoff';
   if (sourceEvent === 'intake_abandoned') return 'form_abandonment_confirmed';
   // intake_plan_selected = lead chegou no checkout (ja traz checkout_url). E o OUTPUT
@@ -712,6 +784,7 @@ function getRecommendedAction(eventKind) {
     form_progress_snapshot: 'Store/debug only. Do not trigger AWSales because intake_progress is a progress/autosave snapshot.',
     checkout_abandonment: 'Store latest checkout state, wait 10 minutes without purchase/output event, then send awsales_payload.',
     whatsapp_handoff: 'Store context only. Do not start outbound WhatsApp because the site already opens WhatsApp to the IA.',
+    wa_button_handoff: 'Send awsales_payload now. Lead clicked the "Continuar por WhatsApp" button (intake_partial_wa) with profile + treatment filled; populate the lead with contact (EMAIL!) and metadata so the IA does not collect from scratch and does not fill "N/A".',
     form_completed_no_checkout: 'Store context and wait for plan_selected/checkout_url or an explicit submitted event rule.',
   };
 
@@ -727,6 +800,7 @@ function getRoutingReason(eventKind) {
     form_progress_snapshot: 'intake_progress can fire while the lead is actively moving through the form.',
     checkout_abandonment: 'The lead generated a checkout URL; debounce gives time for immediate payment before recovery.',
     whatsapp_handoff: 'Lead clicked WhatsApp handoff and will arrive inbound/receptive to the IA.',
+    wa_button_handoff: 'Lead clicked the WhatsApp handoff button after filling the profile (name, email, phone, state, treatment). Send now so AWSales has the contact/metadata when the lead messages.',
     form_completed_no_checkout: 'The medical intake reached processing/success but no checkout URL is present in this payload.',
   };
 

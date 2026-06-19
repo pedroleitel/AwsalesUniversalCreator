@@ -6,7 +6,7 @@ Pasta de consulta pra montar os fluxos de integração no **n8n** entre as plata
 
 Operação de telemedicina **hispana nos EUA**, foco em emagrecimento via GLP-1 (Semaglutide e Tirzepatide composto). Cliente entra em [nuestrarx.com](https://nuestrarx.com), responde quiz médico de 9 etapas em espanhol, é qualificado, paga, e recebe medicamento de farmácia compounding 503A/503B. Tudo automatizado.
 
-Preços: Semaglutide $165/mês, Tirzepatide $255/mês. Cobertura nos 50 estados (alguns como TX bloqueados por compliance). Aprovação <24h, garantia 12 meses.
+Preços: Semaglutide $165/mês, Tirzepatide $255/mês. Cobertura quase nacional: em produção o único estado bloqueado hoje é California (CA) — Matheus confirmou em 2026-06-17. O TX NÃO é bloqueado (era só do ambiente de teste do Dosable). Aprovação <24h, garantia 12 meses.
 
 ## Stack — quem faz o quê
 

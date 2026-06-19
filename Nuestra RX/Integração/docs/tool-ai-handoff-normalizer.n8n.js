@@ -150,6 +150,26 @@ function normalizeDateOfBirthIso(value) {
   return raw;
 }
 
+// Placeholders que a IA usa quando NAO coletou o dado (N/A, ninguno, etc). Para campos de
+// CONTATO obrigatorios isso e invalido: o Dosable rejeita email/birthday "N/A" com 422
+// (caso real Paola 2026-06-18). "N/A" nao e vazio, entao sem isto passava direto pro Dosable.
+// Tratar como vazio -> vira faltante -> missing_required_data -> a IA pergunta. NAO aplicar em
+// answers (la "None"/"Ninguno" e resposta valida).
+function isContactPlaceholder(value) {
+  const v = String(value ?? '').trim().toLowerCase();
+  return ['n/a', 'na', 'none', 'ninguno', 'ninguna', 'null', 'undefined', '-', '--', 'no aplica', 'sin dato', 'no disponible'].includes(v);
+}
+function cleanContactField(value) {
+  return isContactPlaceholder(value) ? undefined : value;
+}
+function validEmailOrBlank(value) {
+  const v = String(value ?? '').trim();
+  return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v) ? v : undefined;
+}
+function validBirthdayOrBlank(value) {
+  return /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(String(value ?? '')) ? value : undefined;
+}
+
 function normalizeContact(body, metadata = {}, lead = {}) {
   const contact = parseMaybeJson(body.contact) || {};
   const splitName = splitFullName(firstNonBlank([contact.name, contact.full_name, body.name, body.full_name]));
@@ -172,11 +192,11 @@ function normalizeContact(body, metadata = {}, lead = {}) {
 
   return {
     ...contact,
-    first_name: firstNonBlank([contact.first_name, contact.firstName, contact.firstname, body.first_name, body.firstName, splitName.first_name, lead.first_name, leadName.first_name, metadata.lead_first_name]),
-    last_name: firstNonBlank([contact.last_name, contact.lastName, contact.lastname, body.last_name, body.lastName, splitName.last_name, lead.last_name, leadName.last_name, metadata.lead_last_name]),
-    email: firstNonBlank([contact.email, body.email, lead.email]),
-    phone: firstNonBlank([contact.phone, contact.phone_e164, contact.phoneE164, body.phone, body.phone_e164, body.phoneE164, lead.phone]),
-    lead_state: firstNonBlank([
+    first_name: cleanContactField(firstNonBlank([contact.first_name, contact.firstName, contact.firstname, body.first_name, body.firstName, splitName.first_name, lead.first_name, leadName.first_name, metadata.lead_first_name])),
+    last_name: cleanContactField(firstNonBlank([contact.last_name, contact.lastName, contact.lastname, body.last_name, body.lastName, splitName.last_name, lead.last_name, leadName.last_name, metadata.lead_last_name])),
+    email: validEmailOrBlank(firstNonBlank([contact.email, body.email, lead.email])),
+    phone: cleanContactField(firstNonBlank([contact.phone, contact.phone_e164, contact.phoneE164, body.phone, body.phone_e164, body.phoneE164, lead.phone])),
+    lead_state: normalizeState(cleanContactField(firstNonBlank([
       contact.lead_state,
       contact.leadState,
       contact.state,
@@ -189,20 +209,20 @@ function normalizeContact(body, metadata = {}, lead = {}) {
       body.stateCode,
       metadata.lead_state,
       shippingAddress && shippingAddress.state,
-    ]),
+    ]))),
     gender: normalizeGender(firstNonBlank([contact.gender, contact.sex, contact.biological_sex, body.gender, body.sex, body.biological_sex, metadata.biological_sex])),
-    // MM/DD/YYYY e o formato comprovado: o teste real Silvia Xavier (lead Dosable
-    // criado do zero) retornou ok:true com date_of_birth/birthday em MM/DD. Mantemos
-    // date_of_birth_iso so como referencia interna; nao e o que vai no body.
-    date_of_birth: birthday,
+    // MM/DD/YYYY e o formato comprovado. "N/A" ou data invalida -> undefined (faltante),
+    // senao o Dosable rejeita com 422 (caso real Paola 2026-06-18: birthday "N/A").
+    // date_of_birth_iso fica so como referencia interna; nao e o que vai no body.
+    date_of_birth: validBirthdayOrBlank(birthday),
     date_of_birth_iso: dateOfBirthIso,
-    birthday,
+    birthday: validBirthdayOrBlank(birthday),
     shipping_address: shippingAddress,
   };
 }
 
 function getMissingRequiredContactFields(contact) {
-  return ['first_name', 'last_name', 'email', 'phone', 'lead_state'].filter((field) => isBlank(contact[field]));
+  return ['first_name', 'last_name', 'email', 'phone', 'lead_state', 'date_of_birth'].filter((field) => isBlank(contact[field]));
 }
 
 // Schema oficial Dosable Tenant 64 (fonte: handoff-awsales-20260528/awsales_t64_schema.json).
@@ -278,6 +298,25 @@ function sanitizeAnswers(answers, contact) {
   return answers;
 }
 
+// Dosable valida TIPO: textarea/radio/consent exigem string, nunca number; checkbox exige
+// array de strings. A IA as vezes manda o valor como number (caso real Prueba 2026-06-17:
+// 6402 = 95 int -> /ai-handoff 400 "expects a string value; received int"). Coerage final:
+// scalar nao-string vira string; cada item de checkbox vira string. Roda depois do
+// backfill/sanitize, antes de montar o outbound.
+function coerceAnswerTypes(answers) {
+  for (const id of Object.keys(answers)) {
+    const entry = answers[id];
+    if (!entry) continue;
+    const v = entry.value;
+    if (Array.isArray(v)) {
+      entry.value = v.map((x) => (typeof x === 'string' ? x : String(x)));
+    } else if (v !== null && v !== undefined && typeof v !== 'string') {
+      entry.value = String(v);
+    }
+  }
+  return answers;
+}
+
 function getMissingRequiredAnswerIds(answers) {
   const required = [
     '6400',
@@ -302,6 +341,27 @@ function getMissingRequiredAnswerIds(answers) {
   return required.filter((id) => isBlank(answers[id] && answers[id].value));
 }
 
+// Peso (6406/6408) precisa ser NUMERO puro; altura (6407) precisa ter ao menos um digito.
+// A IA as vezes manda "Unknown"/"N/A" quando nao capturou (audio que nao transcreveu, reset
+// de sessao no meio). O Dosable rejeita com 400 "Invalid weight format: 'Unknown'. Weight
+// must be a number only" (caso real Deyaniris 2026-06-19: 502 envolvendo esse 400). Em vez de
+// mandar lixo e queimar a venda num handoff_failed generico, dropamos o valor invalido: vira
+// faltante -> missing_required_data -> a IA re-pergunta peso/altura ao lead e tenta de novo.
+function dropInvalidBiometrics(answers) {
+  for (const id of ['6406', '6408']) {
+    const entry = answers[id];
+    if (!entry) continue;
+    const v = String(entry.value == null ? '' : entry.value).trim();
+    if (!/\d/.test(v) || /[a-zA-Z]/.test(v)) delete answers[id];
+  }
+  const height = answers['6407'];
+  if (height) {
+    const hv = String(height.value == null ? '' : height.value).trim();
+    if (!/\d/.test(hv)) delete answers['6407'];
+  }
+  return answers;
+}
+
 function buildMissingDataResponse(missingContactFields, missingAnswerIds) {
   if (!missingContactFields.length && !missingAnswerIds.length) return null;
 
@@ -320,6 +380,13 @@ function buildMissingDataResponse(missingContactFields, missingAnswerIds) {
   };
 }
 
+// Tokens afirmativos/negativos comuns em ES/EN. O lead nunca responde so "si"/"no":
+// fala "claro", "por supuesto", "no, me asistian en clinica", etc. Cobrimos o caso
+// obvio aqui (formato), mas o SENTIDO da frase e responsabilidade da IA (descricao da
+// tool manda a IA enviar token canonico). Aqui so garantimos formato Yes/No valido.
+const YES_TOKENS = ['yes', 'si', 'sí', 'sim', 'y', 'true', 'claro', 'obvio', 'seguro', 'correcto', 'cierto', 'dale', 'ok', 'okay', 'vale', 'sip', 'positivo', 'afirmativo', 'exacto', 'perfecto', 'puedo', 'acepto', 'confirmo'];
+const NO_TOKENS = ['no', 'n', 'false', 'nop', 'negativo', 'nunca', 'jamas'];
+
 function normalizeYesNo(value) {
   if (value === true) return 'Yes';
   if (value === false) return 'No';
@@ -328,6 +395,96 @@ function normalizeYesNo(value) {
 
   if (['yes', 'si', 's\u00ed', 'sã­', 'sim', 'y', 'true'].includes(raw)) return 'Yes';
   if (['no', 'n', 'false'].includes(raw)) return 'No';
+
+  // match exato com a lista ampliada
+  if (YES_TOKENS.includes(raw)) return 'Yes';
+  if (NO_TOKENS.includes(raw)) return 'No';
+
+  // primeira palavra da frase ("no, me asistian en clinica" -> No; "si, claro" -> Yes)
+  const words = raw.replace(/^[¿¡\s]+/, '').split(/[\s,.;:!?]+/).filter(Boolean);
+  const firstWord = words[0];
+  if (YES_TOKENS.includes(firstWord)) return 'Yes';
+  if (NO_TOKENS.includes(firstWord)) return 'No';
+
+  // varredura por palavra inteira ("por supuesto que sí" -> Yes). Guarda de ambiguidade:
+  // se aparecer afirmacao E negacao na mesma frase, nao adivinha (deixa o sanitizer pedir
+  // de novo) para nao mapear errado.
+  const hasYes = words.some((w) => YES_TOKENS.includes(w));
+  const hasNo = words.some((w) => NO_TOKENS.includes(w));
+  if (hasYes && !hasNo) return 'Yes';
+  if (hasNo && !hasYes) return 'No';
+
+  return value;
+}
+
+// Mapa estado -> codigo USPS de 2 letras. O Dosable exige "State must be two uppercase
+// letters" (erro real Yasmira 2026-06-17: lead_state "Florida" -> 400/502). O lead fala
+// nome do estado ("Florida") ou cidade ("Orlando"); a IA deveria mandar o codigo, mas
+// garantimos aqui de forma deterministica. Cobre nome EN, nome ES e cidades de maior
+// populacao hispana. NOTA: TX NAO e bloqueado (era so sandbox de teste). Em producao o unico
+// estado bloqueado hoje e California (CA) — Matheus confirmou 2026-06-17. O gate de CA fica no
+// checkpoint (a IA nao coleta nem chama a tool para lead de CA); este mapa so converte nome->codigo.
+const STATE_NAME_TO_CODE = {
+  alabama: 'AL', alaska: 'AK', arizona: 'AZ', arkansas: 'AR', california: 'CA',
+  colorado: 'CO', connecticut: 'CT', delaware: 'DE', florida: 'FL', georgia: 'GA',
+  hawaii: 'HI', idaho: 'ID', illinois: 'IL', indiana: 'IN', iowa: 'IA',
+  kansas: 'KS', kentucky: 'KY', louisiana: 'LA', luisiana: 'LA', maine: 'ME',
+  maryland: 'MD', massachusetts: 'MA', michigan: 'MI', minnesota: 'MN',
+  mississippi: 'MS', misisipi: 'MS', missouri: 'MO', misuri: 'MO', montana: 'MT',
+  nebraska: 'NE', nevada: 'NV', 'new hampshire': 'NH', 'nuevo hampshire': 'NH',
+  'new jersey': 'NJ', 'nueva jersey': 'NJ', 'new mexico': 'NM', 'nuevo mexico': 'NM',
+  'new york': 'NY', 'nueva york': 'NY', 'north carolina': 'NC',
+  'carolina del norte': 'NC', 'north dakota': 'ND', 'dakota del norte': 'ND', ohio: 'OH',
+  oklahoma: 'OK', oregon: 'OR', pennsylvania: 'PA', pensilvania: 'PA',
+  'rhode island': 'RI', 'south carolina': 'SC', 'carolina del sur': 'SC',
+  'south dakota': 'SD', 'dakota del sur': 'SD', tennessee: 'TN', texas: 'TX', tejas: 'TX',
+  utah: 'UT', vermont: 'VT', virginia: 'VA', washington: 'WA', 'west virginia': 'WV',
+  'virginia occidental': 'WV', wisconsin: 'WI', wyoming: 'WY',
+  'district of columbia': 'DC', 'washington dc': 'DC',
+};
+const CITY_TO_STATE_CODE = {
+  orlando: 'FL', miami: 'FL', tampa: 'FL', jacksonville: 'FL', hialeah: 'FL',
+  houston: 'TX', dallas: 'TX', 'san antonio': 'TX', austin: 'TX', 'el paso': 'TX', 'fort worth': 'TX',
+  'los angeles': 'CA', 'san diego': 'CA', 'san jose': 'CA', fresno: 'CA', sacramento: 'CA',
+  'long beach': 'CA', anaheim: 'CA', bakersfield: 'CA',
+  nyc: 'NY', bronx: 'NY', brooklyn: 'NY', queens: 'NY',
+  chicago: 'IL', phoenix: 'AZ', tucson: 'AZ', mesa: 'AZ', 'las vegas': 'NV', newark: 'NJ',
+  atlanta: 'GA', denver: 'CO', boston: 'MA', philadelphia: 'PA', filadelfia: 'PA',
+  'san francisco': 'CA', seattle: 'WA', charlotte: 'NC',
+};
+
+const VALID_STATE_CODES = new Set([
+  'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA',
+  'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+  'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT',
+  'VA', 'WA', 'WV', 'WI', 'WY', 'DC',
+]);
+
+function normalizeState(value) {
+  const raw = String(value ?? '').trim();
+  if (!raw) return value;
+
+  // ja e codigo de 2 letras: so aceita se for um estado REAL. "US", "MX" etc nao sao estado
+  // (caso real Mari Cinta 2026-06-16: lead_state "US" gerou shipState=US no checkout). Valor
+  // invalido vira null -> lead_state faltante -> a tool nao e chamada e a IA pede o estado.
+  if (/^[A-Za-z]{2}$/.test(raw)) {
+    const up = raw.toUpperCase();
+    return VALID_STATE_CODES.has(up) ? up : null;
+  }
+
+  const key = raw.toLowerCase().replace(/[.,]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (STATE_NAME_TO_CODE[key]) return STATE_NAME_TO_CODE[key];
+  if (CITY_TO_STATE_CODE[key]) return CITY_TO_STATE_CODE[key];
+
+  // frase: "vivo en orlando", "estado de florida", "orlando fl"
+  for (const [name, code] of Object.entries(STATE_NAME_TO_CODE)) {
+    if (key.includes(name)) return code;
+  }
+  for (const [city, code] of Object.entries(CITY_TO_STATE_CODE)) {
+    if (key.includes(city)) return code;
+  }
+  const trailingCode = key.match(/\b([a-z]{2})\s*$/);
+  if (trailingCode) return trailingCode[1].toUpperCase();
 
   return value;
 }
@@ -616,21 +773,142 @@ function shouldTreatAsKg(sourceKey, questionText) {
   return false;
 }
 
+// ---- Resolver deterministico por aliases (mapa canonico do Willian, 2026-06-17) ----
+// Fonte: docs/dosable/valid-options-canonicas-tenant64.json. O /ai-handoff NAO normaliza
+// (repassa verbatim pro Dosable); entao a conversao fala-do-lead -> string exata acontece
+// AQUI. Para cada pergunta de opcao casa o texto do lead com value/aliases e devolve a
+// string EXATA. Sem match confiante -> null (o sanitizer derruba e a IA repergunta, em vez
+// de mandar lixo). Caso real Regina: 6418 "No, me asistian en clinica" = TEM ajuda -> Yes.
+function canon(s) {
+  return String(s ?? '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+const OPTION_ALIASES = {
+  '6403': [
+    { value: 'Female', aliases: ['mujer', 'femenino', 'femenina', 'f'] },
+    { value: 'Male', aliases: ['hombre', 'masculino', 'varon', 'm'] },
+  ],
+  '6404': [
+    { value: 'No', aliases: ['no', 'no estoy embarazada', 'no lactancia', 'no doy pecho'] },
+    { value: 'Yes', aliases: ['si', 'embarazada', 'amamantando', 'lactando', 'dando pecho'] },
+  ],
+  '6410': [
+    { value: 'Actively managing', aliases: ['activamente', 'estoy haciendo de todo', 'dieta y ejercicio', 'muy activo'] },
+    { value: 'Some efforts', aliases: ['algo', 'algunos esfuerzos', 'dieta', 'ejercicio', 'suplementos', 'intento un poco'] },
+    { value: 'No active efforts', aliases: ['nada', 'primera vez', 'no he hecho nada', 'ningun esfuerzo'] },
+  ],
+  '6415': [
+    { value: 'No', aliases: ['no', 'no tuve', 'nunca', 'no me hice'] },
+    { value: 'Yes', aliases: ['si', 'tuve bypass', 'me operaron', 'cirugia bariatrica reciente'] },
+  ],
+  '6418': [
+    { value: 'Yes, I can inject myself or have reliable help', aliases: ['si', 'puedo inyectarme', 'tengo ayuda', 'me ayuda alguien', 'me asisten', 'me asistian en clinica', 'enfermera me ayuda', 'con ayuda'] },
+    { value: "No, I'd need an oral option instead (Direct to oral formulation or disqualified if not offered)", aliases: ['no puedo inyectarme', 'no me animo a inyectarme', 'necesito pastilla', 'opcion oral', 'no quiero agujas'] },
+  ],
+  '6431': [
+    { value: 'I have read and understand the above information and I do consent and wish to move forward with this treatment plan', aliases: ['acepto', 'consiento', 'de acuerdo', 'si quiero continuar', 'yes'] },
+  ],
+  '6432': [
+    { value: 'I have read the above information and I do consent and wish to move forward', aliases: ['acepto', 'confirmo que es verdad', 'de acuerdo', 'si', 'yes'] },
+  ],
+  '6433': [
+    { value: 'I have read and understand the above information and I wish to continue', aliases: ['acepto', 'deseo continuar', 'si continuar', 'si', 'yes'] },
+    { value: 'I have read the above information and I do not wish to continue', aliases: ['no deseo continuar', 'no quiero seguir'] },
+  ],
+};
+
+const CHECKBOX_ALIASES = {
+  '6411': [
+    { value: 'None of the above', aliases: ['ninguna', 'no tengo ninguna', 'ninguna de las anteriores', 'none'] },
+  ],
+  '6416': [
+    { value: 'None of the above', aliases: ['ninguna', 'no tengo alergias', 'ninguna de las anteriores', 'none'] },
+  ],
+  '6417': [
+    { value: 'None of these', aliases: ['ninguno', 'nunca tome', 'ninguno de estos', 'no he usado', 'none'] },
+    { value: 'Semaglutide (Ozempic, Wegovy, Rybelsus)', aliases: ['semaglutida', 'semaglutide', 'ozempic', 'wegovy', 'rybelsus'] },
+    { value: 'Tirzepatide (Zepbound, Mounjaro)', aliases: ['tirzepatida', 'tirzepatide', 'zepbound', 'mounjaro'] },
+  ],
+};
+
+// devolve a string EXATA da opcao ou null se nao houver match confiante.
+// Tiers em ordem de especificidade: o tier 2 (frase multi-palavra) vence o tier 3 (token),
+// para "no estoy embarazada" cair em No antes do token "embarazada" puxar pra Yes.
+function matchOption(opts, value) {
+  const c = canon(value);
+  if (!c) return null;
+  const words = new Set(c.split(' ').filter(Boolean));
+
+  for (const o of opts) {
+    if (canon(o.value) === c) return o.value;
+    if (o.aliases.some((a) => canon(a) === c)) return o.value;
+  }
+  // alias multi-palavra contido na frase: pega o MAIS LONGO entre todas as opcoes, pra
+  // "no puedo inyectarme" (No) vencer "puedo inyectarme" (Yes) numa frase negada.
+  let bestPhrase = null;
+  let bestLen = 0;
+  for (const o of opts) {
+    for (const a of o.aliases) {
+      const ca = canon(a);
+      if (ca.includes(' ') && c.includes(ca) && ca.length > bestLen) {
+        bestPhrase = o.value;
+        bestLen = ca.length;
+      }
+    }
+  }
+  if (bestPhrase) return bestPhrase;
+  for (const o of opts) {
+    for (const a of o.aliases) {
+      const ca = canon(a);
+      if (ca && !ca.includes(' ') && words.has(ca)) return o.value;
+    }
+  }
+  for (const o of opts) {
+    const vc = canon(o.value);
+    for (const w of words) {
+      if (w.length >= 6 && vc.includes(w)) return o.value;
+    }
+  }
+  return null;
+}
+
+function resolveOption(id, value) {
+  const opts = OPTION_ALIASES[String(id)];
+  if (!opts || Array.isArray(value)) return null;
+  return matchOption(opts, value);
+}
+
+function resolveCheckbox(id, value) {
+  const opts = CHECKBOX_ALIASES[String(id)];
+  if (!opts) return null;
+  const out = [];
+  for (const el of toArray(value)) {
+    const m = matchOption(opts, el);
+    if (m && !out.includes(m)) out.push(m);
+  }
+  return out.length ? out : null;
+}
+
 function normalizeAnswerValueById(id, value, sourceKey = '', questionText = '') {
   if (id === '6400' || id === '6401') return normalizeFreeTextNone(value);
   if (id === '6402') return normalizeGeneralAllergies(value);
-  if (id === '6403') return normalizeGender(value);
-  if (id === '6404') return normalizeYesNo(value);
+  if (id === '6403') return resolveOption('6403', value) ?? normalizeGender(value);
+  if (id === '6404') return resolveOption('6404', value) ?? normalizeYesNo(value);
   if (id === '6406') return normalizeWeightNumber(value, sourceKey, questionText);
   if (id === '6407' && shouldTreatAsCm(sourceKey, questionText, value)) return formatHeightFromCm(value);
   if (id === '6408') return normalizeWeightNumber(value, sourceKey, questionText);
-  if (id === '6410') return normalizeApproach(value);
-  if (id === '6411') return normalizeMedicalConditions(value);
-  if (id === '6415') return normalizeYesNo(value);
-  if (id === '6416') return normalizeGlpAllergies(value);
-  if (id === '6417') return normalizePriorGlp1Use(value);
-  if (id === '6418') return normalizeInjectionAbility(value);
-  if (id === '6431' || id === '6432' || id === '6433') return normalizeConsentValue(id, value);
+  if (id === '6410') return resolveOption('6410', value) ?? normalizeApproach(value);
+  if (id === '6411') return resolveCheckbox('6411', value) ?? normalizeMedicalConditions(value);
+  if (id === '6415') return resolveOption('6415', value) ?? normalizeYesNo(value);
+  if (id === '6416') return resolveCheckbox('6416', value) ?? normalizeGlpAllergies(value);
+  if (id === '6417') return resolveCheckbox('6417', value) ?? normalizePriorGlp1Use(value);
+  if (id === '6418') return resolveOption('6418', value) ?? normalizeInjectionAbility(value);
+  if (id === '6431' || id === '6432' || id === '6433') return resolveOption(id, value) ?? normalizeConsentValue(id, value);
 
   return value;
 }
@@ -857,6 +1135,13 @@ mergeContextAnswers(answers, metadata, formAnswers, contact);
 
 // Validacao final: garante que nenhum answer invalido vai para o Dosable.
 sanitizeAnswers(answers, contact);
+
+// Coerage de tipo: textarea/radio/consent como string, checkbox como array de strings
+// (Dosable rejeita number num textarea com 400).
+coerceAnswerTypes(answers);
+
+// Peso/altura "Unknown" (nao capturado) -> dropa -> vira faltante (Dosable so aceita numero).
+dropInvalidBiometrics(answers);
 
 const missingRequiredAnswerIds = getMissingRequiredAnswerIds(answers);
 const missingDataResponse = buildMissingDataResponse(missingRequiredContactFields, missingRequiredAnswerIds);

@@ -504,7 +504,7 @@ Hipóteses para amanhã investigar (em ordem):
 - **Farmácias 503A/503B** — compounding pharmacies que dispensam o medicamento (não tem integração direta com Nuestra, provavelmente entrega via Beluga ou Dosable).
 
 **Funil de 9 etapas (Dosable intake):**
-1. Sexo biológico → 2. Idade → 3. Altura/peso/IMC → 4. Objetivo → 5. Histórico médico → 6. Segurança (gravidez, alergias, GLP-1 prévio) → 7. Histórico de tentativas → 8. Estado (TX é blacklisted) → 9. Dados de envio + consentimento
+1. Sexo biológico → 2. Idade → 3. Altura/peso/IMC → 4. Objetivo → 5. Histórico médico → 6. Segurança (gravidez, alergias, GLP-1 prévio) → 7. Histórico de tentativas → 8. Estado (TX bloqueado SÓ no sandbox de teste; em prod entrega tudo) → 9. Dados de envio + consentimento
 
 **🎉 GRANDE DESCOBERTA: doc Dosable destravada**
 Pedro encontrou/obteve o **openapi.json oficial da Dosable Intake API** em `docs/dosable/Api/openapi.json` (~65k tokens). Contém:
@@ -520,7 +520,7 @@ Próximo passo (depois de destravar CKC): ler openapi.json completo, pedir Sandb
 
 **Notas técnicas pro normalizer (todos os 3):**
 - 🌐 **UTF-8 obrigatório** — site 100% espanhol, dados terão acentos (ñ, á, é, í, ó, ú).
-- 🚫 **TX blacklisted** em prod (confirmado no sandbox da Dosable + provavelmente compliance estadual).
+- 🚫 **Estado bloqueado em produção = California (CA), não TX.** O TX NÃO é bloqueado (vinha só do sandbox de teste do Dosable). Mas o Matheus avisou em 2026-06-17 que o único estado que NÃO entregam hoje é California (CA). Então EXISTE gate de estado, só que é CA, e fica no checkpoint da IA (não coletar / não chamar a tool para lead de CA; mensagem honesta sem prometer prazo). Reconfirmar a lista com o Matheus quando mudar.
 - 🩺 **PHI (dados de saúde)** — Dosable lida com dados sensíveis HIPAA. Cuidado ao logar payloads em texto plano. Considerar redação de campos médicos nos logs.
 
 ---
@@ -630,3 +630,56 @@ Próximo passo (depois de destravar CKC): ler openapi.json completo, pedir Sandb
 4. Adicionar route Cancelled ao profile Dev + capturar último Customer Type CKC quando der pra forçar Cancel Sub.
 5. Quando Dosable destravar: criar receiver `/webhook/nuestra-dosable` + entender mecanismo CKC → Dosable (test card aparece no Dosable apesar de bloqueado no postback CKC — implica canal sync separado).
 6. Investigar Beluga Health (5º receiver possível) só após Dosable destravado.
+
+---
+
+### 2026-06-17 (tool AI Handoff em produção — 2 erros reais + normalizer por aliases)
+
+**Contexto:** a campanha de Recuperação de Formulário já está rodando ao vivo. Dois leads reais falharam na tool `enviar_avaliacao_nuestra_rx` (a IA caiu pro suporte porque o Dosable recusou os dados). Diagnóstico feito a partir do payload de input + código do normalizer (não precisou nem do n8n).
+
+**Erro 1 — Regina (qid 6418, auto-injeção):** a IA mandou a frase crua do lead `"No, me asistían en clínica"` em vez da opção fechada. O Dosable só aceita as strings exatas; valor fora da lista = recusa (apareceu como `[object Object]` na tool). Semântica: a lead na verdade PODE se injetar (tem ajuda), então a resposta certa era `Yes, I can inject myself or have reliable help`. A IA gravou a fala antiga dela.
+
+**Erro 2 — Yasmira (lead_state):** a IA mandou `lead_state: "Florida"`. O Dosable exige código de 2 letras maiúsculas (`State must be two uppercase letters`) → `FL`. A lead falou a cidade ("Orlando") e a IA não converteu pra UF. Florida NÃO é bloqueada (a lead era boa, perdida por formato).
+
+**Confirmação do Willian (2026-06-17):** o `/ai-handoff` NÃO normaliza nada do lado dele — repassa o `value` verbatim pro Dosable. As únicas normalizações do worker são telefone (últimos 10 dígitos) e birthday (MM/DD/YYYY). Logo, a conversão "fala do lead → string exata do Dosable" tem que acontecer no NOSSO normalizer n8n. Willian mandou o mapa canônico fechado (todas as opções + `aliases_es` por opção): salvo em `docs/dosable/valid-options-canonicas-tenant64.json`.
+
+**Arquitetura de normalização definida (3 camadas):**
+1. IA (descrição da tool) manda o SENTIDO já em token canônico. Textos prontos pra colar nos 7 campos do Body Schema: `docs/tool-ai-handoff-descricoes-campos.md`.
+2. Normalizer n8n garante o FORMATO exato (determinístico). É o único lugar que normaliza (Willian confirmou).
+3. Checkpoint só comportamento/gates. NÃO repetir tabela de opções (encarece).
+
+**O que foi feito no normalizer (`docs/tool-ai-handoff-normalizer.n8n.js`):**
+- `normalizeState`: nome de estado OU cidade grande → código 2 letras (`Florida`/`Orlando` → `FL`). 50 estados + DC. Mata o erro da Yasmira.
+- `resolveOption`/`resolveCheckbox` dirigidos pelos `aliases_es` do Willian (`canon` tira acento/pontuação e casa por tiers; alias multi-palavra mais longo vence, pra negação não virar afirmação). Mata o erro da Regina e generaliza pra todas as perguntas de opção. Sem match confiante → cai nas funções antigas; se nem isso, o sanitizer derruba e a IA repergunta (regra do Willian: não chutar).
+- Tudo validado com `node --check` + testes dos casos reais.
+
+**Checkpoint Recuperação de Formulário enxugado** (cliente reclamou de custo): tirado o plumbing que o normalizer já faz (lista de 25 campos de metadata, equivalências metadata→answer, tabela de 15 IDs). De 21.922 para 20.049 chars. Capability intacta porque o normalizer faz backfill e a descrição da tool carrega o formato.
+
+**Estado bloqueado — TX não, California SIM.** Primeiro corrigimos que TX não é bloqueado em prod (era só sandbox de teste). Depois, no mesmo dia, o Matheus avisou que o único estado que NÃO entregam hoje é California (CA). Então criamos gate de CA no checkpoint da IA (não coletar / não chamar a tool para lead de CA, mensagem honesta sem prometer prazo) — Recuperação de Formulário (Seção 10) e Recuperação de Vendas (Seção 10). Docs atualizados (overview.md, HANDOFF.md, README.md, comentário do normalizer). A lista de estados pode mudar: reconfirmar com o Matheus.
+
+**Branch de histórico de dose (6419-6428) — NÃO é problema (verificado 2026-06-17).** Cheguei a levantar isso como risco, mas o `sample_request.json` (contrato oficial do `/ai-handoff` que o Willian enviou) NÃO inclui 6419-6428: manda só o conjunto base e `6417: ["None of these"]`, e o endpoint retornou ok:true + checkout_url. O branch existe no funil do SITE, mas o `/ai-handoff` NÃO exige. O normalizer já força `6417` default "None of these" (branch fica fechado). A tool funciona e devolve o link. Sem ação necessária. A lista `required` do nosso normalizer (`getMissingRequiredAnswerIds`) já bate com o sample: base sem 6419-6428.
+
+**Arquivos novos/alterados nesta sessão:**
+- NOVO `docs/dosable/valid-options-canonicas-tenant64.json` (mapa canônico do Willian)
+- NOVO `docs/tool-ai-handoff-descricoes-campos.md` (descrições dos 7 campos pra colar na plataforma)
+- ALTERADO `docs/tool-ai-handoff-normalizer.n8n.js` (normalizeState + resolver por aliases)
+- ALTERADO `Campanhas/Recuperação de formulário/Checkpoint/checkpoint.md` (enxugado)
+- ALTERADO docs de TX (overview, admin-panel-mapping, HANDOFF, README)
+
+**✅ VALIDADO END-TO-END EM PRODUÇÃO (2026-06-17):** Pedro colou o normalizer novo no Code node, disparou payload de teste com respostas em linguagem natural (lead "TESTE Normalizer", fake) e o `/ai-handoff` retornou `ok:true` + checkout_url (lead_id 252032). Provas: `shipState=FL` (mandei "Orlando" → virou FL, bug Yasmira morto); 6418 aceito sem erro (mandei "No, me asistían en clínica" → virou "Yes, I can inject myself or have reliable help", bug Regina morto); `plan monthly` (mandei "mensual"). Os dois erros reais não acontecem mais. Nota: 6410 em frase de sinal misto ("algo de dieta y ejercicio") pode cair em Actively managing por causa do alias "dieta y ejercicio" — não é hard stop, e a camada da IA manda o token certo de qualquer forma.
+
+**Fallback de erro de tool montado no n8n (2026-06-17).** Antes, quando o `/ai-handoff` devolvia erro, o nó HTTP quebrava o workflow, a AWSales recebia erro cru e a IA improvisava (inventava "intermitencia técnica" + jogava pro suporte). Matheus NÃO quer escalar pro suporte em falha de tool. Montado: `HTTP Request3` com On Error = Continue (using error output); porta de erro → Respond to Webhook2 (Respond With JSON) devolvendo `{ ok:false, error:"handoff_failed", retry:true, message:"...no derives a soporte..." }`. Retry On Fail OFF (a IA retenta). Trigger `tool-ai-handoff` com Respond = "Using Respond to Webhook Node". A porta de erro NÃO toca em Build AWSales Output / POST Custom Action. Checkpoint Seção 14 atualizado: em `handoff_failed` a IA tenta de novo e segura o lead, proibido inventar causa e proibido escalar suporte por falha de tool (suporte segue válido só nos gates clínicos da Seção 10).
+
+**Teste de simulação no playground (2026-06-17, lead "Prueba RecForm Test"):** rodamos uma conversa inteira em espanhol no playground a partir de um metadata de `intake_abandoned` (gerado pelo normalize-abandono). A IA conduziu certo (explicou os 2 remédios e deixou o lead escolher, "ahora no pagas nada", sem comparar com marca, pediu o estado). End-to-end retornou checkout_url com tirzepatide + `shipState=FL` (lead disse "Miami" → virou FL) e auto-injeção ambígua ("sola me da miedo pero mi hija me ayuda") → a IA mandou Yes. Mas o agente chamou a tool 3x no fim e 2 falharam — diagnóstico:
+- **Causa real (não era normalizer velho):** a IA mandou `6402` como NUMBER (`95`), e o Dosable exige textarea = STRING (`"Question 6402 expects a string value; received int"`). O normalizer não coagia número→string. CORRIGIDO: função `coerceAnswerTypes` (textarea/radio/consent viram string, checkbox vira array de string) no final do `tool-ai-handoff-normalizer.n8n.js`. Testado: `6402: 95` → `"95"`. RECOLAR o normalizer.
+- **3 disparos:** comportamento do agente AWSales (tenta a tool várias vezes na mesma rodada) + nossa Seção 14 (retry em handoff_failed). Como a falha era determinística (int), retentar só repetia. Com a coerage a falha some → passa de primeira.
+- **IA bagunçando campos (corrigido na descrição da tool):** jogou "penicilina" (alergia geral) no 6416 (alergia GLP-1) e um peso no 6402. O normalizer impede o crash mas o dado fica torto. Atualizada a descrição do campo `answers` em `tool-ai-handoff-descricoes-campos.md` deixando explícito o que é cada ID (6401=medicamentos, 6402=alergias gerais, 6416=só GLP-1 de marca, data só em contact). RECOLAR as descrições.
+- **O fallback `handoff_failed` funcionou** (sem suporte, msg de retry) ✓.
+
+**Próximos passos desta frente (em ordem):**
+1. (feito) Normalizer + resolver de aliases + state guard + coerage de tipo.
+2. (feito) Fallback de erro no n8n + Seção 14 do checkpoint (sem suporte, sem inventar causa).
+3. **RECOLAR no n8n** o normalizer atualizado (coerceAnswerTypes) e **na tool** a descrição atualizada do campo answers.
+4. Monitorar próximos leads reais que chamam a tool pra validar o resolver em produção.
+5. Confirmar que a tool na AWSales aponta para a Production URL do webhook (`/webhook/debug-awsales-tool`), não a Test URL.
+6. Decisões pendentes do Matheus: (a) lead escolhe vs default de medicamento; (b) lead de CA — guardar contato ou só informar.

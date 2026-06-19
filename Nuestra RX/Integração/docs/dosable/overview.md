@@ -15,7 +15,7 @@ Quiz médico de 9 etapas (sexo, idade, IMC, objetivo, histórico,
                             segurança, tentativas, estado, contato)
               ↓
 Dosable valida elegibilidade
-   - blacklist-states (TX é blocked)
+   - blacklist-states (no ambiente de teste o TX é bloqueado; em produção entrega todos os estados — ver nota abaixo)
    - critério IMC ≥30 (ou ≥27 com comorbidade)
    - contraindicações (gravidez, câncer tireoide, etc.)
               ↓
@@ -54,7 +54,7 @@ Farmácia 503A/503B compounding dispensa o GLP-1
 **Restrições do sandbox:**
 - ✅ Disponível: retrieve intake questions, save answers, retrieve/create/update leads + sessions
 - ❌ Bloqueado: product retrieval, checkout completo
-- 🚫 TX é **declined state** default (`GET /blacklist-states` → `["TX"]`)
+- 🚫 TX é **declined state** SÓ no sandbox (`GET /blacklist-states` → `["TX"]`). Isso é só um padrão do ambiente de teste do Dosable, não regra de produção. Em PRODUÇÃO o TX NÃO é bloqueado; o único estado bloqueado hoje é California (CA), confirmado pelo Matheus em 2026-06-17. O gate de CA fica no checkpoint da IA (não coletar / não chamar a tool para lead de CA).
 
 ## O que sabemos da operação Nuestra RX
 
@@ -72,7 +72,7 @@ Farmácia 503A/503B compounding dispensa o GLP-1
 ## Compliance
 
 - **HIPAA** — Dosable lida com PHI (dados de saúde). BAA (Business Associate Agreement) obrigatório antes de prod.
-- **Estado-dependente** — TX bloqueado (e provavelmente outros estados com restrição de telessaúde de GLP-1).
+- **Estados** — em PRODUÇÃO o único estado bloqueado hoje é California (CA), confirmado pelo Matheus em 2026-06-17. O Texas NÃO é bloqueado (o "TX bloqueado" que aparecia antes vinha só do ambiente de teste/sandbox do Dosable). O gate de CA fica no checkpoint da IA. Reconfirmar a lista com o Matheus quando mudar.
 - **Compounded drugs** — não-FDA approved, vendidos sob exceção 503A/503B (farmácia magistral).
 
 ## Status atual do trabalho (2026-05-27)

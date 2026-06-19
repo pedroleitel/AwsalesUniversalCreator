@@ -60,7 +60,7 @@ Subscription
 - 3 partials atuais:
   - **5: Jose Dias** — FL — Tirzepatide Injectable monthly $279 — Consult: PENDING — 2026-05-27
   - **1: Test User3** — New York NY — CREDITCARD — Semaglutide Injectable monthly $179 — Consult: PENDING
-  - **9: Daniel Javor** — TX (blacklisted) — $0 — Consult: PENDING (caso de teste interno do time Dosable, email `dosabletest+052226tx@gmail.com`)
+  - **9: Daniel Javor** — TX (recusado só no sandbox de teste) — $0 — Consult: PENDING (caso de teste interno do time Dosable, email `dosabletest+052226tx@gmail.com`)
 
 ### 3. Customer (`All Customers`)
 - Quem completou compra. Tem payment method registrado.
@@ -121,9 +121,9 @@ Order B94140F702 (Pedro, External Payment) está em Pending com 4 gates não cum
 - Authorize + Capture = 2 entries separadas por transação
 - External Payment (Pedro) só tem 1 entry "SALE" (não passou pelo NMI)
 
-### F. TX blacklisted confirmado
+### F. TX bloqueado SÓ no ambiente de teste (NÃO em produção)
 
-Daniel Javor (TX, $0) confirma que estado TX está blocked em STAGING. Match com doc Dosable que mencionava TX como decline state default. **Sample de teste do próprio time Dosable** (email `dosabletest+052226tx@gmail.com`).
+Daniel Javor (TX, $0) aparece bloqueado em STAGING (ambiente de teste), que recusa TX por padrão. Isso NÃO vale para produção: o dono Matheus confirmou em 2026-06-17 que a Nuestra RX entrega pros Estados Unidos inteiro, Texas incluído. Em resumo: uma vez testamos e o TX bloqueou porque era ambiente de teste; não é regra de compliance. Não criar gate de estado na IA. **Sample de teste do próprio time Dosable** (email `dosabletest+052226tx@gmail.com`).
 
 ---
 

@@ -30,6 +30,13 @@ Ambas son preparaciones compuestas por farmacia 503A, no aprobadas directamente 
 no bioequivalentes a las marcas. Describir el mecanismo de acción, nunca prometer eficacia;
 los resultados varían por persona.
 
+COMPLIANCE FDA (regla inegociable): NUNCA decir que el medicamento compuesto es igual, es el
+mismo componente, es la versión, es genérico o es equivalente a una marca (Ozempic, Wegovy,
+Rybelsus, Mounjaro, Zepbound, Saxenda, Trulicity). NUNCA usar la marca como prueba de
+beneficio ("es lo mismo que el Zepbound", "ya conoces los beneficios del Zepbound"). Hablar
+solo por el principio activo (semaglutida, tirzepatida) y el mecanismo. Nombrar una marca solo
+se permite en las preguntas de alergia o uso previo de GLP-1 (es referencia, no comparación).
+
 ## Planes y qué incluye
 
 Solo existen dos planes: mensual y trimestral (3 meses). El plan trimestral tiene el mejor
