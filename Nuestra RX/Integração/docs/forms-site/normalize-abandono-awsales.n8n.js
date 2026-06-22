@@ -563,6 +563,12 @@ function buildMetadata(body, eventKind, answersCount) {
     source_referrer: get(body, 'source.referrer'),
     lead_first_name: getFirst(body, ['contact.first_name', 'raw_answers.intake.fname']),
     lead_last_name: getFirst(body, ['contact.last_name', 'raw_answers.intake.lname']),
+    // Email/telefone espelhados no metadata (alem de lead.email/lead.phone): a IA copia o
+    // metadata para o contact da tool de forma confiavel, mas nao le lead.email direito e
+    // re-pergunta o email (casos reais Ana Rivas e Marizol/Keila, 2026-06). O mirror mata o
+    // re-perguntar. Email tambem fica em lead.email; aqui e redundancia proposital no campo critico.
+    lead_email: getFirst(body, ['contact.email', 'raw_answers.intake.email', 'raw_answers.beluga.email']),
+    lead_phone: getFirst(body, ['contact.phone_e164', 'raw_answers.intake.phone', 'raw_answers.beluga.phone']),
     phone_country: get(body, 'contact.phone_country'),
     whatsapp_url: get(body, 'contact.whatsapp_url'),
     lead_state: get(body, 'address.state_code'),
@@ -621,7 +627,7 @@ function buildMetadata(body, eventKind, answersCount) {
       'nrx_event', 'event_kind', 'recovery_type',
       'form_resume_url',
       'dosable_lead_id', 'dosable_session_id',
-      'lead_first_name', 'lead_last_name', 'lead_state',
+      'lead_first_name', 'lead_last_name', 'lead_email', 'lead_phone', 'lead_state',
       'biological_sex',
       'height_cm', 'weight_lbs', 'bmi',
       'selected_medication', 'selected_plan', 'plan_price',
@@ -651,7 +657,7 @@ function buildMetadata(body, eventKind, answersCount) {
       'form_resume_url', 'checkout_url',
       'resume_stage', 'resume_step', 'resume_step_label',
       'dosable_lead_id', 'dosable_session_id',
-      'lead_first_name', 'lead_last_name', 'lead_state',
+      'lead_first_name', 'lead_last_name', 'lead_email', 'lead_phone', 'lead_state',
       'biological_sex', 'dob',
       'height_cm', 'weight_lbs', 'bmi',
       'goal_weight', 'goal_weight_unit',
@@ -686,7 +692,7 @@ function buildMetadata(body, eventKind, answersCount) {
     'nrx_event', 'event_kind', 'recovery_type',
     'checkout_url', 'form_resume_url',
     'dosable_lead_id', 'dosable_session_id',
-    'lead_first_name', 'lead_last_name', 'lead_state',
+    'lead_first_name', 'lead_last_name', 'lead_email', 'lead_phone', 'lead_state',
     'biological_sex', 'dob',
     'height_cm', 'weight_lbs',
     'highest_weight', 'highest_weight_unit',
