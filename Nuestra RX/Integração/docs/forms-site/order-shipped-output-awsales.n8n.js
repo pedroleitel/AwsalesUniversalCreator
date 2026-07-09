@@ -32,8 +32,18 @@ function firstNonBlank(values) {
 
 function toE164(value) {
   if (isBlank(value)) return undefined;
-  const digits = String(value).replace(/[^\d]/g, '');
+  const trimmed = String(value).trim();
+  const digits = trimmed.replace(/[^\d]/g, '');
   if (!digits) return undefined;
+  // Ja veio com "+" e codigo de pais (input forms-site manda phone_e164 "+1..."/"+55...").
+  if (trimmed.startsWith('+')) return `+${digits}`;
+  // US/Canada SEM codigo de pais: 10 digitos -> prefixar "1" (a audiencia da Nuestra RX e EUA).
+  // Caso real 2026-06-26 (Adriana): "2248335033" virava "+2248335033" (codigo +224, Guine) e
+  // criava lead DUPLICADO em vez de casar com "+12248335033".
+  if (digits.length === 10) return `+1${digits}`;
+  // US/Canada COM codigo de pais ja incluso: 11 digitos comecando com 1.
+  if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
+  // Demais casos (ja deve trazer codigo de pais): best-effort.
   return `+${digits}`;
 }
 

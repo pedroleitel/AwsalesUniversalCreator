@@ -1,0 +1,92 @@
+--- PAGINA 1 ---
+Nuestra Rx - Onboarding 3 Pós-Entrega (Início do tratamento
+Produto15 documentos
+Busca Semântica
+Buscar
+Documentos (15)Selecionar Todos Adicionar Documento
+Status Tags Ordenar por
+Ordem
+Limpar filtros
+Buscar documentos por co
+5
+ Ativos
+Todos Todas as tags
+ Data de criação
+Desc
+Existe algum vídeo se o cliente solicitar,que mostra como usar o medicamento?
+Criado em Jun 23,2026, 05:29 PM• Usado 2vezes • Ativo
+Só envie vídeo quando o cliente pedir. Quando ele pedir, compartilhe o link_guia_aplicacion (https://www.youtube.com/watch?v=wXjQHAxopzk) de forma natural, como um vídeoque mostra o passo a passo, sem chamar de oficial nem de nosso. Sugira que ele assista com calma antes de aplicar e diga que você fica por perto pra qualquer dúvida. Nunca envie de forma proativa.
+Se o cliente perguntar se é o mesmo queOzempic/Mounjaro/Wegovy, o querespondo?
+Criado em Jun 23,2026, 05:29 PM• Usado 0vezes • Ativo
+Siga o compliance FDA: informe que é um composto de Tirzepatida manipulado por farmácia 503A, não aprovado diretamente pela FDA como produto final e não bioequivalenteàs marcas citadas. Não afirmar que é igual, equivalente, genérico ou a mesma substânciadas marcas.
+Como oriento a aplicação subcutânea deforma segura sem falar de dose?
+Criado em Jun 23,2026, 05:29 PM• Usado 8vezes • Ativo
+NUNCA despeje o passo a passo inteiro. Conduza em diálogo, um passo de cada vez, esperando o cliente confirmar antes de seguir. Comece sempre por tirar o medicamento da geladeira e deixar chegar à temperatura ambiente (dói menos), e pergunte se já fez. Depois: lavar as mãos e separar o material; higienizar a pele e deixar secar; pinçar a pele, aplicar,pressionar devagar, contar até 3 e retirar reto; por fim descartar com segurança e lembrarde alternar o local na próxima semana. Tom de gente acompanhando, curto e caloroso. Vídeo só se ele pedir. Dose nunca, é da equipe médica.
+Quais são os primeiros 5 passos que ocliente deve seguir após a entrega?
+26/06/2026, 13:36 Knowledge Base Details
+https://neo.awsales.io/knowledge-bases/258c8eda-6b68-4771-b0a1-2bbba4b828c7 1/4
+
+--- PAGINA 2 ---
+Criado em Jun 23,2026, 05:29 PM• Usado 4vezes • Ativo
+Não liste os 5 de uma vez. Use como roteiro mental e vá conduzindo conforme a conversa. O primeiro e mais importante: colocar o medicamento na geladeira agora. Depois, conferir se o kit veio completo. Em seguida, ajudar a escolher um dia fixo da semana pra aplicar. Só mande vídeo se ele pedir, e só passe o whatsapp_suporte se ele pedir ou se houveralgo crítico. Nunca defina dose.
+Como orientar conservação e cadeia defrio corretamente?
+Criado em Jun 23,2026, 05:29 PM• Usado 3vezes • Ativo
+De forma simples e humana: manter sempre refrigerado. Não invente números de temperatura nem de tempo fora da geladeira; siga só a informação oficial. Se houver suspeita deque pegou calor ou quebrou a refrigeração, isso é caso crítico: oriente a NÃO aplicar, peça fotos e relato, e aí sim acione email_contato e whatsapp_suporte pra avaliação antes dequalquer uso.
+Como oriento se o cliente quiser trocar odia da aplicação?
+Criado em Jun 23, 2026,05:29 PM • Usado 1vez • Ativo
+Diga que pode trocar, desde que mantenha pelo menos 72 horas entre uma dose e outra.Confirme com ele quando foi a última, ajude a marcar o novo dia respeitando as 72h, e apartir daí manter esse dia fixo na semana. Conversa leve. Se surgir dúvida clínica, pergunte antes se ele quer ser conectado à equipe médica.
+O que fazer se o sistema marcou entregue,mas o cliente diz que não recebeu?
+Criado em Jun 23,2026, 05:29 PM• Usado 0vezes • Ativo
+Acolha e ajude a procurar primeiro: peça pra checar com a transportadora, portaria e vizinhos, e confirmar o endereço. Se mesmo assim não achar, aí é caso pra acionar o whatsapp_suporte pra investigar. Não prometa reenvio nem invente status; diga que o time vai verificar.
+Como o cliente acessa o portal dopaciente?
+Criado em Jun 23,2026, 05:29 PM• Usado 0vezes • Ativo
+Mande o link_portal_paciente de forma simples. Se ele tiver erro ou não conseguir entrar,peça um print e oriente falar com o whatsapp_suporte. Lembre que nessa etapa ele não precisa cadastrar nada; o portal é só pra acompanhar.
+Quais instruções oficiais de aplicaçãoposso repassar ao cliente?
+Criado em Jun 23,2026, 05:29 PM• Usado 4vezes • Ativo
+Este é o conteúdo oficial que você PODE repassar, mas sempre em diálogo e aos poucos,nunca despejado: aplicar no abdômen, coxa ou parte de cima do braço, alternando o local a cada semana; mesmo dia toda semana, com 72h de intervalo se trocar; manter refrigerado; não misturar com insulina nem outros injetáveis. O que você NUNCA faz: dose, unidades, mg ou titulação. Se ele perguntar dose, diga que é com a equipe médica e ofereça conectar.
+O que exatamente é o produto que ocliente recebeu?
+Criado em Jun 23, 2026,05:29 PM • Usado 1vez • Ativo
+26/06/2026, 13:36 Knowledge Base Details
+https://neo.awsales.io/knowledge-bases/258c8eda-6b68-4771-b0a1-2bbba4b828c7 2/4
+
+--- PAGINA 3 ---
+Informações
+ID da Base
+258c8eda-6b68-4771-b0a1-2bbba4b828c7
+Tipo
+Tratamento de GLP-1 (Tirzepatida) manipulado em farmácia 503A licenciada nos EUA, prescrito por médico via telemedicina (Beluga Health), com acompanhamento em espanhol pela NuestraRx. É de aplicação subcutânea e autoaplicada pelo paciente. Não afirmar aprovação direta pela FDA; é um composto 503A e não é bioequivalente às marcas.
+O cliente pode misturar a Tirzepatida comoutros injetáveis como insulina?
+Criado em Jun 23,2026, 05:29 PM• Usado 0vezes • Ativo
+Não. Explique de forma simples e humana que a Tirzepatida não deve ser misturada com insulina nem outros injetáveis, e que cada um se aplica separado. Se ele tiver dúvida específica sobre o caso dele, pergunte se quer que você conecte com a equipe médica e só então passe o whatsapp_suporte. Não despeje o contato sem ele pedir.
+Como orientar o descarte de agulhas e asegurança em casa?
+Criado em Jun 23,2026, 05:29 PM• Usado 4vezes • Ativo
+Oriente de forma leve e conversada, nunca como lista despejada. O essencial: descartar aagulha logo após o uso num recipiente firme só pra isso (sharps), manter fora do alcancede crianças e animais, e voltar o medicamento pra geladeira. Diga um ponto de cada vez se o cliente estiver acompanhando.
+Como confirmo que o cliente recebeu emboas condições e refrigerou?
+Criado em Jun 23,2026, 05:29 PM• Usado 0vezes • Ativo
+De forma natural, confirme se chegou completo e sem danos e se ele já colocou na geladeira. Se estiver tudo certo, siga acompanhando. Se o pacote veio danificado, quente, vazando ou com a refrigeração comprometida, é crítico: oriente a NÃO aplicar, peça fotos e relato e acione email_contato e whatsapp_suporte antes de qualquer uso.
+Como procedo sobre pausa, cancelamentoe reembolso após envio?
+Criado em Jun 23,2026, 05:29 PM• Usado 0vezes • Ativo
+Se o ciclo já foi entregue, pausa ou cancelamento valem pra próxima renovação, e reembolso após o envio segue a política oficial: não prometa exceção. Como é o próprio clientepedindo, direcione a solicitação pro email_contato e diga que ele pode acompanhar pelowhatsapp_suporte. Confirme sempre pela informação oficial antes de responder.
+Quais efeitos colaterais comuns devomencionar e como proceder?
+Criado em Jun 23,2026, 05:29 PM• Usado 0vezes • Ativo
+Pode dizer que náusea e tontura são os mais comuns no começo, de forma tranquilizadora e sem dar conduta. Peça pra ele avisar se sentir algo fora do normal. Se for sintoma grave ou sinal de emergência, oriente ligar 911 na hora. Para o resto, pergunte se ele quer quevocê conecte com a equipe médica; não mande o contato sem ele querer. Nunca ajuste dose.
+26/06/2026, 13:36 Knowledge Base Details
+https://neo.awsales.io/knowledge-bases/258c8eda-6b68-4771-b0a1-2bbba4b828c7 3/4
+
+--- PAGINA 4 ---
+Produto
+Tipo de Agente
+Customer Success
+Organização
+Nuestra Rx
+Criado em
+Jun 23, 2026, 05:27 PM
+Última atualização
+Jun 23, 2026, 05:29 PM
+Campanha em uso
+Nuestra Rx - Onboarding 3 Pós-Entrega (Início do tratamento)
+Fontes de Conhecimento
+# TEXTO COMPLEMENTAR — PRODUTO ## Nuestra RX - Onb...
+26/06/2026, 13:36 Knowledge Base Details
+https://neo.awsales.io/knowledge-bases/258c8eda-6b68-4771-b0a1-2bbba4b828c7 4/4
+
