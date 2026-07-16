@@ -519,9 +519,30 @@ function collectCoveredRawKeys() {
   return keys;
 }
 
+// Encurta o checkout_url para so products + cc_custom_created (Willian confirmou que basta isso).
+// Remove firstName/lastName/emailAddress/shipState/phoneNumber/utm_* para o link ficar curto.
+// Fallback seguro: se faltar products ou cc_custom_created, mantem a URL original.
+function shortenCheckout(url) {
+  if (isBlank(url)) return url;
+  const s = String(url);
+  const base = s.split('?')[0];
+  const query = s.slice(base.length + 1);
+  if (!query) return url;
+  const params = {};
+  for (const pair of query.split('&')) {
+    const idx = pair.indexOf('=');
+    if (idx === -1) continue;
+    params[pair.slice(0, idx)] = pair.slice(idx + 1);
+  }
+  const products = params['products'];
+  const cc = params['cc_custom_created'];
+  if (isBlank(products) || isBlank(cc)) return url;
+  return `${base}?products=${products}&cc_custom_created=${cc}`;
+}
+
 function buildMetadata(body, eventKind, answersCount) {
   const resumeUrl = getFirst(body, ['resume.cross_device_url', 'resume.url']);
-  const checkoutUrl = get(body, 'checkout_url');
+  const checkoutUrl = shortenCheckout(get(body, 'checkout_url'));
   const treatment = getFirst(body, ['plan_selection.medication', 'treatment_selection.medication', 'raw_answers.intake.treatment']);
   const plan = getFirst(body, ['plan_selection.plan', 'treatment_selection.plan', 'raw_answers.intake.plan']);
   const step = get(body, 'resume.step');

@@ -23,16 +23,33 @@ O sistema roda 3 prompts em sequência:
 
 ## Campos de Orientação (Preenchidos pelo CS)
 
-O CS preenche 3 campos de texto que são concatenados ao final de cada prompt base. São as orientações específicas da campanha:
+O CS preenche 3 campos de texto que são concatenados ao final de cada prompt base. São as orientações específicas da campanha.
+
+### REGRA CRÍTICA: não repetir o checkpoint
+
+Os 3 prompts base já recebem o `{checkpoints}` da campanha como input. A IA de follow-up JÁ TEM: identidade do agente, tom de voz, limites éticos, o que pode e não pode dizer, preço/oferta, roteador de estado e etapas do funil.
+
+Portanto, NÃO escrever nesses campos: tom de voz, identidade da IA, limites éticos, regras de preço/negociação, descrição do produto ou do funil. Isso é duplicação: infla token em 3 prompts que rodam a cada análise e cria risco de conflito com o checkpoint.
+
+Escrever APENAS o que o checkpoint não cobre:
+- O que SOBRESCREVE uma instrução do próprio prompt base (ver armadilhas abaixo).
+- Cenários de SEND/SKIP específicos da campanha.
+- Timing por momento do funil.
+
+### Armadilhas dos prompts base (o que costuma exigir override)
+
+Os prompts base foram escritos para campanhas de venda com checkout. Em campanhas sem checkout (SDR, show-up, suporte), duas instruções do próprio base precisam ser desligadas explicitamente, senão a IA obedece:
+1. A "Regra de Ouro" do Prompt 1 manda o follow-up ser OBRIGATORIAMENTE sobre suporte à finalização de pagamento quando um link de checkout foi enviado.
+2. A "Biblioteca de Ângulos" do Prompt 1 oferece o "Ângulo de Escassez Real" com a frase "Vou precisar liberar sua vaga para a próxima pessoa" — escassez fictícia quando a campanha não tem vaga limitada.
 
 ### 1. Orientações para mensagens personalizadas
-Concatenado ao prompt de geração de mensagem. Aqui você define: tom de voz, o que o bot pode/não pode dizer, ganchos específicos da campanha, CTA padrão, regras de preço/negociação.
+Concatenado ao prompt de geração de mensagem. Escrever: a regra de momento do funil desta campanha (substituindo a regra de checkout do base) e quais ângulos do base ficam proibidos. Não repetir tom nem limites.
 
 ### 2. Orientações sobre a necessidade de follow-ups
-Concatenado ao prompt de análise SEND/SKIP. Aqui você define: cenários específicos para enviar, cenários para não enviar, sinais de desqualificação da campanha.
+Concatenado ao prompt de análise SEND/SKIP. Escrever: cenários específicos para enviar, cenários para não enviar, sinais de desqualificação da campanha.
 
 ### 3. Orientações sobre o agendamento de follow-ups
-Concatenado ao prompt de timing. Aqui você define: prioridades de horário, timing por etapa do funil, regras específicas de urgência da campanha.
+Concatenado ao prompt de timing. Escrever: timing por momento do funil, prioridades de horário, regras específicas de urgência da campanha.
 
 ---
 

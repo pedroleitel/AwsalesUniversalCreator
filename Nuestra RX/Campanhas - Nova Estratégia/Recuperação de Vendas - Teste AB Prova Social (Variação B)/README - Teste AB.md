@@ -8,7 +8,8 @@ recuperação de checkout abandonado.
 - Variação A (controle): a campanha de Recuperação de Vendas que já roda hoje, sem alteração. Pasta:
   `Nuestra RX/Campanhas - Nova Estratégia/Recuperação de Vendas`.
 - Variação B (esta pasta): idêntica à A em tudo (agente, mensagens, tools, preços, cupons, FAQs), com UMA
-  única diferença: em objeções de credibilidade/resultado, a IA envia uma imagem de antes e depois.
+  única diferença: a IA envia uma imagem de antes e depois como prova de valor (objeção de preço) e prova
+  de resultado (credibilidade).
 
 A única diferença entre A e B é a imagem. Todo o resto é igual, para o resultado do teste ser limpo.
 
@@ -22,18 +23,23 @@ A única diferença entre A e B é a imagem. Todo o resto é igual, para o resul
 ## O que muda no artefato (delta A -> B)
 
 Checkpoint (`Checkpoint/checkpoint.md`): igual ao da campanha A, com a adição da seção 3 "Prova social
-visual", que define o MOMENTO EXATO de enviar `{{imagen_antes_despues}}`:
+visual", que define o MOMENTO EXATO de enviar `{{imagen_antes_despues}}`.
 
-- Enviar só quando a trava for de credibilidade/resultado: lead duvida que funciona, diz "ya probé de todo
-  y nada", pede prova/fotos, ou hesita e uma prova visual pode destravar.
-- Enviar uma única vez, contextualizando em uma frase, com "los resultados varían", e fechando para
-  finalizar.
-- NÃO enviar em objeção de preço, erro técnico, troca de plano, dúvida factual, nem quando o lead já quer
-  finalizar (aí é link, não imagem).
+Estratégia v2 (2026-07-10, após análise de conversas — 0 disparos da imagem em 2 dias e 78% das objeções
+reais do funil sendo preço/dinheiro):
+
+- A imagem entra TAMBÉM no fluxo de preço, como prova de valor. Sequência: validar a objeção de preço →
+  imagem como contraste de valor → se o lead seguir travado, cupom no turno seguinte.
+- Continua valendo para credibilidade/resultado: lead duvida que funciona, diz "ya probé de todo y nada",
+  pede prova/fotos, ou hesita.
+- Enviar uma única vez por conversa, contextualizando em uma frase, com "los resultados varían", NUNCA na
+  mesma mensagem que o cupom (uma alavanca por vez).
+- NÃO enviar em erro técnico, troca de plano, dúvida factual simples, nem quando o lead já quer finalizar
+  (aí é link, não imagem).
 
 FAQs: as mesmas 30 da campanha A (15 Produto + 15 Playbook), sem edição. Só entra 1 FAQ nova de Produto
 (`FAQs/Nova FAQ - Prova Social Visual (Produto).md`) que hospeda a imagem e captura a intenção do lead por
-busca semântica ("¿tienen fotos?", "¿a alguien le funcionó?").
+busca semântica ("¿vale la pena?", "¿de verdad funciona?", "¿tienen fotos?").
 
 ## Como configurar na plataforma
 
@@ -46,9 +52,10 @@ busca semântica ("¿tienen fotos?", "¿a alguien le funcionó?").
    arquivo exatamente `imagen_antes_despues`. Ativar.
 4. Substituir o checkpoint da campanha B pelo desta pasta (`Checkpoint/checkpoint.md`).
 5. Configurar a divisão de tráfego entre A e B.
-6. Validar em conversa de teste: provocar a objeção "no creo que a mí me funcione / ya probé de todo" e
-   confirmar que a imagem chega uma única vez, no momento certo, com o enquadramento e "los resultados
-   varían".
+6. Validar em conversa de teste com DOIS cenários: (a) objeção de preço "está muy caro" — a imagem deve
+   chegar como contraste de valor ANTES do cupom; (b) objeção de credibilidade "no creo que a mí me
+   funcione / ya probé de todo". Nos dois, confirmar que a imagem chega uma única vez, com o enquadramento
+   e "los resultados varían", e que o cupom só aparece no turno seguinte se o lead seguir travado.
 
 ## Isolamento do teste (importante)
 

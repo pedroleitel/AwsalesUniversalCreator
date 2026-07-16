@@ -322,9 +322,11 @@ O Follow-Up Inteligente lê transcrição + checkpoint. Por isso, em campanhas d
 
 Na configuração da campanha, existem 3 campos de orientação que são concatenados ao final de cada prompt base. O CS preenche com regras específicas da campanha:
 
-1. Orientações para mensagens personalizadas: Tom de voz, ganchos da campanha, CTA padrão, o que pode/não pode dizer.
+1. Orientações para mensagens personalizadas: a regra de momento do funil da campanha e quais ângulos do prompt base ficam proibidos nela.
 2. Orientações sobre a necessidade de follow-ups: Cenários para ENVIAR vs NÃO ENVIAR, sinais de desqualificação.
 3. Orientações sobre o agendamento de follow-ups: Timing por etapa do funil, horários prioritários, regras de urgência.
+
+**IMPORTANTE — não repetir o checkpoint:** os 3 prompts base já recebem `{checkpoints}` como input. Tom de voz, identidade da IA, limites, preço e descrição do funil JÁ ESTÃO lá. Escrever isso nos campos é duplicação: infla token nos 3 prompts (que rodam a cada análise) e pode conflitar com o checkpoint. Escreva apenas o que o checkpoint não cobre, ou o que sobrescreve uma instrução do próprio prompt base (ex: a "Regra de Ouro" de checkout e o ângulo de escassez de vaga, que precisam ser desligados em campanhas sem checkout). Detalhes em `Estrutura/FOLLOWUP_INTELIGENTE.md`.
 
 ### Onde Encontrar os Prompts Base
 
