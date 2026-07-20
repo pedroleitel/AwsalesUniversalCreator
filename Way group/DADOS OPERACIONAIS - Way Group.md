@@ -23,6 +23,14 @@ Estratégia definida no grupo (13/07/2026, Lucas Cardoso):
 - Garantias: ROAS 1x na rec de vendas; ROAS 3x no funil pós-compra do VTD
 - 5 campanhas no total: Rec de vendas, Onboarding, SDR, Venda FAS, Venda CNPJ (as 2 últimas reaproveitáveis no segundo funil)
 
+## UTM nos links de checkout (definido 2026-07-17)
+
+Todo link de checkout enviado pela IA leva `?utm_source=awsales` (só source, sem medium/campaign). Valores prontos para as variáveis da plataforma:
+- REC `link_checkout`: https://pay.assiny.com.br/4XZFws/node/zwGh42?utm_source=awsales
+- SDRs `link_fas`: https://pay.assiny.com.br/a06faa/node/k4HKSV?utm_source=awsales
+- SDRs `link_fas_desconto`: https://pay.assiny.com.br/1bf813/node/qKg3Pe?utm_source=awsales
+Pendente: confirmar que a Assiny captura UTM (compra teste).
+
 ## Campanha REC de vendas VTD
 
 - Link do checkout: https://pay.assiny.com.br/4XZFws/node/zwGh42
